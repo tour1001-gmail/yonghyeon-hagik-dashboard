@@ -177,6 +177,22 @@ body{
   background:#fff; border:1px dashed var(--blue); color:var(--blue); cursor:pointer;
 }
 .rev-add-btn:hover{background:var(--blue-soft);}
+
+.data-io-bar{
+  display:flex; align-items:center; gap:10px; flex-wrap:wrap;
+  background:var(--surface-1); border:1px solid var(--border); border-radius:10px;
+  padding:10px 16px; margin-top:14px;
+}
+.data-io-bar .io-label{font-size:12px; font-weight:700; color:var(--text-secondary); margin-right:2px;}
+.io-btn{
+  font-size:12.5px; font-weight:800; padding:7px 14px; border-radius:8px;
+  cursor:pointer; border:1px solid var(--blue); color:#fff; background:var(--blue);
+}
+.io-btn:hover{opacity:.9;}
+.io-btn.secondary{background:#fff; color:var(--blue);}
+.io-btn.secondary:hover{background:var(--blue-soft);}
+.io-status{font-size:11.5px; color:var(--text-muted); margin-left:auto;}
+.io-status.warn{color:#8a6100; font-weight:700;}
 .rev-edit-details{margin-top:12px;}
 .rev-edit-details summary{
   cursor:pointer; font-size:12px; font-weight:700; color:var(--blue);
@@ -616,6 +632,15 @@ html{scroll-behavior:smooth;}
     </div>
   </div>
 
+  <!-- ================= 데이터 저장/불러오기 ================= -->
+  <div class="data-io-bar">
+    <span class="io-label">브라우저 저장 기능 미지원 — 입력값은 새로고침 시 초기화되므로 아래 버튼으로 파일 저장/불러오기 하세요 —</span>
+    <button type="button" class="io-btn" id="ioSaveBtn">데이터 저장 (파일로 다운로드)</button>
+    <button type="button" class="io-btn secondary" id="ioLoadBtn">데이터 불러오기</button>
+    <input type="file" id="ioFileInput" accept=".json" style="display:none;">
+    <span class="io-status" id="ioStatus">저장된 파일 없음</span>
+  </div>
+
   <!-- ================= 표지 요약 (한눈에 보기) ================= -->
   <div class="cover-head"><h2>한눈에 보기</h2><span>카드를 클릭하면 해당 항목으로 이동합니다</span></div>
   <div class="cover">
@@ -834,8 +859,9 @@ html{scroll-behavior:smooth;}
     <ul>
       <li>계획 수량·규격·요율(%)·착수/완료일: <b>02.공정표 &gt; 20260724 부대토목_공정표-제출용.xlsx (요율공정표)</b>, <b>01.(부대토목).xlsx (견적대비표)</b></li>
       <li>계획 진도율은 각 세부공종의 착수~완료일 구간에 대한 선형 근사치(경과일/전체공기)이며, 실제 요율공정표의 비선형 일일배분곡선과 소수점 단위 차이가 있을 수 있습니다.</li>
-      <li>실적(%), 금일반입/투입 수치는 실 데이터 연동 전으로 <b>기본값 0</b>이며, 현장 확인 후 담당자가 직접 입력하는 구조입니다(입력값은 새로고침 시 초기화됨 — 일일 마감 후 별도 기록 권장).</li>
-      <li><b>9. 정화조 제작</b>은 부대토목 내역서(01.부대토목.xlsx)에 별도 계상되어 있지 않아 규격·수량 확인이 필요합니다(기계설비 또는 별도발주 여부 확인 요).</li>
+      <li>실적(%), 금일반입/투입 수치는 실 데이터 연동 전으로 <b>기본값 0</b>이며, 현장 확인 후 담당자가 직접 입력하는 구조입니다. 상단 <b>[데이터 저장/불러오기]</b> 버튼으로 입력값을 파일(JSON)로 저장·복원할 수 있습니다(브라우저 자체 저장 기능은 미지원 — 일일 마감 후 파일 저장 권장).</li>
+      <li><b>요율공정표 누계 상한(79.53%) 검토 결과</b>: 도급금액(739,200,000원) 대비 요율공정표에 편성된 세부공종 합계는 79.53%이며, 잔여 20.47%(151,433,673원)는 다음과 같이 구성됩니다 — ① <b>비배분성 원가 약 19.08%(141,046,000원)</b>: 간접노무비·기타경비·일반관리비·이윤 등 특정 세부공종에 직접 배분되지 않는 공통원가 항목(성격상 세부공종별 진도와 무관하므로 공정표 미편성이 타당함), ② <b>미편성 실공종 약 1.40%(10,401,673원)</b>: 운반비(629,009원, 0.09%) 및 철근콘크리트공사(9,772,664원, 1.32%)로, 공종별집계표(01.부대토목.xlsx)에는 계상되어 있으나 요율공정표에는 별도 행이 없음. 따라서 <b>실질적 "누락"은 약 1.40%</b>이며, 나머지는 정상적인 간접비 항목입니다.</li>
+      <li><b>9. 정화조 제작</b>은 부대토목 내역서(01.부대토목.xlsx)에 별도 세부공종으로 계상되어 있지 않으나, 공종코드 <b>01011903 철근콘크리트공사(9,772,664원, 도급금액 대비 1.32%)</b>가 구조·금액 규모상 정화조(철근콘크리트 구조물) 공사비에 해당할 가능성이 높은 것으로 추정됩니다. 다만 이는 추정이며, 착수·완료일 등 공정표 반영을 위해서는 현장 담당자의 확인이 필요합니다(기계설비 별도발주 여부 포함).</li>
       <li>작성: 손 / 최종 업데이트 2026.08.19</li>
     </ul>
   </div>
@@ -1448,6 +1474,17 @@ itemGrid.addEventListener('input', (e)=>{
       if(meta) meta.textContent = `${z.qty.toLocaleString()} ${z.unit} · ${fmtDate(sc.start)}~${fmtDate(sc.end)} 계획 · 계획진도 ${plan}%`;
     });
   };
+  window.recomputeBlockZones = recomputeZones;
+  window.getItem7DoneStages = function(){
+    return Array.from(card.querySelectorAll('.stage.done')).map(el=>el.dataset.zone+'-'+el.dataset.stage);
+  };
+  window.setItem7DoneStages = function(keys){
+    const set = new Set(keys||[]);
+    card.querySelectorAll('.stage').forEach(el=>{
+      const k = el.dataset.zone+'-'+el.dataset.stage;
+      el.classList.toggle('done', set.has(k));
+    });
+  };
   recomputeZones();
 })();
 
@@ -1510,8 +1547,113 @@ itemGrid.addEventListener('input', (e)=>{
     render();
   });
 
+  window.getMeetingLog = function(){ return JSON.parse(JSON.stringify(log)); };
+  window.setMeetingLog = function(arr){
+    log.length = 0;
+    (arr||[]).forEach(e=>log.push(e));
+    render();
+  };
+
   render();
 })();
+
+// ---------------- 데이터 저장 / 불러오기 (파일 기반 — 새로고침 시 초기화 방지) ----------------
+function ioKey(el){
+  const c = el.closest('[id]');
+  const cid = c ? c.id : 'none';
+  return [cid, el.dataset.item ?? '', el.dataset.zone ?? '', el.dataset.row ?? '', el.dataset.role ?? ''].join('|');
+}
+function collectQtyMap(){
+  const map = {};
+  document.querySelectorAll('input.qty-in, input.zone-in').forEach(el=>{ map[ioKey(el)] = el.value; });
+  return map;
+}
+function applyQtyMap(map){
+  if(!map) return;
+  document.querySelectorAll('input.qty-in, input.zone-in').forEach(el=>{
+    const k = ioKey(el);
+    if(k in map) el.value = map[k];
+  });
+}
+function collectState(){
+  return {
+    version: 1,
+    savedAt: new Date().toISOString(),
+    currentRev: currentRev,
+    revisionOrder: revisionOrder,
+    revisions: revisions,
+    manCum: document.getElementById('manCumInput').value,
+    eqCum: document.getElementById('eqCumInput').value,
+    qty: collectQtyMap(),
+    item7Done: window.getItem7DoneStages ? window.getItem7DoneStages() : [],
+    meetingLog: window.getMeetingLog ? window.getMeetingLog() : [],
+  };
+}
+function applyState(data){
+  if(!data || typeof data!=='object') throw new Error('invalid file');
+  if(data.revisions){
+    Object.keys(revisions).forEach(k=>delete revisions[k]);
+    Object.keys(data.revisions).forEach(k=>{ revisions[k]=data.revisions[k]; });
+  }
+  if(data.revisionOrder){
+    revisionOrder.length = 0;
+    data.revisionOrder.forEach(n=>revisionOrder.push(n));
+  }
+  if(data.currentRev) currentRev = data.currentRev;
+  applyQtyMap(data.qty);
+  if(data.manCum!==undefined) document.getElementById('manCumInput').value = data.manCum;
+  if(data.eqCum!==undefined) document.getElementById('eqCumInput').value = data.eqCum;
+  ['matBody','manBody','eqBody'].forEach(id=>{
+    const el = document.getElementById(id);
+    if(el) el.dispatchEvent(new Event('input'));
+  });
+  items.forEach((it,idx)=>recomputeItem(idx));
+  if(window.setItem7DoneStages) window.setItem7DoneStages(data.item7Done);
+  if(window.recomputeBlockZones) window.recomputeBlockZones();
+  if(window.setMeetingLog) window.setMeetingLog(data.meetingLog);
+  renderAll();
+  if(typeof updateCoverManEq==='function') updateCoverManEq();
+}
+
+document.getElementById('ioSaveBtn').addEventListener('click', ()=>{
+  const state = collectState();
+  const blob = new Blob([JSON.stringify(state, null, 2)], {type:'application/json'});
+  const url = URL.createObjectURL(blob);
+  const stamp = state.savedAt.slice(0,16).replace(/[:T]/g,'-');
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `용현학익1초_부대토목현황_${stamp}.json`;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+  const st = document.getElementById('ioStatus');
+  st.textContent = '저장 완료: ' + a.download;
+  st.classList.remove('warn');
+});
+
+document.getElementById('ioLoadBtn').addEventListener('click', ()=>{
+  document.getElementById('ioFileInput').click();
+});
+document.getElementById('ioFileInput').addEventListener('change', (e)=>{
+  const file = e.target.files[0];
+  if(!file) return;
+  const reader = new FileReader();
+  reader.onload = ()=>{
+    const st = document.getElementById('ioStatus');
+    try{
+      const data = JSON.parse(reader.result);
+      applyState(data);
+      st.textContent = '불러오기 완료: ' + (data.savedAt ? data.savedAt.slice(0,16).replace('T',' ')+' 저장본' : file.name);
+      st.classList.remove('warn');
+    }catch(err){
+      st.textContent = '불러오기 실패 — 올바른 저장 파일(JSON)이 아닙니다.';
+      st.classList.add('warn');
+    }
+    e.target.value = '';
+  };
+  reader.readAsText(file);
+});
 
 renderAll();
 </script>
