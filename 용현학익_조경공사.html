@@ -1,0 +1,2498 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>용현학익1초 조경공사 현황</title>
+<style>
+:root{
+  --surface-1:#fcfcfb;
+  --page:#f4f5f2;
+  --text-primary:#0b0b0b;
+  --text-secondary:#52514e;
+  --text-muted:#898781;
+  --grid:#e1e0d9;
+  --baseline:#c3c2b7;
+  --border:rgba(11,11,11,0.10);
+  --blue:#2a78d6;
+  --blue-soft:#e7f0fb;
+  --orange:#eb6834;
+  --aqua:#1baf7a;
+  --yellow:#eda100;
+  --violet:#4a3aa7;
+  --good:#0ca30c;
+  --good-bg:#e9f7e9;
+  --warning:#fab219;
+  --warning-bg:#fff6e2;
+  --critical:#d03b3b;
+  --critical-bg:#fbeaea;
+  --serious:#ec835a;
+}
+*{box-sizing:border-box;}
+html,body{margin:0;padding:0;}
+body{
+  font-family: system-ui, -apple-system, "Segoe UI", "Malgun Gothic", sans-serif;
+  background:var(--page);
+  color:var(--text-primary);
+  line-height:1.5;
+}
+.wrap{max-width:1360px;margin:0 auto;padding:28px 24px 60px;}
+
+/* ---------- Header ---------- */
+.header{
+  background:linear-gradient(135deg,#173a63 0%, #2a78d6 65%, #3c8fe8 100%);
+  border-radius:16px;
+  color:#fff;
+  padding:28px 32px;
+  display:flex;
+  flex-wrap:wrap;
+  gap:24px;
+  justify-content:space-between;
+  align-items:flex-end;
+  box-shadow:0 8px 24px rgba(23,58,99,0.18);
+}
+.header .title-block{min-width:320px;}
+.eyebrow{
+  font-size:12.5px;
+  letter-spacing:.14em;
+  font-weight:700;
+  opacity:.85;
+  text-transform:uppercase;
+}
+.header h1{
+  font-size:26px;
+  margin:6px 0 4px;
+  font-weight:800;
+  letter-spacing:-0.01em;
+}
+.header .sub{
+  font-size:14px;
+  opacity:.92;
+}
+.header .meta{
+  display:flex;
+  gap:22px;
+  flex-wrap:wrap;
+  font-size:12.5px;
+  opacity:.85;
+  margin-top:10px;
+}
+.header .meta b{font-weight:700; opacity:1;}
+.header-kpis{
+  display:flex;
+  gap:14px;
+  flex-wrap:wrap;
+}
+.kpi-pill{
+  background:rgba(255,255,255,0.12);
+  border:1px solid rgba(255,255,255,0.28);
+  border-radius:12px;
+  padding:12px 18px;
+  min-width:128px;
+  backdrop-filter:blur(2px);
+}
+.kpi-pill .k-label{font-size:11.5px; opacity:.85; font-weight:600; letter-spacing:.02em;}
+.kpi-pill .k-value{font-size:24px; font-weight:800; margin-top:2px; font-variant-numeric:tabular-nums;}
+.kpi-pill .k-value small{font-size:13px; font-weight:600; opacity:.85;}
+
+/* ---------- Section shell ---------- */
+.section{margin-top:28px;}
+.section-head{
+  display:flex;
+  align-items:baseline;
+  gap:10px;
+  margin-bottom:14px;
+  flex-wrap:wrap;
+}
+.section-num{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  min-width:26px;height:26px;
+  padding:0 7px;
+  border-radius:7px;
+  background:var(--blue);
+  color:#fff;
+  font-size:12px;
+  font-weight:800;
+  flex:none;
+  white-space:nowrap;
+}
+.section-head h2{
+  font-size:18px;
+  margin:0;
+  font-weight:800;
+  letter-spacing:-0.01em;
+}
+.section-desc{
+  font-size:12.5px;
+  color:var(--text-muted);
+  margin-left:4px;
+}
+
+.card{
+  background:var(--surface-1);
+  border:1px solid var(--border);
+  border-radius:14px;
+  padding:20px 22px;
+  box-shadow:0 1px 2px rgba(11,11,11,0.04);
+  min-width:0;
+}
+
+/* ---------- Overview / Gantt ---------- */
+.overview-grid{
+  display:grid;
+  grid-template-columns: 1.6fr 1fr;
+  gap:16px;
+  align-items:start;
+  min-width:0;
+}
+@media (max-width:980px){ .overview-grid{grid-template-columns:1fr;} }
+
+.gantt-legend{
+  display:flex;
+  gap:16px;
+  font-size:11.5px;
+  color:var(--text-secondary);
+  margin-bottom:10px;
+  flex-wrap:wrap;
+}
+.legend-dot{display:inline-block;width:10px;height:10px;border-radius:2px;margin-right:6px;vertical-align:-1px;}
+
+/* ---------- 예정공정 차수(1차/2차/3차) 탭 ---------- */
+.rev-tabbar{
+  display:flex; align-items:center; justify-content:space-between;
+  gap:10px; margin-bottom:12px; flex-wrap:wrap;
+}
+.rev-tabs{display:flex; gap:6px; flex-wrap:wrap;}
+.rev-tab{
+  font-size:12px; font-weight:700; padding:6px 13px; border-radius:999px;
+  background:var(--page); border:1px solid var(--border); color:var(--text-secondary);
+  cursor:pointer; user-select:none;
+}
+.rev-tab.active{background:var(--blue); border-color:var(--blue); color:#fff;}
+.rev-tab .base-tag{font-size:9.5px; opacity:.8; margin-left:3px;}
+.rev-add-btn{
+  font-size:11.5px; font-weight:700; padding:6px 12px; border-radius:999px;
+  background:#fff; border:1px dashed var(--blue); color:var(--blue); cursor:pointer;
+}
+.rev-add-btn:hover{background:var(--blue-soft);}
+
+.data-io-bar{
+  display:flex; align-items:center; gap:10px; flex-wrap:wrap;
+  background:var(--surface-1); border:1px solid var(--border); border-radius:10px;
+  padding:10px 16px; margin-top:14px;
+}
+.data-io-bar .io-label{font-size:12px; font-weight:700; color:var(--text-secondary); margin-right:2px;}
+.io-btn{
+  font-size:12.5px; font-weight:800; padding:7px 14px; border-radius:8px;
+  cursor:pointer; border:1px solid var(--blue); color:#fff; background:var(--blue);
+}
+.io-btn:hover{opacity:.9;}
+.io-btn.secondary{background:#fff; color:var(--blue);}
+.io-btn.secondary:hover{background:var(--blue-soft);}
+.io-status{font-size:11.5px; color:var(--text-muted); margin-left:auto;}
+.io-status.warn{color:#8a6100; font-weight:700;}
+.io-btn:disabled{opacity:.5; cursor:not-allowed;}
+.card-date-nav{display:inline-flex; align-items:center; gap:3px; margin-left:10px; font-size:11px; font-weight:700; vertical-align:middle; background:var(--surface-2,#f2f4f7); border:1px solid var(--border); border-radius:20px; padding:2px 4px;}
+.card-date-nav.hist-active{background:var(--warning-bg); border-color:#e0b34d;}
+.card-date-nav.hist-editable{background:var(--good-bg); border-color:var(--good);}
+.card-date-nav.hist-editable .cdn-label{color:var(--good);}
+.card-date-nav .cdn-btn{border:none; background:transparent; cursor:pointer; font-size:11px; font-weight:800; color:var(--blue); padding:1px 4px; line-height:1;}
+.card-date-nav .cdn-btn:hover{opacity:.7;}
+.card-date-nav .cdn-btn:disabled{opacity:.3; cursor:not-allowed;}
+.card-date-nav .cdn-btn:disabled:hover{opacity:.3;}
+.card-date-nav .cdn-label{min-width:64px; text-align:center; color:var(--text-secondary);}
+.card-date-nav.hist-active .cdn-label{color:#8a6100;}
+.rev-edit-details{margin-top:12px;}
+.rev-edit-details summary{
+  cursor:pointer; font-size:12px; font-weight:700; color:var(--blue);
+  padding:8px 0; border-top:1px solid var(--grid);
+}
+.rev-edit-table{margin-top:8px;}
+.rev-edit-table input[type="date"]{
+  width:100%; padding:4px 6px; border:1px solid var(--border); border-radius:6px;
+  font-size:11.3px; font-variant-numeric:tabular-nums;
+}
+
+.status-box{
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+}
+.status-row{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:10px 12px;
+  border-radius:10px;
+  background:var(--page);
+  border:1px solid var(--border);
+}
+.status-row .nm{font-size:13px;font-weight:700;}
+.status-row .sp{font-size:11.5px;color:var(--text-muted);display:block;margin-top:1px;font-weight:500;}
+.status-row .pv{font-size:16px;font-weight:800;font-variant-numeric:tabular-nums;}
+.badge{
+  display:inline-flex;align-items:center;gap:5px;
+  font-size:11px;font-weight:800;
+  padding:3px 9px;border-radius:999px;
+}
+.badge.on{background:var(--good-bg); color:var(--good);}
+.badge.wait{background:#eee; color:var(--text-muted);}
+
+/* ---------- 1. 공정진행상황: 간트차트 카드 하단 주요일정 캘린더 ---------- */
+.cal-block{
+  margin-top:18px;
+  padding-top:16px;
+  border-top:1px solid var(--grid);
+}
+.cal-block-head{display:flex; align-items:baseline; gap:10px; flex-wrap:wrap; margin-bottom:14px;}
+.cal-block-head h3{margin:0; font-size:14.5px; font-weight:800;}
+.cal-block-head .card-sub{margin:0; font-size:11.5px; color:var(--text-muted);}
+.cal-layout{display:flex; gap:22px; align-items:flex-start; flex-wrap:wrap;}
+
+.mini-cal{
+  flex:none;
+  width:320px;
+  border:1px solid var(--border);
+  border-radius:12px;
+  background:var(--page);
+  padding:16px 18px 18px;
+}
+.mini-cal-head{display:flex; align-items:center; justify-content:space-between; margin-bottom:12px;}
+.mini-cal-head .mc-label{font-size:15px; font-weight:800; color:var(--text-primary); white-space:nowrap;}
+.mini-cal-head .mc-nav{display:flex; gap:4px;}
+.mini-cal-head .mc-nav button{
+  width:28px; height:28px; border:1px solid var(--border); border-radius:8px;
+  background:#fff; color:var(--text-secondary); font-size:14px; font-weight:800;
+  cursor:pointer; line-height:1; display:flex; align-items:center; justify-content:center;
+}
+.mini-cal-head .mc-nav button:hover{border-color:var(--blue); color:var(--blue);}
+.mini-cal-dow{
+  display:grid; grid-template-columns:repeat(7,1fr);
+  font-size:11px; color:var(--text-muted); font-weight:700; text-align:center;
+  margin-bottom:6px;
+}
+.mini-cal-dow span:first-child{color:var(--critical);}
+.mini-cal-grid{display:grid; grid-template-columns:repeat(7,1fr); gap:4px;}
+.mini-cal-day{
+  position:relative; aspect-ratio:1/1;
+  display:flex; align-items:center; justify-content:center;
+  font-size:13px; font-variant-numeric:tabular-nums;
+  border-radius:8px; color:var(--text-primary); cursor:pointer; user-select:none;
+}
+.mini-cal-day.other-month{color:var(--text-muted); opacity:.4; cursor:default;}
+.mini-cal-day.sun{color:var(--critical);}
+.mini-cal-day:hover:not(.other-month){background:var(--blue-soft);}
+.mini-cal-day.is-today{background:var(--blue); color:#fff; font-weight:800;}
+.mini-cal-day.is-selected{outline:2px solid var(--blue); outline-offset:-2px;}
+.mini-cal-day .mc-dot{
+  position:absolute; bottom:4px; left:50%; transform:translateX(-50%);
+  width:5px; height:5px; border-radius:50%; background:var(--orange);
+}
+.mini-cal-day.is-today .mc-dot{background:#fff;}
+
+.cal-list-panel{flex:1; min-width:280px; display:flex; flex-direction:column;}
+.cal-add-row{display:flex; gap:8px; flex-wrap:wrap;}
+.cal-add-row input[type="date"]{
+  flex:none; width:150px; padding:9px 10px; border:1px solid var(--border); border-radius:8px;
+  font-size:12.8px; font-variant-numeric:tabular-nums; background:#fff;
+}
+.cal-add-row input[type="text"]{
+  flex:1; min-width:180px; padding:9px 12px; border:1px solid var(--border); border-radius:8px;
+  font-size:13px; background:#fff;
+}
+.cal-add-row button{
+  flex:none; padding:9px 16px; border:none; border-radius:8px;
+  background:var(--blue); color:#fff; font-size:12.5px; font-weight:800; cursor:pointer;
+}
+.cal-add-row button:hover{background:#1f5fb0;}
+.cal-event-list{margin-top:14px; display:flex; flex-direction:column; gap:8px;}
+.cal-event-item{display:flex; align-items:center; gap:12px; font-size:13px; padding:10px 14px; border-radius:9px; background:var(--surface-1); border:1px solid var(--border);}
+.cal-event-item .ce-date{flex:none; font-weight:800; color:var(--blue); font-variant-numeric:tabular-nums; font-size:12.5px; min-width:42px;}
+.cal-event-item .ce-text{flex:1; min-width:0; color:var(--text-primary); word-break:break-all;}
+.cal-event-item .ce-del{flex:none; border:none; background:none; color:var(--text-muted); cursor:pointer; font-size:16px; padding:0 4px; line-height:1;}
+.cal-event-item .ce-del:hover{color:var(--critical);}
+.cal-event-item.is-past{opacity:.55;}
+.cal-event-empty{font-size:12px; color:var(--text-muted); text-align:center; padding:26px 0;}
+@media (max-width:560px){ .mini-cal{width:100%;} }
+
+.mini-note{
+  margin-top:14px;
+  font-size:12px;
+  color:var(--text-secondary);
+  background:var(--blue-soft);
+  border-radius:10px;
+  padding:12px 14px;
+}
+.mini-note b{color:var(--blue);}
+
+/* ---------- Table blocks (자재/인원/장비) ---------- */
+.triple-grid{
+  display:grid;
+  grid-template-columns: 1.25fr 1fr 1fr;
+  gap:16px;
+}
+@media (max-width:1080px){ .triple-grid{grid-template-columns:1fr;} }
+
+table{width:100%; border-collapse:collapse; font-size:12.5px;}
+thead th{
+  text-align:left;
+  font-size:11px;
+  color:var(--text-muted);
+  font-weight:700;
+  letter-spacing:.02em;
+  text-transform:uppercase;
+  padding:0 8px 8px;
+  border-bottom:1px solid var(--grid);
+}
+tbody td{
+  padding:9px 8px;
+  border-bottom:1px solid var(--grid);
+  vertical-align:middle;
+}
+tbody tr:last-child td{border-bottom:none;}
+td.num{text-align:right; font-variant-numeric:tabular-nums;}
+td.spec{color:var(--text-secondary); font-size:11.8px;}
+.input-cell input{
+  width:64px;
+  padding:5px 7px;
+  border:1px solid var(--border);
+  border-radius:7px;
+  font-size:12.5px;
+  text-align:right;
+  font-variant-numeric:tabular-nums;
+  background:#fff;
+}
+.input-cell input:focus{outline:2px solid var(--blue); outline-offset:1px;}
+.unit-suffix{color:var(--text-muted); font-size:11px; margin-left:3px;}
+.card h3{
+  font-size:14.5px;
+  margin:0 0 4px;
+  font-weight:800;
+}
+.card .card-sub{font-size:11.5px; color:var(--text-muted); margin-bottom:12px;}
+.table-scroll{max-height:360px; overflow-y:auto;}
+.table-total-row td{font-weight:800; background:var(--page);}
+.cum-input-row{
+  display:flex; align-items:center; gap:8px; margin-top:10px; padding:8px 10px;
+  background:var(--page); border:1px solid var(--border); border-radius:8px;
+}
+.cum-input-row label{font-size:12px; font-weight:700; color:var(--text-secondary);}
+.cum-input-row .cum-input{
+  width:90px; margin-left:auto; padding:4px 8px; font-size:13px; font-weight:800;
+  border:1px solid var(--border); border-radius:6px; text-align:right; font-variant-numeric:tabular-nums;
+}
+.cum-input-row span{font-size:12px; color:var(--text-secondary); font-weight:700;}
+
+/* ---------- Item cards (세부공종 작업율) ---------- */
+.item-grid{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:16px;
+}
+@media (max-width:900px){ .item-grid{grid-template-columns:1fr;} }
+.item-card{
+  grid-column: span 1;
+}
+.item-card.wide{grid-column:span 2;}
+@media (max-width:900px){ .item-card.wide{grid-column:span 1;} }
+
+.item-head{
+  display:flex;
+  justify-content:space-between;
+  align-items:flex-start;
+  gap:12px;
+  margin-bottom:10px;
+}
+.item-head .tag{
+  display:inline-block;
+  font-size:10.5px;
+  font-weight:800;
+  color:var(--blue);
+  background:var(--blue-soft);
+  padding:2px 8px;
+  border-radius:999px;
+  margin-bottom:6px;
+}
+.item-head h3{margin:0; font-size:15px; font-weight:800;}
+.item-head .period{font-size:11.5px; color:var(--text-muted); margin-top:3px;}
+
+.progress-track{
+  height:9px;
+  background:var(--grid);
+  border-radius:999px;
+  position:relative;
+  overflow:hidden;
+  margin:8px 0 4px;
+}
+.progress-fill{
+  height:100%;
+  border-radius:999px;
+  background:var(--blue);
+  transition:width .25s ease;
+}
+.progress-labels{
+  display:flex;justify-content:space-between;
+  font-size:11px; color:var(--text-muted); margin-bottom:10px;
+}
+.progress-labels b{color:var(--text-primary); font-variant-numeric:tabular-nums;}
+
+.spec-mini{
+  width:100%;
+  border-collapse:collapse;
+  font-size:11.8px;
+  margin:10px 0 8px;
+}
+.spec-mini td{padding:4px 4px; border-bottom:1px dashed var(--grid);}
+.spec-mini tr:last-child td{border-bottom:none;}
+.spec-mini td.k{color:var(--text-muted); width:38%;}
+.spec-mini td.v{font-weight:700; text-align:right; font-variant-numeric:tabular-nums;}
+
+.actual-row{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+  margin-top:12px;
+  padding-top:12px;
+  border-top:1px solid var(--grid);
+}
+.actual-row .lbl{font-size:12px; font-weight:700; color:var(--text-secondary);}
+.actual-input{display:flex; align-items:center; gap:6px;}
+.actual-input input{
+  width:60px; padding:6px 8px; border:1px solid var(--border); border-radius:8px;
+  font-size:13px; text-align:right; font-weight:700; font-variant-numeric:tabular-nums;
+}
+
+/* ---------- 수량 기반 편집 테이블 (총수량/진행수량 직접입력) ---------- */
+.qty-table{width:100%; border-collapse:collapse; font-size:11.6px; margin:10px 0 4px;}
+.qty-table thead th{
+  font-size:10px; color:var(--text-muted); font-weight:700; text-transform:uppercase;
+  letter-spacing:.02em; text-align:right; padding:0 4px 6px; border-bottom:1px solid var(--grid);
+}
+.qty-table thead th:first-child{text-align:left;}
+.qty-table td{padding:6px 4px; border-bottom:1px dashed var(--grid); vertical-align:middle;}
+.qty-table tr:last-child td{border-bottom:none;}
+.qty-table td.qk{color:var(--text-secondary); font-weight:600;}
+.qty-table td.qn{text-align:right;}
+.qty-table input.qty-in{
+  width:58px; padding:4px 6px; border:1px solid var(--border); border-radius:6px;
+  font-size:11.6px; text-align:right; font-weight:700; font-variant-numeric:tabular-nums;
+  background:#fff;
+}
+.qty-table input.qty-in:focus{outline:2px solid var(--blue); outline-offset:1px;}
+.qty-table input.qty-in:disabled{background:var(--page); color:var(--text-muted); font-weight:600;}
+.qty-table td.qunit{color:var(--text-muted); font-size:10.5px; padding-left:2px; width:1%; white-space:nowrap;}
+.qty-table td.qpct{text-align:right; font-weight:800; font-variant-numeric:tabular-nums; width:46px;}
+.qty-table tr.computed-row td{color:var(--text-muted); font-style:italic;}
+.qty-summary{
+  display:flex; align-items:center; justify-content:space-between;
+  margin-top:10px; padding-top:10px; border-top:1px solid var(--grid);
+}
+.qty-summary .lbl{font-size:12px; font-weight:700; color:var(--text-secondary);}
+.qty-summary .val{display:flex; align-items:center; gap:8px;}
+.qty-summary .pctnum{font-size:18px; font-weight:800; font-variant-numeric:tabular-nums;}
+.diff-badge{
+  font-size:11px; font-weight:800; padding:4px 10px; border-radius:999px;
+  min-width:64px; text-align:center;
+}
+.diff-badge.good{background:var(--good-bg); color:var(--good);}
+.diff-badge.warn{background:var(--warning-bg); color:#8a6100;}
+.diff-badge.critical{background:var(--critical-bg); color:var(--critical);}
+.diff-badge.pending{background:#eee; color:var(--text-muted);}
+
+.note-line{
+  font-size:11.3px;
+  color:var(--text-muted);
+  margin-top:8px;
+  padding-top:8px;
+  border-top:1px dashed var(--grid);
+}
+.note-line.warn-note{color:#8a6100;}
+
+/* stage tracker (인조화강석블럭) */
+.zone-block{margin-top:14px;}
+.zone-block:first-of-type{margin-top:4px;}
+.zone-title{font-size:12.5px; font-weight:800; margin-bottom:6px; display:flex; justify-content:space-between; flex-wrap:wrap; gap:4px;}
+.zone-title span.area{color:var(--text-muted); font-weight:600;}
+.stage-track{display:flex; gap:4px;}
+.stage{
+  flex:1;
+  text-align:center;
+  font-size:10.3px;
+  padding:7px 2px;
+  border-radius:7px;
+  background:var(--page);
+  border:1px solid var(--border);
+  color:var(--text-muted);
+  cursor:pointer;
+  user-select:none;
+  font-weight:700;
+  line-height:1.3;
+  white-space:pre-line;
+}
+.stage.done{background:var(--good); border-color:var(--good); color:#fff;}
+.stage:hover{border-color:var(--blue);}
+
+/* footer */
+.footer{
+  margin-top:34px;
+  padding:18px 22px;
+  background:#eef0ec;
+  border-radius:12px;
+  font-size:11.5px;
+  color:var(--text-secondary);
+}
+.footer b{color:var(--text-primary);}
+.footer ul{margin:8px 0 0; padding-left:18px;}
+.footer li{margin-bottom:3px;}
+
+.pending-tag{
+  display:inline-block; font-size:10.5px; font-weight:800; color:#8a6100;
+  background:var(--warning-bg); padding:2px 8px; border-radius:999px; margin-left:8px;
+}
+
+/* ---------- 12. 공정회의 및 주요체크사항 ---------- */
+.meeting-form{
+  background:var(--page); border:1px solid var(--border); border-radius:12px;
+  padding:16px; margin-bottom:16px;
+}
+.mf-row{display:flex; gap:16px; flex-wrap:wrap; margin-bottom:12px;}
+.mf-row label{display:flex; flex-direction:column; gap:4px; font-size:11.5px; font-weight:700; color:var(--text-secondary);}
+.mf-row input, .mf-row select{
+  padding:7px 9px; border:1px solid var(--border); border-radius:8px; font-size:12.5px; background:#fff;
+}
+.mf-block{display:flex; flex-direction:column; gap:4px; font-size:11.5px; font-weight:700; color:var(--text-secondary); margin-bottom:10px;}
+.mf-block textarea{
+  padding:9px 10px; border:1px solid var(--border); border-radius:8px; font-size:12.8px; font-weight:500;
+  color:var(--text-primary); font-family:inherit; resize:vertical; background:#fff;
+}
+.mf-add-btn{
+  font-size:12.5px; font-weight:800; padding:8px 18px; border-radius:9px;
+  background:var(--blue); border:none; color:#fff; cursor:pointer;
+}
+.mf-add-btn:hover{background:#1f5fb0;}
+.meeting-log{display:flex; flex-direction:column; gap:10px;}
+.meeting-entry{
+  border:1px solid var(--border); border-radius:12px; padding:14px 16px;
+  background:var(--surface-1);
+}
+.me-head{display:flex; justify-content:space-between; align-items:center; gap:8px; margin-bottom:8px; flex-wrap:wrap;}
+.me-tags{display:flex; align-items:center; gap:8px; font-size:12px; font-weight:800;}
+.me-type{background:var(--blue-soft); color:var(--blue); padding:2px 9px; border-radius:999px; font-size:11px;}
+.me-date{color:var(--text-primary);}
+.me-author{color:var(--text-muted); font-weight:600; font-size:11.5px;}
+.me-del{
+  font-size:11px; font-weight:700; color:var(--critical); background:none; border:none; cursor:pointer;
+  padding:2px 6px;
+}
+.me-body{font-size:12.5px; line-height:1.55; white-space:pre-wrap; color:var(--text-primary);}
+.me-body .me-label{font-size:10.5px; font-weight:800; color:var(--text-muted); text-transform:uppercase; letter-spacing:.03em; margin-top:8px; display:block;}
+.meeting-empty{font-size:12px; color:var(--text-muted); text-align:center; padding:24px 0;}
+
+/* gantt */
+.gantt-scroll-wrap{overflow-x:auto; overflow-y:hidden; padding-bottom:6px; min-width:0; max-width:100%;}
+.gantt-row{display:flex; align-items:center; gap:0; padding:4px 0;}
+.gantt-label{
+  width:190px; flex:none; font-size:11.3px; color:var(--text-secondary); font-weight:600;
+  text-align:right; padding-right:10px; position:sticky; left:0; z-index:3; background:var(--surface-1);
+}
+.gantt-track{position:relative; flex:none; height:15px; background:var(--page); border-radius:4px;}
+.gantt-bar{position:absolute; top:0; height:100%; border-radius:4px; background:var(--baseline); opacity:.55;}
+.gantt-fill{position:absolute; top:0; height:100%; border-radius:4px; background:var(--blue);}
+.gantt-today{position:absolute; top:-3px; bottom:-3px; width:1.5px; background:var(--text-primary); opacity:.5; z-index:2; pointer-events:none;}
+.gantt-actual{position:absolute; top:-3px; bottom:-3px; width:2px; border-radius:1px; background:var(--critical); z-index:3; cursor:help;}
+
+.gantt-hdrow{display:flex; align-items:stretch;}
+.gantt-daytrack{position:relative; flex:none; background-image:linear-gradient(to right, var(--grid) 1px, transparent 1px); background-repeat:repeat-y;}
+.gantt-month-seg{
+  position:absolute; top:0; height:100%; font-size:10.5px; font-weight:800; color:var(--text-secondary);
+  border-left:1px solid var(--grid); padding-left:4px; box-sizing:border-box; display:flex; align-items:center;
+}
+.gantt-day-cell{
+  position:absolute; top:0; text-align:center; font-size:9px; color:var(--text-muted);
+  font-variant-numeric:tabular-nums; line-height:14px;
+}
+.gantt-day-cell.sun{color:var(--critical); font-weight:700;}
+
+.gantt-track{background-image:linear-gradient(to right, var(--grid) 1px, transparent 1px); background-repeat:repeat-y;}
+
+.gantt-sum-row{display:flex; align-items:center;}
+.gantt-sum-label{
+  width:190px; flex:none; font-size:10.8px; font-weight:800; color:var(--text-secondary);
+  text-align:right; padding-right:10px; position:sticky; left:0; z-index:3; background:var(--surface-1);
+}
+.gantt-sum-track{position:relative; flex:none; background-image:linear-gradient(to right, var(--grid) 1px, transparent 1px); background-repeat:repeat-y;}
+.gantt-sum-cell{
+  position:absolute; top:0; text-align:center; font-size:7.4px; font-variant-numeric:tabular-nums;
+  color:var(--text-secondary); line-height:16px; letter-spacing:-0.3px; white-space:nowrap; overflow:hidden;
+}
+.gantt-sum-cell.sun{color:var(--baseline);}
+.gantt-sum-cell.cum{font-weight:800; color:var(--blue); font-size:7.6px;}
+#ganttHeader{margin-bottom:4px; border-bottom:1px solid var(--grid); padding-bottom:2px;}
+#ganttSummary{margin-top:4px; border-top:1px solid var(--grid); padding-top:4px;}
+
+/* ---------- Cover / 한눈에 보기 ---------- */
+html{scroll-behavior:smooth;}
+.section, .card{scroll-margin-top:18px;}
+.cover{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:12px;
+  margin-top:20px;
+}
+@media (max-width:980px){ .cover{grid-template-columns:repeat(2,1fr);} }
+@media (max-width:560px){ .cover{grid-template-columns:1fr;} }
+.cover-card{
+  display:block;
+  text-decoration:none;
+  color:inherit;
+  background:var(--surface-1);
+  border:1px solid var(--border);
+  border-radius:12px;
+  padding:14px 16px;
+  transition:transform .12s ease, box-shadow .12s ease, border-color .12s ease;
+  position:relative;
+}
+.cover-card:hover{
+  transform:translateY(-2px);
+  box-shadow:0 6px 16px rgba(11,11,11,0.08);
+  border-color:var(--blue);
+}
+.cover-card .cnum{
+  display:inline-flex; align-items:center; justify-content:center;
+  min-width:22px; height:22px; padding:0 6px;
+  border-radius:6px; background:var(--blue-soft); color:var(--blue);
+  font-size:11px; font-weight:800; margin-bottom:8px;
+}
+.cover-card.is-pending .cnum{background:var(--warning-bg); color:#8a6100;}
+.cover-card .ctitle{font-size:13px; font-weight:800; margin-bottom:4px; line-height:1.3;}
+.cover-card .cmeta{font-size:11px; color:var(--text-muted); line-height:1.4;}
+.cover-card .cval{
+  position:absolute; top:14px; right:14px;
+  font-size:15px; font-weight:800; color:var(--blue);
+  font-variant-numeric:tabular-nums;
+}
+.cover-card.is-pending .cval{color:#8a6100; font-size:11px;}
+.cover-card .cval-two{
+  position:absolute; top:12px; right:14px; text-align:right;
+  font-variant-numeric:tabular-nums;
+}
+.cover-card .cval-two .cv-today{font-size:13px; font-weight:800; color:var(--blue); display:block; line-height:1.3;}
+.cover-card .cval-two .cv-cum{font-size:10.5px; font-weight:700; color:var(--text-muted); display:block; line-height:1.3;}
+.cover-head{display:flex; align-items:baseline; gap:8px; margin-top:26px;}
+.cover-head h2{font-size:16px; margin:0; font-weight:800;}
+.cover-head span{font-size:12px; color:var(--text-muted);}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <!-- ================= HEADER ================= -->
+  <div class="header">
+    <div class="title-block">
+      <div class="eyebrow">GEUMDO CONSTRUCTION · SITE DASHBOARD</div>
+      <h1>용현학익1초 조경공사 현황</h1>
+      <div class="sub">(가칭) 용현·학익1초 신축공사 — 인천광역시 미추홀구 학익동 587-404 · 하도급사 산들조경</div>
+      <div class="meta">
+        <span>조경 최초계획(1차·요율공정표) <b>2026.08.01 ~ 2026.10.31</b></span>
+        <span>기준일(오늘) <b id="todayLabel">2026.08.19</b></span>
+        <span>잔여공사 예정공정(2차·09.02기준) <b>2026.09.14 ~ 2026.12.12</b></span>
+        <span>준공목표(종합공정표 개정) <b>2026.12.10</b></span>
+      </div>
+    </div>
+    <div class="header-kpis">
+      <div class="kpi-pill">
+        <div class="k-label">준공목표까지 잔여일</div>
+        <div class="k-value" id="kpiDday">D-73</div>
+      </div>
+      <div class="kpi-pill">
+        <div class="k-label">착수 완료 공종</div>
+        <div class="k-value" id="kpiStartedCount">-<small>/17개</small></div>
+      </div>
+      <div class="kpi-pill">
+        <div class="k-label">경계공 계획진도 (<span id="kpiRevLabel">1차</span>)</div>
+        <div class="k-value" id="kpiEarthwork">-<small>%</small></div>
+      </div>
+      <div class="kpi-pill">
+        <div class="k-label">금주 핵심공정</div>
+        <div class="k-value" style="font-size:15px; font-weight:700;">옥상층 구조물공사 착수 준비(클라루가제보 앙카시공, 09.14~)</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= 데이터 저장/불러오기 ================= -->
+  <div class="data-io-bar">
+    <span class="io-label">입력값은 자동 저장됩니다(공유 저장소 설정 시 모든 담당자에게 실시간 반영) — 지금 바로 반영하려면 [지금 저장] 버튼을 누르세요 —</span>
+    <button type="button" class="io-btn" id="ioSaveBtn">지금 저장 (웹에 즉시 저장)</button>
+    <button type="button" class="io-btn secondary" id="ioExportBtn">파일로 내보내기(백업용)</button>
+    <button type="button" class="io-btn secondary" id="ioLoadBtn">파일 불러오기</button>
+    <button type="button" class="io-btn secondary" id="dailyLogCloseBtn">오늘 기록 저장(일일마감)</button>
+    <input type="date" id="manualLogDate" style="padding:7px 9px; border:1px solid var(--border); border-radius:8px; font-size:12.5px;">
+    <button type="button" class="io-btn secondary" id="manualLogAddBtn">지정일 기록 추가/열기</button>
+    <button type="button" class="io-btn secondary" id="manualLogTodayBtn">전 항목 오늘로 복귀</button>
+    <input type="file" id="ioFileInput" accept=".json" style="display:none;">
+    <span class="io-status" id="ioStatus">자동저장 확인 중…</span>
+  </div>
+  <div class="note-line" id="dailyLogNote">각 항목 소제목 옆 <b>◀ 날짜 ▶</b> 로 그 항목의 과거 입력값을 확인할 수 있습니다(날짜가 바뀌면 전날 기록이 자동 저장되며, [일일마감]으로 즉시 기록할 수도 있습니다).</div>
+
+  <!-- ================= 표지 요약 (한눈에 보기) ================= -->
+  <div class="cover-head"><h2>한눈에 보기</h2><span>카드를 클릭하면 해당 항목으로 이동합니다</span></div>
+  <div class="cover">
+    <a class="cover-card" href="#sec-1">
+      <div class="cnum">1</div>
+      <div class="cval" id="coverKpi1">-</div>
+      <div class="ctitle">공정진행상황</div>
+      <div class="cmeta">잔여공사 예정공정(2차) 09.14 옥상층 구조물공사 착수 예정</div>
+    </a>
+    <a class="cover-card" href="#sec-2">
+      <div class="cnum">2</div>
+      <div class="ctitle">자재반입</div>
+      <div class="cmeta">주요자재 15종 계획물량 등록</div>
+    </a>
+    <a class="cover-card" href="#sec-3">
+      <div class="cnum">3</div>
+      <div class="cval-two"><span class="cv-today" id="coverKpi3Today">금일 -명</span><span class="cv-cum" id="coverKpi3Cum">누계 -명</span></div>
+      <div class="ctitle">인원투입</div>
+      <div class="cmeta">공종별 8개 직종 일일 입력</div>
+    </a>
+    <a class="cover-card" href="#sec-4">
+      <div class="cnum">4</div>
+      <div class="cval-two"><span class="cv-today" id="coverKpi4Today">금일 -대</span><span class="cv-cum" id="coverKpi4Cum">누계 -대</span></div>
+      <div class="ctitle">장비투입</div>
+      <div class="cmeta">장비 8종 일일 가동 입력</div>
+    </a>
+    <a class="cover-card" href="#item-5">
+      <div class="cnum">5</div>
+      <div class="cval">0%</div>
+      <div class="ctitle">지상층 식재공 작업율</div>
+      <div class="cmeta">10.25 착수예정(2차) · 교목271주 등</div>
+    </a>
+    <a class="cover-card" href="#item-6">
+      <div class="cnum">6</div>
+      <div class="cval">0%</div>
+      <div class="ctitle">3층·옥상층 식재공 작업율</div>
+      <div class="cmeta">10.25 착수예정(2차) · 관목140주 등</div>
+    </a>
+    <a class="cover-card" href="#item-7">
+      <div class="cnum">7</div>
+      <div class="cval">0%</div>
+      <div class="ctitle">지상층 구조시설물공 작업율</div>
+      <div class="cmeta">10.11 착수예정(2차) · 플랜터·스탠드·앉음벽 249m</div>
+    </a>
+    <a class="cover-card" href="#item-8">
+      <div class="cnum">8</div>
+      <div class="cval">0%</div>
+      <div class="ctitle">지상층 시설물 작업율</div>
+      <div class="cmeta">11.08 착수예정(2차) · 파고라·놀이시설 10종</div>
+    </a>
+    <a class="cover-card" href="#item-9">
+      <div class="cnum">9</div>
+      <div class="cval">0%</div>
+      <div class="ctitle">지상층 포장·경계공 작업율</div>
+      <div class="cmeta">10.08 착수예정(2차) · 고무칩 502㎡ 등</div>
+    </a>
+    <a class="cover-card" href="#item-10">
+      <div class="cnum">10</div>
+      <div class="cval">0%</div>
+      <div class="ctitle">3층 구조시설물공 작업율</div>
+      <div class="cmeta">10.24 착수예정(2차) · 사각포트·야외테이블</div>
+    </a>
+    <a class="cover-card" href="#item-11">
+      <div class="cnum">11</div>
+      <div class="cval">0%</div>
+      <div class="ctitle">옥상층 구조시설물·포장공 작업율</div>
+      <div class="cmeta">09.14 착수예정(2차) · 시스템파고라·인조화강석블록</div>
+    </a>
+    <a class="cover-card" href="#item-12">
+      <div class="cnum">12</div>
+      <div class="cval" id="coverKpi12">0건</div>
+      <div class="ctitle">공정회의 및 주요체크사항</div>
+      <div class="cmeta">클릭하여 회의록·체크사항 기록</div>
+    </a>
+  </div>
+
+  <!-- ================= 1. 공정진행상황 ================= -->
+  <div class="section" id="sec-1">
+    <div class="section-head">
+      <span class="section-num">1</span>
+      <h2>공정진행상황</h2>
+      <span class="section-desc">예정공정 차수별(1차/2차/3차…) 착수~완료일 기준 간트차트 · 차수 변경 시 계획 진도율 자동 재산정</span>
+    </div>
+    <div class="overview-grid">
+      <div class="card">
+        <div class="rev-tabbar">
+          <div class="rev-tabs" id="revTabs"></div>
+          <button type="button" class="rev-add-btn" id="revAddBtn">+ 차수 추가</button>
+        </div>
+        <div class="gantt-legend">
+          <span><span class="legend-dot" style="background:var(--baseline); opacity:.55;"></span>계획 공사기간</span>
+          <span><span class="legend-dot" style="background:var(--blue);"></span>계획 진도율(오늘 기준)</span>
+          <span><span class="legend-dot" style="background:var(--critical);"></span>실적 진행율(5~11번 세부공종 실적 연동)</span>
+          <span><span class="legend-dot" style="background:var(--text-primary); opacity:.55;"></span>오늘 <span id="legendTodayLabel">08.19</span></span>
+        </div>
+        <div class="gantt-scroll-wrap">
+          <div id="ganttHeader"></div>
+          <div id="ganttChart"></div>
+          <div id="ganttSummary"></div>
+        </div>
+        <details class="rev-edit-details">
+          <summary>선택한 차수(<span id="revEditLabel">1차</span>)의 착수일·완료일 직접 수정</summary>
+          <div class="table-scroll">
+          <table class="qty-table rev-edit-table">
+            <thead><tr><th>세부공종</th><th>착수일</th><th>완료일</th></tr></thead>
+            <tbody id="revEditBody"></tbody>
+          </table>
+          </div>
+        </details>
+        <div class="cal-block">
+          <div class="cal-block-head">
+            <h3>주요일정</h3>
+            <span class="card-sub">주간공정회의·검측·자재반입 등 주요일정을 날짜별로 등록하세요 — 등록 내용은 자동저장됩니다</span>
+          </div>
+          <div class="cal-layout">
+            <div class="mini-cal" id="miniCal"></div>
+            <div class="cal-list-panel">
+              <div class="cal-add-row">
+                <input type="date" id="calDateInput">
+                <input type="text" id="calTextInput" placeholder="주요일정 입력(예: 우수관 착공, 감리 정기검측 등)">
+                <button type="button" id="calAddBtn">+ 일정 추가</button>
+              </div>
+              <div class="cal-event-list" id="calEventList"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <h3 style="margin-top:0;">현재 진행 중인 공종 (<span id="statusRevLabel">1차</span> 기준)</h3>
+        <div class="card-sub">조경 세부공종 17개 · 선택한 차수의 계획 진도율로 자동 판정</div>
+        <div class="status-box" id="statusBox"></div>
+        <div class="mini-note" id="miniNote"><b>진행 개요.</b> 2026.09.02 기준 <b>잔여공사 예정공정표(2차)</b>에 따르면, 옥상층 구조물공사(클라루가제보 앙카시공, 09.14~10.06)가 가장 먼저 임박하였고, 지상층 포장·경계공(10.08~)·3층 구조시설물공(10.24~)·지상층 구조시설물공(10.11~)·식재공사(10.25~)·지상층 시설물(11.08~)이 순차적으로 이어집니다. 1차(요율공정표 원안, 08.01~10.31 계획) 대비 전반적으로 일정이 지연되었으며, 차수 탭에서 1차/2차를 전환해 계획 변경 폭을 비교할 수 있습니다. 아래 5~11번 항목의 <b>진행수량</b>은 현장 확인 후 매일 입력해 주세요.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= 2·3·4. 자재/인원/장비 ================= -->
+  <div class="section">
+    <div class="section-head">
+      <span class="section-num">2-4</span>
+      <h2>자재반입 · 인원투입 · 장비투입</h2>
+      <span class="section-desc">계획물량은 하도급계약내역서(02.하도급계약내역서 조경공사.xlsx) 기준 · 금일 투입란은 현장 일일 입력</span>
+    </div>
+    <div class="triple-grid">
+
+      <!-- 자재반입 -->
+      <div class="card" id="sec-2">
+        <h3>2. 자재반입 현황</h3>
+        <div class="card-sub">총수량(계획물량)·진행수량(누계반입량) 클릭 후 직접 입력 — 진행율 자동 계산</div>
+        <div class="table-scroll">
+        <table id="matTable" class="qty-table">
+          <thead><tr><th>품명(규격)</th><th>총수량</th><th>진행수량</th><th></th><th>진행율</th></tr></thead>
+          <tbody id="matBody"></tbody>
+        </table>
+        </div>
+      </div>
+
+      <!-- 인원투입 -->
+      <div class="card" id="sec-3">
+        <h3>3. 인원투입 현황</h3>
+        <div class="card-sub">총수량(계획인원)·진행수량(금일투입) 직접 입력 — 배치율 자동 계산</div>
+        <table id="manTable" class="qty-table">
+          <thead><tr><th>공종/직종</th><th>계획인원</th><th>금일투입</th><th></th><th>배치율</th></tr></thead>
+          <tbody id="manBody"></tbody>
+          <tfoot><tr class="table-total-row"><td>합계</td><td class="num" id="manTotalPlan">0 명</td><td class="num" id="manTotal">0 명</td><td></td><td class="num" id="manTotalPct">0%</td></tr></tfoot>
+        </table>
+        <div class="cum-input-row">
+          <label for="manCumInput">누계 투입인원(연인원)</label>
+          <input type="number" id="manCumInput" class="cum-input" min="0" step="1" value="0"><span>명</span>
+        </div>
+      </div>
+
+      <!-- 장비투입 -->
+      <div class="card" id="sec-4">
+        <h3>4. 장비투입 현황</h3>
+        <div class="card-sub">총수량(계획대수)·진행수량(금일가동) 직접 입력 — 가동율 자동 계산</div>
+        <table id="eqTable" class="qty-table">
+          <thead><tr><th>장비명</th><th>계획대수</th><th>금일가동</th><th></th><th>가동율</th></tr></thead>
+          <tbody id="eqBody"></tbody>
+          <tfoot><tr class="table-total-row"><td>합계</td><td class="num" id="eqTotalPlan">0 대</td><td class="num" id="eqTotal">0 대</td><td></td><td class="num" id="eqTotalPct">0%</td></tr></tfoot>
+        </table>
+        <div class="cum-input-row">
+          <label for="eqCumInput">누계 가동대수(연대수)</label>
+          <input type="number" id="eqCumInput" class="cum-input" min="0" step="1" value="0"><span>대</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ================= 5~11. 세부공종 작업율 ================= -->
+  <div class="section">
+    <div class="section-head">
+      <span class="section-num">5-11</span>
+      <h2>조경 세부공종 작업율</h2>
+      <span class="section-desc">계획 진도율(선택한 차수의 착수·완료일 기준) 대비 실적(%) 직접 입력</span>
+    </div>
+    <div class="item-grid" id="itemGrid"></div>
+  </div>
+
+  <!-- ================= 12. 공정회의 및 주요체크사항 ================= -->
+  <div class="section" id="sec-12">
+    <div class="section-head">
+      <span class="section-num">12</span>
+      <h2>공정회의 및 주요체크사항</h2>
+      <span class="section-desc">주간공정회의·특별점검 등 회의록과 현장 체크사항을 기록합니다</span>
+    </div>
+    <div class="card" id="item-12">
+      <div class="meeting-form">
+        <div class="mf-row">
+          <label>일자<input type="date" id="mfDate" value="2026-09-02"></label>
+          <label>구분
+            <select id="mfType">
+              <option>주간공정회의</option>
+              <option>특별점검</option>
+              <option>안전점검</option>
+              <option>품질점검</option>
+              <option>기타</option>
+            </select>
+          </label>
+          <label>작성자<input type="text" id="mfAuthor" value="손" style="width:70px;"></label>
+        </div>
+        <label class="mf-block">주요내용<textarea id="mfContent" rows="3" placeholder="회의·점검에서 논의된 주요 내용을 입력하세요"></textarea></label>
+        <label class="mf-block">조치사항 / 체크사항<textarea id="mfAction" rows="2" placeholder="후속 조치, 체크리스트, 특이사항을 입력하세요"></textarea></label>
+        <button type="button" class="mf-add-btn" id="mfAddBtn">+ 기록 추가</button>
+      </div>
+      <div class="meeting-log" id="meetingLog"></div>
+      <div class="note-line">입력한 기록은 이 브라우저 세션에서만 유지됩니다(새로고침 시 초기화) — 마감 후 별도 문서로 보관을 권장합니다.</div>
+    </div>
+  </div>
+
+
+</div>
+
+<!-- 여러 담당자가 같은 데이터를 함께 보고 저장할 수 있도록 하는 공유 저장소(Firebase Realtime Database) 연동 -->
+<script src="https://www.gstatic.com/firebasejs/10.13.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.13.2/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.13.2/firebase-database-compat.js"></script>
+
+<script>
+// 계획진도율(%) 계산의 기준일 = 접속하는 실제 오늘 날짜(브라우저 기준, 자동 갱신).
+// 날짜 문자열(YYYY-MM-DD)은 이 파일 전체에서 UTC 자정으로 파싱되므로(예: new Date('2026-08-19')),
+// "오늘"도 같은 방식(로컬 달력 날짜를 UTC 자정으로)으로 만들어 다른 일정 값들과 비교 시 시간대 오차가 없도록 한다.
+function localTodayAsUTCMidnight(){
+  const now = new Date();
+  const y = now.getFullYear();
+  const m = String(now.getMonth()+1).padStart(2,'0');
+  const d = String(now.getDate()).padStart(2,'0');
+  return new Date(`${y}-${m}-${d}`);
+}
+const TODAY = localTodayAsUTCMidnight();
+function fmtFullDate(d){
+  return d.getFullYear()+'.'+String(d.getMonth()+1).padStart(2,'0')+'.'+String(d.getDate()).padStart(2,'0');
+}
+const GANTT = [{"id": "groundBoundary", "name": "1. 지상층 경계공", "start": "2026-08-01", "end": "2026-08-05", "weight": 1.1, "group": "포장·경계"}, {"id": "groundStructure", "name": "2. 지상층 구조물(플랜터·스탠드·앉음벽)", "start": "2026-08-06", "end": "2026-08-19", "weight": 9.59, "group": "구조물·시설물"}, {"id": "thirdFloorStructure", "name": "3. 3층 구조시설물공(사각포트·야외테이블)", "start": "2026-08-10", "end": "2026-08-24", "weight": 5.48, "group": "구조물·시설물"}, {"id": "mounding", "name": "4. 마운딩(토공정리)", "start": "2026-08-20", "end": "2026-08-26", "weight": 0.07, "group": "식재공"}, {"id": "groundPavement", "name": "5. 지상층 포장(고무칩·데크·화강석판석)", "start": "2026-08-20", "end": "2026-09-09", "weight": 13.22, "group": "포장·경계"}, {"id": "roofStructure", "name": "6. 옥상층 구조물(시스템파고라·놀이대)", "start": "2026-08-24", "end": "2026-09-14", "weight": 12.85, "group": "구조물·시설물"}, {"id": "thirdFloorShrub", "name": "7. 3층 관목식재", "start": "2026-08-25", "end": "2026-08-28", "weight": 0.13, "group": "식재공"}, {"id": "groundArtSoil", "name": "8. 지상층 인공식재기반 조성", "start": "2026-08-27", "end": "2026-09-08", "weight": 0.8, "group": "식재공"}, {"id": "groundFacility", "name": "9. 지상층 시설물(파고라·놀이시설)", "start": "2026-09-10", "end": "2026-09-30", "weight": 19.5, "group": "구조물·시설물"}, {"id": "groundTree", "name": "10. 지상층 교목식재", "start": "2026-09-09", "end": "2026-09-22", "weight": 12.96, "group": "식재공"}, {"id": "roofArtSoil", "name": "11. 옥상층 인공식재기반 조성", "start": "2026-09-15", "end": "2026-09-25", "weight": 1.0, "group": "식재공"}, {"id": "roofPavement", "name": "12. 옥상층 포장(인조화강석블록·고무칩)", "start": "2026-09-15", "end": "2026-10-02", "weight": 11.17, "group": "포장·경계"}, {"id": "groundShrub", "name": "13. 지상층 관목식재", "start": "2026-09-23", "end": "2026-10-01", "weight": 3.71, "group": "식재공"}, {"id": "roofShrub", "name": "14. 옥상층 관목식재", "start": "2026-09-26", "end": "2026-09-29", "weight": 0.52, "group": "식재공"}, {"id": "roofGround", "name": "15. 옥상층 지피초화식재", "start": "2026-09-26", "end": "2026-10-02", "weight": 0.64, "group": "식재공"}, {"id": "groundGround", "name": "16. 지상층 지피초화식재", "start": "2026-10-02", "end": "2026-10-08", "weight": 0.72, "group": "식재공"}, {"id": "groundEtc", "name": "17. 지상층 기타(통기관·표찰·잔디·복구)", "start": "2026-10-09", "end": "2026-10-14", "weight": 5.58, "group": "식재공"}];
+
+// 일요일은 공정을 시행하지 않는 것으로 보고 진도율 산정에서 제외(토요일은 근무일) — 원본 요율공정표 산정기준과 동일
+function isWorkday(d){ return d.getDay()!==0; }
+function workdaysBetween(s,e){
+  if(e<s) return 0;
+  let count=0, d=new Date(s);
+  while(d<=e){ if(isWorkday(d)) count++; d=new Date(d.getTime()+86400000); }
+  return count;
+}
+function planPct(startStr,endStr){
+  if(!startStr || !endStr) return 0;
+  const s=new Date(startStr), e=new Date(endStr);
+  if(TODAY<s) return 0;
+  const totalWd = workdaysBetween(s,e);
+  if(totalWd<=0) return 100;
+  if(TODAY>=e) return 100;
+  const doneWd = workdaysBetween(s,TODAY);
+  return Math.round((doneWd/totalWd)*1000)/10;
+}
+function fmtDate(str){
+  if(!str) return '-';
+  const d=new Date(str);
+  return (d.getMonth()+1)+'.'+d.getDate();
+}
+function toISO(d){ return d.toISOString().slice(0,10); }
+
+// ---------------- 예정공정 차수(1차/2차/3차…) 관리 ----------------
+const revisions = {};
+const revisionOrder = ['1차'];
+revisions['1차'] = {};
+GANTT.forEach(it=>{ revisions['1차'][it.id] = {start:it.start, end:it.end}; });
+let currentRev = '1차';
+// 차수 탭에 표시되는 보조 표기(예: "기준·07.24 제출본") — 신규 차수 추가 시 추가된 날짜로 자동 생성
+const revisionMeta = { '1차': { tag: '기준·07.22 제출본(요율공정표)' } };
+
+// 2차: "잔여공사 예정공정표 2026.09.02.xlsx"(전체예정공정표-일단위) 중 조경공사(행 20~31, 식재공사/구조물공사/
+// 시설물공사/포장공사 4개 대공종)에 표기된 활동별 "일정 막대(셀 배경색으로 구간 표시)"의 실제 시작~종료 구간을
+// 세부항목(17개) 단위로 매핑하여 반영한 개정 일정. 원본은 층별(지상/3층/옥상) 구분 없이 대공종별 활동명+기간 막대만
+// 제공하므로, 같은 대공종·같은 시기에 속한 세부항목이 여러 개인 경우 동일 구간을 공통 적용함.
+// 1차(요율공정표 원안)에 비해 전반적으로 지연되어, 2026.09.02 현재 시점 이후로 재수립된 잔여공정임.
+// ※ 이후 조경 전용으로 별도 제공된 "총괄잔여공사 예정공정표조경 2026.09.xlsx"(전체예정공정표 시트, 조경공사
+// 행 5~16)의 셀 배경색 구간과 대조 검증한 결과, 아래 4개 대공종·9개 구간이 하루 단위까지 완전히 일치함을 확인함
+// (교차검증 완료, 추가 수정 없음).
+revisionOrder.push('2차');
+revisions['2차'] = {
+  // 식재공사 > "10.25~10.31 조경토 반입 및 녹지대정리" — 마운딩·인공식재기반(지상·옥상) 조성 구간
+  mounding: {start:'2026-10-25', end:'2026-10-31'},
+  groundArtSoil: {start:'2026-10-25', end:'2026-10-31'},
+  roofArtSoil: {start:'2026-10-25', end:'2026-10-31'},
+  // 식재공사 > "11.03~11.19 소나무외 교목 반입 식재"
+  groundTree: {start:'2026-11-03', end:'2026-11-19'},
+  // 식재공사 > "11.20~11.28 관목/지피 식재" — 층별 구분 없이 관목·지피초화 전체
+  groundShrub: {start:'2026-11-20', end:'2026-11-28'},
+  groundGround: {start:'2026-11-20', end:'2026-11-28'},
+  roofShrub: {start:'2026-11-20', end:'2026-11-28'},
+  roofGround: {start:'2026-11-20', end:'2026-11-28'},
+  thirdFloorShrub: {start:'2026-11-20', end:'2026-11-28'},
+  // 지상층 기타(통기관·표찰·잔디·조경복구)는 신규 파일에 별도 활동으로 명시되어 있지 않아,
+  // 관목/지피 식재(11.20~11.28) 구간에 이어지는 마무리 단계로 보아 동일 구간으로 잠정 반영(현장 확인 필요)
+  groundEtc: {start:'2026-11-20', end:'2026-11-28'},
+  // 구조물공사(옥상층) > "09.14~09.17 클라루가제보 앙카시공·옥상층 플랜터 설치" + "10.06~10.18 옥상 클라루가제보·
+  // 시스템파고라 반입/설치" — 옥상층 구조물 전체 구간(그 사이 공백은 자재 반입 대기 등으로 판단)
+  roofStructure: {start:'2026-09-14', end:'2026-10-18'},
+  // 구조물공사(지상층) > "10.11~10.20 강당동 주변 플랜터/앉음벽 설치" + "11.10~11.15 운동장 주변 스탠드 설치"
+  groundStructure: {start:'2026-10-11', end:'2026-11-15'},
+  // 구조물공사(3층) > "10.24~10.29 3층 사각포트 설치" + "12.08~12.12 야외테이블 반입 설치"
+  thirdFloorStructure: {start:'2026-10-24', end:'2026-12-12'},
+  // 시설물공사 > "11.15~11.24 놀이시설물 반입 설치"(지상층 시설물)
+  groundFacility: {start:'2026-11-15', end:'2026-11-24'},
+  // 포장공사(지상층) > "10.08~10.20 후면동~강당동 사이 경계석·고무칩포장 기초타설" + "11.08~11.13 놀이시설물
+  // 기초타설(연계 공정)" + "11.30~12.06 고무칩 포장공사"
+  groundPavement: {start:'2026-10-08', end:'2026-12-06'},
+  // 포장공사(지상층 경계) > "10.08~10.20 경계석 시공" 구간
+  groundBoundary: {start:'2026-10-08', end:'2026-10-20'},
+  // 포장공사(옥상층) > "09.19~10.04 옥상층 포장공사(고무칩기초·데크·인조화강석블록)"
+  roofPavement: {start:'2026-09-19', end:'2026-10-04'},
+};
+revisionMeta['2차'] = { tag: '기준·09.02 잔여공사예정공정표' };
+currentRev = '2차'; // 가장 최신(현재 유효한) 예정공정을 기본 화면으로 표시
+
+// 코드에 정의된 "정답" 일정 스냅샷(위 1차/2차 데이터를 그대로 복제) — Firebase 공유저장소나 브라우저 캐시에 남아있는
+// 이전 버전의 저장본(예: 세부항목 구성이 달랐던 과거 버전)을 불러왔을 때, 현재 코드의 GANTT 17개 항목 중 일부가
+// 그 저장본에 없어서 일정이 비어버리는 경우를 대비한 대체(fallback) 데이터. 이게 없으면 없는 항목의 날짜가
+// new Date(null) → 1970년 1월(epoch)로 계산되어 간트차트가 "1월부터" 보이는 오류가 발생한다.
+const DEFAULT_REVISIONS = JSON.parse(JSON.stringify(revisions));
+const DEFAULT_CURRENT_REV = currentRev;
+// 사용자가 대시보드 화면의 [+차수 추가] 버튼으로 3차·4차를 만든 뒤 "2차·4차 삭제, 3차를 2차로, 금일 날짜로
+// 수정" 요청 → 아래 cleanupRevisions()가 이를 1회성으로 정리한다. 정리가 끝나면 이 플래그를 저장 데이터에
+// 함께 기록해(collectState/applyState) 두 번째 접속부터는(혹은 사용자가 나중에 정말로 새 3차를 만들어도)
+// 다시 실행되지 않게 한다.
+let revCleanupV1Done = false;
+
+// ---------------- 일일 기록(날짜별 이력) ----------------
+const dailyLog = {}; // { 'YYYY-MM-DD': {qty, manCum, eqCum, item7Done, savedAt} }
+// 2026-09-10 실적 사전 기록: 산들조경 직원 1명(manBody row7), 시설물설치공(시설물공) 2명(manBody row1) 투입
+// (요청에 따라 그 날짜의 다른 항목은 계획수량만 채운 기본값으로 함께 기록해, ◀ 날짜 이동 시 정상 표시되도록 함)
+dailyLog['2026-09-10'] = {"qty":{"matBody|||0|total":"271","matBody|||0|prog":"0","matBody|||1|total":"4059","matBody|||1|prog":"0","matBody|||2|total":"2540","matBody|||2|prog":"0","matBody|||3|total":"118.72","matBody|||3|prog":"0","matBody|||4|total":"984.44","matBody|||4|prog":"0","matBody|||5|total":"249","matBody|||5|prog":"0","matBody|||6|total":"4","matBody|||6|prog":"0","matBody|||7|total":"4","matBody|||7|prog":"0","matBody|||8|total":"18","matBody|||8|prog":"0","matBody|||9|total":"53","matBody|||9|prog":"0","matBody|||10|total":"74","matBody|||10|prog":"0","matBody|||11|total":"891","matBody|||11|prog":"0","matBody|||12|total":"466","matBody|||12|prog":"0","matBody|||13|total":"103","matBody|||13|prog":"0","matBody|||14|total":"17","matBody|||14|prog":"0","manBody|||0|total":"0","manBody|||0|prog":"0","manBody|||1|total":"0","manBody|||1|prog":"2","manBody|||2|total":"0","manBody|||2|prog":"0","manBody|||3|total":"0","manBody|||3|prog":"0","manBody|||4|total":"0","manBody|||4|prog":"0","manBody|||5|total":"0","manBody|||5|prog":"0","manBody|||6|total":"0","manBody|||6|prog":"0","manBody|||7|total":"0","manBody|||7|prog":"1","eqBody|||0|total":"0","eqBody|||0|prog":"0","eqBody|||1|total":"0","eqBody|||1|prog":"0","eqBody|||2|total":"0","eqBody|||2|prog":"0","eqBody|||3|total":"0","eqBody|||3|prog":"0","eqBody|||4|total":"0","eqBody|||4|prog":"0","eqBody|||5|total":"0","eqBody|||5|prog":"0","eqBody|||6|total":"0","eqBody|||6|prog":"0","eqBody|||7|total":"0","eqBody|||7|prog":"0","item-5|0||0|total":"271","item-5|0||0|prog":"0","item-5|0||1|total":"3919","item-5|0||1|prog":"0","item-5|0||2|total":"1130","item-5|0||2|prog":"0","item-5|0||3|total":"56.38","item-5|0||3|prog":"0","item-5|0||4|total":"13.88","item-5|0||4|prog":"0","item-5|0||5|total":"114","item-5|0||5|prog":"0","item-5|0||6|total":"103","item-5|0||6|prog":"0","item-5|0||7|total":"984.44","item-5|0||7|prog":"0","item-5|0||8|total":"1","item-5|0||8|prog":"0","item-6|1||0|total":"130","item-6|1||0|prog":"0","item-6|1||1|total":"10","item-6|1||1|prog":"0","item-6|1||2|total":"1410","item-6|1||2|prog":"0","item-6|1||3|total":"62.34","item-6|1||3|prog":"0","item-7|2||0|total":"86","item-7|2||0|prog":"0","item-7|2||1|total":"93","item-7|2||1|prog":"0","item-7|2||2|total":"12","item-7|2||2|prog":"0","item-7|2||3|total":"58","item-7|2||3|prog":"0","item-8|3||0|total":"1","item-8|3||0|prog":"0","item-8|3||1|total":"5","item-8|3||1|prog":"0","item-8|3||2|total":"5","item-8|3||2|prog":"0","item-8|3||3|total":"1","item-8|3||3|prog":"0","item-8|3||4|total":"1","item-8|3||4|prog":"0","item-8|3||5|total":"4","item-8|3||5|prog":"0","item-8|3||6|total":"1","item-8|3||6|prog":"0","item-8|3||7|total":"1","item-8|3||7|prog":"0","item-8|3||8|total":"1","item-8|3||8|prog":"0","item-8|3||9|total":"4","item-8|3||9|prog":"0","item-9|4||0|total":"9","item-9|4||0|prog":"0","item-9|4||1|total":"502","item-9|4||1|prog":"0","item-9|4||2|total":"65","item-9|4||2|prog":"0","item-9|4||3|total":"33","item-9|4||3|prog":"0","item-9|4||4|total":"64","item-9|4||4|prog":"0","item-9|4||5|total":"16","item-9|4||5|prog":"0","item-9|4||6|total":"23","item-9|4||6|prog":"0","item-10|5||0|total":"13","item-10|5||0|prog":"0","item-10|5||1|total":"11","item-10|5||1|prog":"0","item-11|6||0|total":"1","item-11|6||0|prog":"0","item-11|6||1|total":"1","item-11|6||1|prog":"0","item-11|6||2|total":"53","item-11|6||2|prog":"0","item-11|6||3|total":"1","item-11|6||3|prog":"0","item-11|6||4|total":"1","item-11|6||4|prog":"0","item-11|6||5|total":"466","item-11|6||5|prog":"0","item-11|6||6|total":"389","item-11|6||6|prog":"0","item-11|6||7|total":"1","item-11|6||7|prog":"0"},"manCum":"0","eqCum":"0","item7Done":[],"savedAt":"2026-09-10T00:00:00.000Z"};
+// 마지막으로 저장된 시점의 달력 날짜('YYYY-MM-DD') — 다음 접속 때 날짜가 바뀐 것을 감지해
+// "일일마감"을 누르지 않아도 자동으로 전날 기록을 dailyLog에 남기기 위해 사용한다.
+let lastSeenDate = null;
+const HISTORY_LOCKED_CARDS = {}; // { cardId: true } — 해당 카드가 과거 기록 조회 중이면 true(입력 잠금)
+function todayKey(){
+  const d = new Date(); // 실제 접속 기기의 오늘 날짜(공정표 기준일 TODAY와는 별개)
+  return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
+}
+
+function getSched(id){
+  const rev = revisions[currentRev];
+  const sc = rev && rev[id];
+  if(sc && sc.start && sc.end) return sc;
+  // 현재 차수 데이터에 해당 세부항목이 없거나(구버전 저장본 등) 손상된 경우, 코드 기본값(DEFAULT_REVISIONS)으로 대체
+  const fb = (DEFAULT_REVISIONS[currentRev] && DEFAULT_REVISIONS[currentRev][id])
+    || (DEFAULT_REVISIONS[DEFAULT_CURRENT_REV] && DEFAULT_REVISIONS[DEFAULT_CURRENT_REV][id]);
+  return fb || {start:null,end:null};
+}
+function getRange(ids){
+  let min=null, max=null;
+  ids.forEach(id=>{
+    const sc = getSched(id);
+    if(!sc.start || !sc.end) return;
+    const s=new Date(sc.start), e=new Date(sc.end);
+    if(!min||s<min) min=s;
+    if(!max||e>max) max=e;
+  });
+  return {start: min?toISO(min):null, end: max?toISO(max):null};
+}
+
+function addRevision(){
+  const n = revisionOrder.length+1;
+  const name = n+'차';
+  revisions[name] = JSON.parse(JSON.stringify(revisions[currentRev]));
+  revisionOrder.push(name);
+  // 새 차수를 추가한 날짜(오늘)를 "기준·MM.DD"로 탭에 표기 — 1차의 "기준·07.24 제출본"과 동일한 형식
+  const mm = String(TODAY.getMonth()+1).padStart(2,'0');
+  const dd = String(TODAY.getDate()).padStart(2,'0');
+  revisionMeta[name] = { tag: '기준·'+mm+'.'+dd };
+  currentRev = name;
+  renderAll();
+}
+document.getElementById('revAddBtn').addEventListener('click', addRevision);
+
+function renderRevTabs(){
+  const wrap = document.getElementById('revTabs');
+  wrap.innerHTML = revisionOrder.map(n=>{
+    const meta = revisionMeta[n];
+    const tagHtml = meta && meta.tag ? `<span class="base-tag">${meta.tag}</span>` : '';
+    return `<div class="rev-tab ${n===currentRev?'active':''}" data-rev="${n}">${n}${tagHtml}</div>`;
+  }).join('');
+  wrap.querySelectorAll('.rev-tab').forEach(t=>{
+    t.addEventListener('click', ()=>{ currentRev = t.dataset.rev; renderAll(); });
+  });
+}
+
+// ---------------- Gantt chart (공정진행상황) — 월/일 그리드 + 하단 공정율 ----------------
+const DAY_W = 21; // px per day column
+function renderGantt(){
+  let rangeMin=null, rangeMax=null;
+  GANTT.forEach(it=>{
+    const sc = getSched(it.id);
+    const s=new Date(sc.start), e=new Date(sc.end);
+    if(isNaN(s)||isNaN(e)) return; // 손상된 일정(잘못된 날짜)은 화면 범위 계산에서 제외
+    if(!rangeMin||s<rangeMin) rangeMin=s;
+    if(!rangeMax||e>rangeMax) rangeMax=e;
+  });
+  if(!rangeMin||!rangeMax){ rangeMin=TODAY; rangeMax=TODAY; } // 모든 일정이 손상된 극단적 경우의 대비
+  if(TODAY<rangeMin) rangeMin=TODAY;
+  if(TODAY>rangeMax) rangeMax=TODAY;
+  const rangeStart = new Date(rangeMin.getFullYear(), rangeMin.getMonth(), 1);
+  const rangeEnd = new Date(rangeMax.getFullYear(), rangeMax.getMonth()+1, 0);
+  const totalDays = Math.round((rangeEnd-rangeStart)/86400000)+1;
+  const trackWidth = totalDays*DAY_W;
+
+  const days = [];
+  for(let i=0;i<totalDays;i++){ days.push(new Date(rangeStart.getTime()+i*86400000)); }
+
+  // ---- 월 구간 + 일자 헤더 ----
+  let monthSegs = [], segStart = 0;
+  for(let i=1;i<=totalDays;i++){
+    if(i===totalDays || days[i].getMonth()!==days[segStart].getMonth()){
+      monthSegs.push({label:(days[segStart].getMonth()+1)+'월', left:segStart*DAY_W, width:(i-segStart)*DAY_W});
+      segStart = i;
+    }
+  }
+  const monthHtml = monthSegs.map(s=>`<div class="gantt-month-seg" style="left:${s.left}px; width:${s.width}px;">${s.label}</div>`).join('');
+  const todayLeft = ((TODAY-rangeStart)/86400000)*DAY_W + DAY_W/2 - 0.75;
+  const todayMarker = `<div class="gantt-today" style="left:${todayLeft}px;"></div>`;
+  const dayHtml = days.map((d,i)=>{
+    const sun = d.getDay()===0;
+    return `<div class="gantt-day-cell ${sun?'sun':''}" style="left:${i*DAY_W}px; width:${DAY_W}px;">${d.getDate()}</div>`;
+  }).join('');
+
+  document.getElementById('ganttHeader').innerHTML = `
+    <div class="gantt-hdrow" style="height:18px;">
+      <div class="gantt-label" style="background:var(--surface-1);"></div>
+      <div class="gantt-daytrack" style="width:${trackWidth}px; height:18px;">${monthHtml}${todayMarker}</div>
+    </div>
+    <div class="gantt-hdrow" style="height:14px; margin-bottom:2px;">
+      <div class="gantt-label" style="background:var(--surface-1);"></div>
+      <div class="gantt-daytrack" style="width:${trackWidth}px; height:14px; background-size:${DAY_W}px 100%;">${dayHtml}${todayMarker}</div>
+    </div>`;
+
+  // ---- 세부공종별 바(bar) ----
+  const chart = document.getElementById('ganttChart');
+  let rows = '';
+  GANTT.forEach(it=>{
+    const sc = getSched(it.id);
+    const s=new Date(sc.start), e=new Date(sc.end);
+    const left = Math.round((s-rangeStart)/86400000)*DAY_W;
+    const width = Math.max((Math.round((e-s)/86400000)+1)*DAY_W - 2, DAY_W-2);
+    const plan = planPct(sc.start,sc.end);
+    const fillWidth = (width * (plan/100)).toFixed(1);
+    rows += `
+      <div class="gantt-row">
+        <div class="gantt-label">${it.name}</div>
+        <div class="gantt-track" style="width:${trackWidth}px; background-size:${DAY_W}px 100%;">
+          <div class="gantt-bar" style="left:${left}px; width:${width}px;"></div>
+          <div class="gantt-fill" style="left:${left}px; width:${fillWidth}px;"></div>
+          <div class="gantt-actual" id="ganttActual-${it.id}" data-bar-left="${left}" data-bar-width="${width}" style="display:none;"></div>
+          ${todayMarker}
+        </div>
+      </div>`;
+  });
+  chart.innerHTML = rows;
+  updateGanttActualLines();
+
+  // ---- 하단: 일자별 일일 진도율(%) / 누계 공정율(%) ----
+  // 일요일 제외 근무일 기준, 항목별 요율(weight)을 공기(착수~완료, 일요일 제외 근무일수)로 균등 배분해 합산
+  const dailyTotal = new Array(totalDays).fill(0);
+  GANTT.forEach(it=>{
+    const sc = getSched(it.id);
+    if(!sc.start || !sc.end) return;
+    const s=new Date(sc.start), e=new Date(sc.end);
+    const wd = workdaysBetween(s,e);
+    if(wd<=0) return;
+    const dailyRate = it.weight/wd;
+    for(let i=0;i<totalDays;i++){
+      const d = days[i];
+      if(d>=s && d<=e && isWorkday(d)) dailyTotal[i]+=dailyRate;
+    }
+  });
+  let cum=0;
+  const cumTotal = dailyTotal.map(v=>{ cum+=v; return cum; });
+
+  const dailyCells = days.map((d,i)=>{
+    const sun = d.getDay()===0;
+    const v = dailyTotal[i];
+    const txt = sun ? '' : (v>0.05 ? v.toFixed(1) : '');
+    return `<div class="gantt-sum-cell ${sun?'sun':''}" style="left:${i*DAY_W}px; width:${DAY_W}px;">${txt}</div>`;
+  }).join('');
+  const cumCells = days.map((d,i)=>{
+    const sun = d.getDay()===0;
+    const v = cumTotal[i];
+    const txt = v>0.05 ? v.toFixed(1) : '';
+    return `<div class="gantt-sum-cell cum ${sun?'sun':''}" style="left:${i*DAY_W}px; width:${DAY_W}px;">${txt}</div>`;
+  }).join('');
+
+  document.getElementById('ganttSummary').innerHTML = `
+    <div class="gantt-sum-row" style="height:16px;">
+      <div class="gantt-sum-label">일일 진도율(%)</div>
+      <div class="gantt-sum-track" style="width:${trackWidth}px; height:16px; background-size:${DAY_W}px 100%;">${dailyCells}${todayMarker}</div>
+    </div>
+    <div class="gantt-sum-row" style="height:16px;">
+      <div class="gantt-sum-label">누계 공정율(%)</div>
+      <div class="gantt-sum-track" style="width:${trackWidth}px; height:16px; background-size:${DAY_W}px 100%;">${cumCells}${todayMarker}</div>
+    </div>`;
+}
+
+// ---------------- 빨간 실적선: 5~11번 세부공종 실적(%) 입력값을 간트차트에 연동 ----------------
+// items 배열(5~11번 카드)의 schedIds로 어느 간트 항목에 연결되는지 매핑하고,
+// 이미 계산되어 있는 각 카드의 실적 평균(avgpct-*)을 읽어 그 공종에 해당하는 간트 막대 위에
+// "실적 진행율" 위치(빨간 세로선)로 표시한다. 연결된 실적 데이터가 없는 공종은 표시하지 않는다.
+function actualPctForGantt(ganttId){
+  const matchedIdx = [];
+  items.forEach((it, idx)=>{
+    if(it.pending) return;
+    if(it.schedIds && it.schedIds.indexOf(ganttId)>=0) matchedIdx.push(idx);
+  });
+  if(matchedIdx.length===0) return null;
+  let sum=0, cnt=0;
+  matchedIdx.forEach(idx=>{
+    const el = document.getElementById('avgpct-'+idx);
+    if(!el) return;
+    const v = parseFloat(el.textContent);
+    if(!isNaN(v)){ sum+=v; cnt++; }
+  });
+  if(cnt===0) return null;
+  return Math.round((sum/cnt)*10)/10;
+}
+function updateGanttActualLines(){
+  GANTT.forEach(it=>{
+    const el = document.getElementById('ganttActual-'+it.id);
+    if(!el) return;
+    const pct = actualPctForGantt(it.id);
+    if(pct===null){ el.style.display='none'; return; }
+    const left = Number(el.dataset.barLeft||0);
+    const width = Number(el.dataset.barWidth||0);
+    el.style.display = 'block';
+    el.style.left = (left + width*(pct/100)).toFixed(1)+'px';
+    el.title = it.name+' 실적 '+pct+'%';
+  });
+}
+
+// ---------------- 차수별 일정 직접 수정 테이블 ----------------
+// 차수 전환 등으로 행 구성 자체가 바뀔 때만 표를 다시 그리고, 그 외에는 값만 갱신한다.
+// (매번 innerHTML로 새로 그리면 착수일·완료일 입력창의 달력 팝업이 열려 있는 도중에도
+//  DOM이 통째로 교체되어 포커스가 끊기면서 팝업이 곧바로 닫혀버리는 문제가 있었음 —
+//  자동저장 후 공유 저장소에서 같은 값이 그대로 되돌아오며 renderAll()이 재호출되는 경우 등)
+let revEditRenderedRev = null;
+function renderRevEditTable(){
+  document.getElementById('revEditLabel').textContent = currentRev;
+  const body = document.getElementById('revEditBody');
+  const needsRebuild = revEditRenderedRev !== currentRev || body.children.length !== GANTT.length;
+
+  if(!needsRebuild){
+    GANTT.forEach((it,i)=>{
+      const row = body.children[i];
+      if(!row) return;
+      const sc = getSched(it.id);
+      const startInp = row.querySelector('input[data-role="start"]');
+      const endInp = row.querySelector('input[data-role="end"]');
+      if(startInp && document.activeElement!==startInp && startInp.value!==(sc.start||'')) startInp.value = sc.start||'';
+      if(endInp && document.activeElement!==endInp && endInp.value!==(sc.end||'')) endInp.value = sc.end||'';
+    });
+    return;
+  }
+
+  body.innerHTML = GANTT.map(it=>{
+    const sc = getSched(it.id);
+    return `<tr>
+      <td class="qk">${it.name}</td>
+      <td><input type="date" class="rev-date" data-id="${it.id}" data-role="start" value="${sc.start||''}"></td>
+      <td><input type="date" class="rev-date" data-id="${it.id}" data-role="end" value="${sc.end||''}"></td>
+    </tr>`;
+  }).join('');
+  body.querySelectorAll('.rev-date').forEach(inp=>{
+    inp.addEventListener('change', ()=>{
+      revisions[currentRev][inp.dataset.id][inp.dataset.role] = inp.value;
+      renderAll();
+    });
+  });
+  revEditRenderedRev = currentRev;
+}
+
+// ---------------- 현재 진행 중인 공종 (동적) ----------------
+function renderStatusBox(){
+  document.getElementById('statusRevLabel').textContent = currentRev;
+  const rows = GANTT.map(it=>{
+    const sc = getSched(it.id);
+    const plan = planPct(sc.start, sc.end);
+    return {...it, sc, plan};
+  }).sort((a,b)=> new Date(a.sc.start) - new Date(b.sc.start));
+
+  const box = document.getElementById('statusBox');
+  box.innerHTML = rows.map(it=>{
+    let badge;
+    if(it.plan>=100) badge = `<span class="badge on" style="background:var(--good-bg); color:var(--good);">완료</span>`;
+    else if(it.plan>0) badge = `<span class="badge on">진행중</span>`;
+    else {
+      const daysToStart = (new Date(it.sc.start)-TODAY)/86400000;
+      badge = daysToStart<=7 ? `<span class="badge wait">착수예정</span>` : `<span class="badge wait">착수전</span>`;
+    }
+    return `<div class="status-row">
+      <div>
+        <div class="nm">${it.name} ${badge}</div>
+        <span class="sp">요율 ${it.weight}% · ${fmtDate(it.sc.start)}~${fmtDate(it.sc.end)} 계획</span>
+      </div>
+      <div class="pv">${it.plan}%</div>
+    </div>`;
+  }).join('');
+}
+
+// ---------------- 헤더 KPI · 표지 카드 갱신 ----------------
+const PROJECT_COMPLETION = new Date('2026-12-10');
+function renderKpis(){
+  const startedCount = GANTT.filter(it=>{
+    const sc = getSched(it.id);
+    return planPct(sc.start, sc.end) > 0;
+  }).length;
+  document.getElementById('kpiStartedCount').innerHTML = startedCount+'<small>/17개</small>';
+  document.getElementById('kpiRevLabel').textContent = currentRev;
+  const ew = getSched('groundBoundary');
+  document.getElementById('kpiEarthwork').innerHTML = planPct(ew.start, ew.end)+'<small>%</small>';
+  document.getElementById('coverKpi1').textContent = startedCount+'/17';
+
+  // 오늘(TODAY) 기준 표시값 — 접속일이 바뀌면 자동으로 갱신됨
+  const dday = Math.round((PROJECT_COMPLETION-TODAY)/86400000);
+  const ddayEl = document.getElementById('kpiDday');
+  if(ddayEl) ddayEl.textContent = dday>=0 ? ('D-'+dday) : ('D+'+Math.abs(dday));
+  const todayLabelEl = document.getElementById('todayLabel');
+  if(todayLabelEl) todayLabelEl.textContent = fmtFullDate(TODAY);
+  const legendTodayEl = document.getElementById('legendTodayLabel');
+  if(legendTodayEl) legendTodayEl.textContent = fmtDate(toISO(TODAY));
+}
+
+function renderAll(){
+  renderRevTabs();
+  renderGantt();
+  renderRevEditTable();
+  renderStatusBox();
+  renderKpis();
+  items.forEach((it,idx)=>{ if(!it.pending) updateItemSchedule(idx); });
+  if(typeof updateBlockZonesSchedule==='function') updateBlockZonesSchedule();
+}
+
+// ---------------- 1-부속. 주요일정 캘린더 (간트차트 카드 하단, 수동 입력) ----------------
+(function(){
+  const wrapEl = document.getElementById('miniCal');
+  if(!wrapEl) return;
+  const dateInput = document.getElementById('calDateInput');
+  const textInput = document.getElementById('calTextInput');
+  const addBtn = document.getElementById('calAddBtn');
+  const listEl = document.getElementById('calEventList');
+
+  let scheduleEvents = []; // [{date:'YYYY-MM-DD', text:string}]
+  let calYear = TODAY.getFullYear();
+  let calMonth = TODAY.getMonth(); // 0-based
+  let selectedDate = toISO(TODAY);
+  if(dateInput) dateInput.value = selectedDate;
+
+  function pad2(n){ return String(n).padStart(2,'0'); }
+  function isoOf(y,m,d){ return y+'-'+pad2(m+1)+'-'+pad2(d); }
+
+  function renderCalendar(){
+    const first = new Date(calYear, calMonth, 1);
+    const startWeekday = first.getDay();
+    const daysInMonth = new Date(calYear, calMonth+1, 0).getDate();
+    const daysInPrevMonth = new Date(calYear, calMonth, 0).getDate();
+    const todayISO = toISO(TODAY);
+    const eventDates = new Set(scheduleEvents.map(e=>e.date));
+
+    let cells = '';
+    for(let i=startWeekday-1;i>=0;i--){
+      cells += `<div class="mini-cal-day other-month">${daysInPrevMonth-i}</div>`;
+    }
+    for(let d=1; d<=daysInMonth; d++){
+      const iso = isoOf(calYear, calMonth, d);
+      const dow = new Date(calYear, calMonth, d).getDay();
+      const cls = ['mini-cal-day'];
+      if(dow===0) cls.push('sun');
+      if(iso===todayISO) cls.push('is-today');
+      if(iso===selectedDate) cls.push('is-selected');
+      const dot = eventDates.has(iso) ? '<span class="mc-dot"></span>' : '';
+      cells += `<div class="${cls.join(' ')}" data-date="${iso}">${d}${dot}</div>`;
+    }
+    const totalCells = startWeekday + daysInMonth;
+    const trailing = (7 - (totalCells % 7)) % 7;
+    for(let d=1; d<=trailing; d++){
+      cells += `<div class="mini-cal-day other-month">${d}</div>`;
+    }
+
+    wrapEl.innerHTML = `
+      <div class="mini-cal-head">
+        <div class="mc-nav"><button type="button" id="calPrev" title="이전 달">‹</button></div>
+        <div class="mc-label">${calYear}년 ${calMonth+1}월</div>
+        <div class="mc-nav"><button type="button" id="calNext" title="다음 달">›</button></div>
+      </div>
+      <div class="mini-cal-dow"><span>일</span><span>월</span><span>화</span><span>수</span><span>목</span><span>금</span><span>토</span></div>
+      <div class="mini-cal-grid">${cells}</div>
+    `;
+
+    wrapEl.querySelectorAll('.mini-cal-day:not(.other-month)').forEach(el=>{
+      el.addEventListener('click', ()=>{
+        selectedDate = el.dataset.date;
+        if(dateInput) dateInput.value = selectedDate;
+        wrapEl.querySelectorAll('.mini-cal-day').forEach(x=>x.classList.remove('is-selected'));
+        el.classList.add('is-selected');
+        // 주요일정 달력에서 날짜를 클릭하면 자재반입~세부공종(2~11번) 하위 항목도 그 날짜로 함께 이동한다.
+        // "오늘"을 클릭하면 실시간 편집 화면으로 복귀, 과거 날짜를 클릭하면 그 날짜의 기록을 열어(없으면 새로 만들어)
+        // 그 자리에서 바로 확인·수정할 수 있게 한다(저장바의 [지정일 기록 추가/열기]와 동일한 동작).
+        // 아직 다가오지 않은 미래 날짜는 기록이 존재할 수 없으므로 건너뛴다(일정 등록용 입력만 반영됨).
+        const manualDateInput = document.getElementById('manualLogDate');
+        if(manualDateInput) manualDateInput.value = selectedDate;
+        if(typeof todayKey==='function' && selectedDate <= todayKey()){
+          if(selectedDate === todayKey()){
+            if(window.switchAllCardsToToday) window.switchAllCardsToToday();
+          }else if(window.switchAllCardsToDate){
+            window.switchAllCardsToDate(selectedDate);
+          }
+        }
+      });
+    });
+    const prevBtn = document.getElementById('calPrev');
+    const nextBtn = document.getElementById('calNext');
+    if(prevBtn) prevBtn.addEventListener('click', ()=>{
+      calMonth--; if(calMonth<0){ calMonth=11; calYear--; } renderCalendar();
+    });
+    if(nextBtn) nextBtn.addEventListener('click', ()=>{
+      calMonth++; if(calMonth>11){ calMonth=0; calYear++; } renderCalendar();
+    });
+  }
+
+  function addEvent(){
+    const date = dateInput ? dateInput.value : '';
+    const text = textInput ? textInput.value.trim() : '';
+    if(!date || !text){ alert('날짜와 주요일정 내용을 입력해 주세요.'); return; }
+    scheduleEvents.push({date, text});
+    if(textInput) textInput.value = '';
+    renderCalendar();
+    renderList();
+  }
+
+  function renderList(){
+    if(!listEl) return;
+    if(scheduleEvents.length===0){
+      listEl.innerHTML = `<div class="cal-event-empty">등록된 주요일정이 없습니다. 왼쪽 달력에서 날짜를 선택하고 내용을 입력해 추가하세요.</div>`;
+      return;
+    }
+    const todayISO = toISO(TODAY);
+    const sorted = scheduleEvents.map((e,i)=>({...e, idx:i})).sort((a,b)=> a.date.localeCompare(b.date));
+    listEl.innerHTML = sorted.map(e=>{
+      const label = fmtDate(e.date);
+      const past = e.date < todayISO ? 'is-past' : '';
+      return `<div class="cal-event-item ${past}">
+        <span class="ce-date">${label}</span>
+        <span class="ce-text">${e.text}</span>
+        <button type="button" class="ce-del" data-idx="${e.idx}" title="삭제">×</button>
+      </div>`;
+    }).join('');
+    listEl.querySelectorAll('.ce-del').forEach(btn=>{
+      btn.addEventListener('click', ()=>{
+        scheduleEvents.splice(Number(btn.dataset.idx),1);
+        renderCalendar();
+        renderList();
+      });
+    });
+  }
+
+  if(addBtn) addBtn.addEventListener('click', addEvent);
+  if(textInput) textInput.addEventListener('keydown', (e)=>{
+    if(e.key==='Enter'){ e.preventDefault(); addEvent(); }
+  });
+  if(dateInput) dateInput.addEventListener('change', (e)=>{
+    selectedDate = e.target.value;
+    const d = new Date(selectedDate);
+    if(!isNaN(d)){ calYear=d.getFullYear(); calMonth=d.getMonth(); renderCalendar(); }
+  });
+
+  window.getScheduleEvents = function(){ return JSON.parse(JSON.stringify(scheduleEvents)); };
+  window.setScheduleEvents = function(arr){
+    scheduleEvents = Array.isArray(arr) ? arr.slice() : [];
+    renderCalendar();
+    renderList();
+  };
+
+  renderCalendar();
+  renderList();
+})();
+
+// ---------------- 공통: 총수량/진행수량 편집형 테이블 빌더 ----------------
+// rows: [{name, spec, qty, unit}], bodyEl: tbody, prefix: 고유 id 접두어
+// totals(planTotalEl, progTotalEl, pctTotalEl): 선택적 합계 표시용 엘리먼트 id
+function buildQtyTable(rows, bodyEl, prefix, totalIds){
+  rows.forEach((r,ri)=>{
+    const tr=document.createElement('tr');
+    const nameCell = r.spec ? `${r.name}<span class="unit-suffix" style="display:block; margin:0;">${r.spec}</span>` : r.name;
+    tr.innerHTML = `<td class="qk">${nameCell}</td>
+      <td class="qn"><input class="qty-in" type="number" min="0" step="any" value="${r.qty}" data-row="${ri}" data-role="total"></td>
+      <td class="qn"><input class="qty-in" type="number" min="0" step="any" value="0" data-row="${ri}" data-role="prog"></td>
+      <td class="qunit">${r.unit}</td>
+      <td class="qpct" id="${prefix}-pct-${ri}">0%</td>`;
+    bodyEl.appendChild(tr);
+  });
+  function recalc(){
+    let planSum=0, progSum=0;
+    rows.forEach((r,ri)=>{
+      const t = Number(bodyEl.querySelector(`input[data-row="${ri}"][data-role="total"]`).value||0);
+      const p = Math.max(0, Number(bodyEl.querySelector(`input[data-row="${ri}"][data-role="prog"]`).value||0));
+      const pct = t>0 ? Math.min(100, Math.round((p/t)*1000)/10) : 0;
+      const pctCell = document.getElementById(`${prefix}-pct-${ri}`);
+      if(pctCell) pctCell.textContent = pct+'%';
+      planSum+=t; progSum+=p;
+    });
+    if(totalIds){
+      const overallPct = planSum>0 ? Math.min(100, Math.round((progSum/planSum)*1000)/10) : 0;
+      if(totalIds.plan) document.getElementById(totalIds.plan).textContent = planSum.toLocaleString()+(totalIds.unit||'');
+      if(totalIds.prog) document.getElementById(totalIds.prog).textContent = progSum.toLocaleString()+(totalIds.unit||'');
+      if(totalIds.pct) document.getElementById(totalIds.pct).textContent = overallPct+'%';
+    }
+  }
+  bodyEl.addEventListener('input', recalc);
+  recalc();
+}
+
+// ---------------- 2. 자재반입 ----------------
+const materials = [
+  {name:'교목', spec:'25종(H2.0~H9.0)', qty:271, unit:'주'},
+  {name:'관목', spec:'15종(지상층·3층·옥상층 합)', qty:4059, unit:'주'},
+  {name:'지피초화', spec:'수호초·에버골드·마삭줄', qty:2540, unit:'본'},
+  {name:'인공식재기반 조성재', spec:'혼합토+멀칭재+배수판 등', qty:118.72, unit:'㎡'},
+  {name:'잔디(평떼)', spec:'0.3x0.3xT0.03', qty:984.44, unit:'㎡'},
+  {name:'플랜터·스탠드·앉음벽', spec:'콘크리트 구조물(지상층)', qty:249, unit:'m'},
+  {name:'파고라·그늘막·정자류', spec:'파고라·시스템파고라·클라루가제보', qty:4, unit:'개소'},
+  {name:'놀이시설', spec:'조합놀이대·유아놀이대·트렘펄린', qty:4, unit:'개소'},
+  {name:'편의시설', spec:'등의자·자전거보관대·음수대·야외테이블', qty:18, unit:'개소'},
+  {name:'스틸플랜터', spec:'A형 4개소 · B형(H500,STS)', qty:53, unit:'m'},
+  {name:'화강석판석·데크포장', spec:'T30 백색잔다듬 / T25 합성목재', qty:74, unit:'㎡'},
+  {name:'고무칩포장', spec:'A(T75)+B(T55)', qty:891, unit:'㎡'},
+  {name:'인조화강석블록', spec:'A+B, T60 불투수', qty:466, unit:'㎡'},
+  {name:'경계석류', spec:'녹지경계석+포장경계석+고무경계블록', qty:103, unit:'m'},
+  {name:'사각포트', spec:'900x900(지상층+3층 합)', qty:17, unit:'개소'},
+];
+buildQtyTable(materials, document.getElementById('matBody'), 'mat', null);
+
+// ---------------- 3. 인원투입 ----------------
+const manpower = ['조경공(식재)','시설물설치공','포장공(블록/고무칩)','형틀목공(구조물)','철근공','보통인부','신호수/안전','직원']
+  .map(name=>({name, qty:0, unit:'명'}));
+buildQtyTable(manpower, document.getElementById('manBody'), 'man', {plan:'manTotalPlan', prog:'manTotal', pct:'manTotalPct', unit:' 명'});
+
+// ---------------- 4. 장비투입 ----------------
+const equipment = ['굴삭기(0.2~0.4㎥)','5톤 카고트럭(수목운반)','크레인(수목식재·조립용)','믹서트럭(레미콘)','롤러/다짐기','살수차','고소작업대','지게차']
+  .map(name=>({name, qty:0, unit:'대'}));
+buildQtyTable(equipment, document.getElementById('eqBody'), 'eq', {plan:'eqTotalPlan', prog:'eqTotal', pct:'eqTotalPct', unit:' 대'});
+
+// ---------------- 3-4. 한눈에 보기: 금일/누계 표시 ----------------
+function updateCoverManEq(){
+  const manToday = document.getElementById('manTotal').textContent.trim();
+  const eqToday = document.getElementById('eqTotal').textContent.trim();
+  const manCum = Number(document.getElementById('manCumInput').value||0);
+  const eqCum = Number(document.getElementById('eqCumInput').value||0);
+  document.getElementById('coverKpi3Today').textContent = '금일 '+manToday;
+  document.getElementById('coverKpi3Cum').textContent = '누계 '+manCum.toLocaleString()+'명';
+  document.getElementById('coverKpi4Today').textContent = '금일 '+eqToday;
+  document.getElementById('coverKpi4Cum').textContent = '누계 '+eqCum.toLocaleString()+'대';
+}
+document.getElementById('manBody').addEventListener('input', updateCoverManEq);
+document.getElementById('eqBody').addEventListener('input', updateCoverManEq);
+document.getElementById('manCumInput').addEventListener('input', updateCoverManEq);
+document.getElementById('eqCumInput').addEventListener('input', updateCoverManEq);
+updateCoverManEq();
+
+// ---------------- 5~11. 세부공종 카드 ----------------
+const items = [
+  {
+    tag:'5', title:'지상층 식재공 작업율',
+    schedIds:['groundTree','groundShrub','groundGround','groundArtSoil','mounding','groundEtc'], weight:'23.84%',
+    spec:[
+      {name:'교목(25종)', qty:271, unit:'주'},
+      {name:'관목(15종)', qty:3919, unit:'주'},
+      {name:'지피초화(수호초·에버골드)', qty:1130, unit:'본'},
+      {name:'인공식재기반(혼합토)', qty:56.38, unit:'㎡'},
+      {name:'마운딩(토공정리)', qty:13.88, unit:'m3'},
+      {name:'통기관', qty:114, unit:'개소'},
+      {name:'수목표찰', qty:103, unit:'개소'},
+      {name:'잔디(평떼)', qty:984.44, unit:'m2'},
+      {name:'조경복구공사', qty:1, unit:'식'},
+    ],
+    note:'[2차·09.02 잔여공사예정공정표] 10.25~10.31 조경토 반입 및 녹지대정리(마운딩·인공식재기반) → 11.03~11.19 소나무외 교목 반입 식재 → 11.20~11.28 관목/지피 식재. 기타(통기관·표찰·잔디·복구)는 원본에 별도 활동으로 명시되지 않아 11.20~11.28 구간에 이어지는 마무리 단계로 잠정 반영(현장 확인 필요)'
+  },
+  {
+    tag:'6', title:'3층·옥상층 식재공 작업율',
+    schedIds:['thirdFloorShrub','roofShrub','roofGround','roofArtSoil'], weight:'2.29%',
+    spec:[
+      {name:'3층 관목(남천)', qty:130, unit:'주'},
+      {name:'옥상층 관목(수수꽃다리)', qty:10, unit:'주'},
+      {name:'옥상층 지피초화(마삭줄)', qty:1410, unit:'본'},
+      {name:'옥상층 인공식재기반(혼합토)', qty:62.34, unit:'㎡'},
+    ],
+    note:'[2차·09.02 잔여공사예정공정표] 원본은 층별 구분 없이 "식재공사" 단일 대공종으로 표기 — 10.25~10.31 조경토 반입 및 녹지대정리(인공식재기반) → 11.20~11.28 관목/지피 식재 구간을 동일 적용'
+  },
+  {
+    tag:'7', title:'지상층 구조시설물공 작업율',
+    schedIds:['groundStructure'], weight:'9.59%',
+    spec:[
+      {name:'플랜터(H600)', qty:86, unit:'m'},
+      {name:'스탠드(H300/600)', qty:93, unit:'m'},
+      {name:'날개벽(H600)', qty:12, unit:'m'},
+      {name:'앉음벽(H450)', qty:58, unit:'m'},
+    ],
+    note:'[2차·09.02 잔여공사예정공정표] 10.11~10.20 강당동 주변 플랜터/앉음벽 설치 → 11.10~11.15 운동장 주변 스탠드 설치'
+  },
+  {
+    tag:'8', title:'지상층 시설물 작업율',
+    schedIds:['groundFacility'], weight:'19.50%',
+    spec:[
+      {name:'파고라(2600x3200xH3280)', qty:1, unit:'개소'},
+      {name:'등의자(1600x580xH700)', qty:5, unit:'개소'},
+      {name:'그늘막(5000xH3176)', qty:5, unit:'개소'},
+      {name:'자전거보관대(10대용)', qty:1, unit:'개소'},
+      {name:'음수대(급수밸브함 포함)', qty:1, unit:'개소'},
+      {name:'스틸플랜터A(2000x500xH650)', qty:4, unit:'개소'},
+      {name:'조합놀이대A(5870x4990xH3760)', qty:1, unit:'개소'},
+      {name:'유아놀이대(7265x7477x6193)', qty:1, unit:'개소'},
+      {name:'트렘펄린(2060x2060)', qty:1, unit:'개소'},
+      {name:'사각포트(900x900)', qty:4, unit:'개소'},
+    ],
+    note:'[2차·09.02 잔여공사예정공정표] 11.15~11.24 놀이시설물 반입 설치(선행 기초타설 10.08~11.13은 포장공사 구간에 포함)'
+  },
+  {
+    tag:'9', title:'지상층 포장·경계공 작업율',
+    schedIds:['groundPavement','groundBoundary'], weight:'14.32%',
+    spec:[
+      {name:'화강석판석(T30,백색,잔다듬)', qty:9, unit:'m2'},
+      {name:'고무칩포장A(T75)', qty:502, unit:'m2'},
+      {name:'데크포장(T25,합성목재)', qty:65, unit:'m2'},
+      {name:'모래깔기(T500)', qty:33, unit:'m2'},
+      {name:'녹지경계석(직선)', qty:64, unit:'m'},
+      {name:'포장경계석(직선)', qty:16, unit:'m'},
+      {name:'고무경계블록', qty:23, unit:'m'},
+    ],
+    note:'[2차·09.02 잔여공사예정공정표] 10.08~10.20 후면동~강당동 사이 경계석 및 고무칩포장 기초타설 → 11.08~11.13 놀이시설물 기초타설(연계) → 11.30~12.06 고무칩 포장공사'
+  },
+  {
+    tag:'10', title:'3층 구조시설물공 작업율',
+    schedIds:['thirdFloorStructure'], weight:'5.48%',
+    spec:[
+      {name:'사각포트(900x900)', qty:13, unit:'개소'},
+      {name:'야외테이블(1SET)', qty:11, unit:'개소'},
+    ],
+    note:'[2차·09.02 잔여공사예정공정표] 10.24~10.29 3층 사각포트 설치 → 12.08~12.12 야외테이블 반입 설치'
+  },
+  {
+    tag:'11', title:'옥상층 구조시설물·포장공 작업율',
+    schedIds:['roofStructure','roofPavement'], weight:'24.02%',
+    spec:[
+      {name:'시스템파고라(2500x5050xH2685)', qty:1, unit:'개소'},
+      {name:'시스템파고라(5050x3000xH3280)', qty:1, unit:'개소'},
+      {name:'스틸플랜터B(H500,STS)', qty:53, unit:'m'},
+      {name:'조합놀이대B(8340x4130xH4740)', qty:1, unit:'개소'},
+      {name:'클라루가제보', qty:1, unit:'식'},
+      {name:'인조화강석블록(A+B, T60)', qty:466, unit:'m2'},
+      {name:'고무칩포장B(T55)', qty:389, unit:'m2'},
+      {name:'옥상 트렌치공사(PC트렌치)', qty:1, unit:'식'},
+    ],
+    note:'[2차·09.02 잔여공사예정공정표] 09.14~09.17 클라루가제보 앙카시공·옥상층 플랜터 설치 → 10.06~10.18 옥상 클라루가제보·시스템파고라 반입/설치(구조물) · 09.19~10.04 옥상층 포장공사(고무칩기초·데크·인조화강석블록)'
+  },
+];
+
+const itemGrid = document.getElementById('itemGrid');
+
+function diffBadge(plan, actual, pending){
+  if(pending) return `<span class="diff-badge pending">확인필요</span>`;
+  const diff = actual - plan;
+  if(actual===0 && plan===0) return `<span class="diff-badge pending">착수전</span>`;
+  if(diff >= -0.5) return `<span class="diff-badge good">정상</span>`;
+  if(diff >= -5) return `<span class="diff-badge warn">주의 ${diff.toFixed(1)}%p</span>`;
+  return `<span class="diff-badge critical">지연 ${diff.toFixed(1)}%p</span>`;
+}
+
+function qtyRowsHtml(it, idx){
+  return it.spec.map((s,si)=>{
+    const disabled = s.computed ? 'disabled' : '';
+    const dataItem = s.computed ? '' : `data-item="${idx}"`;
+    return `<tr class="${s.computed?'computed-row':''}">
+      <td class="qk">${s.name}</td>
+      <td class="qn"><input class="qty-in" type="number" min="0" step="any" value="${s.qty}" ${disabled} ${dataItem} data-row="${si}" data-role="total"></td>
+      <td class="qn"><input class="qty-in" type="number" min="0" step="any" value="0" ${disabled} ${dataItem} data-row="${si}" data-role="prog"></td>
+      <td class="qunit">${s.unit}</td>
+      <td class="qpct" id="pct-${idx}-${si}">0%</td>
+    </tr>`;
+  }).join('');
+}
+
+function recomputeItem(idx){
+  const it = items[idx];
+  const card = document.getElementById('item-'+it.tag);
+  if(!card) return;
+  let sumPct=0, cnt=0;
+  it.spec.forEach((s,si)=>{
+    if(s.computed) return;
+    const totalInput = card.querySelector(`input[data-role="total"][data-row="${si}"]`);
+    const progInput = card.querySelector(`input[data-role="prog"][data-row="${si}"]`);
+    const total = Number(totalInput.value||0);
+    const prog = Math.max(0, Number(progInput.value||0));
+    const pct = total>0 ? Math.min(100, Math.round((prog/total)*1000)/10) : 0;
+    const pctCell = document.getElementById(`pct-${idx}-${si}`);
+    if(pctCell) pctCell.textContent = pct+'%';
+    if(total>0){ sumPct+=pct; cnt++; }
+  });
+  it.spec.forEach((s,si)=>{
+    if(!s.computed) return;
+    let totalSum=0, progSum=0;
+    s.sumOf.forEach(ri=>{
+      const t = Number(card.querySelector(`input[data-role="total"][data-row="${ri}"]`).value||0);
+      const p = Number(card.querySelector(`input[data-role="prog"][data-row="${ri}"]`).value||0);
+      totalSum+=t; progSum+=p;
+    });
+    const totalInput = card.querySelector(`input[data-role="total"][data-row="${si}"]`);
+    const progInput = card.querySelector(`input[data-role="prog"][data-row="${si}"]`);
+    totalInput.value = totalSum;
+    progInput.value = progSum;
+    const pct = totalSum>0 ? Math.min(100, Math.round((progSum/totalSum)*1000)/10) : 0;
+    const pctCell = document.getElementById(`pct-${idx}-${si}`);
+    if(pctCell) pctCell.textContent = pct+'%';
+  });
+  const avg = cnt>0 ? Math.round((sumPct/cnt)*10)/10 : 0;
+  const avgCell = document.getElementById('avgpct-'+idx);
+  if(avgCell) avgCell.textContent = avg+'%';
+  const bar = document.getElementById('actualbar-'+idx);
+  if(bar) bar.style.width = avg+'%';
+  const plan = it.pending ? 0 : planPct(getRange(it.schedIds).start, getRange(it.schedIds).end);
+  const diffEl = document.getElementById('diff-'+idx);
+  if(diffEl) diffEl.innerHTML = diffBadge(plan, avg, it.pending);
+  // 실적(%) 값이 바뀌면 간트차트의 빨간 실적선도 함께 갱신(전체 재렌더 없이 위치만 갱신)
+  if(typeof updateGanttActualLines==='function') updateGanttActualLines();
+}
+
+function updateItemSchedule(idx){
+  const it = items[idx];
+  if(it.pending) return;
+  const r = getRange(it.schedIds);
+  const plan = planPct(r.start, r.end);
+  const periodEl = document.getElementById('period-'+idx);
+  if(periodEl) periodEl.textContent = `${fmtDate(r.start)} ~ ${fmtDate(r.end)} 계획 · 요율 ${it.weight}`;
+  const planBar = document.getElementById('planbar-'+idx);
+  if(planBar) planBar.style.width = plan+'%';
+  const planLbl = document.getElementById('planlabel-'+idx);
+  if(planLbl) planLbl.textContent = plan+'%';
+  recomputeItem(idx);
+}
+
+items.forEach((it,idx)=>{
+  const r = it.pending ? {start:null,end:null} : getRange(it.schedIds);
+  const plan = it.pending ? 0 : planPct(r.start, r.end);
+  const periodLabel = it.pending ? '일정 미확정' : `${fmtDate(r.start)} ~ ${fmtDate(r.end)} 계획 · 요율 ${it.weight}`;
+
+  const card = document.createElement('div');
+  card.className = 'card item-card';
+  card.id = 'item-' + it.tag;
+  card.innerHTML = `
+    <div class="item-head">
+      <div>
+        <span class="tag">ITEM ${it.tag}</span>
+        <h3>${it.title}${it.pending?'<span class="pending-tag">확인필요</span>':''}</h3>
+        <div class="period" id="period-${idx}">${periodLabel}</div>
+      </div>
+    </div>
+    <div class="progress-track"><div class="progress-fill" id="planbar-${idx}" style="width:${plan}%;"></div></div>
+    <div class="progress-labels"><span>계획 진도율(일정 기준, <span class="rev-inline-label">${currentRev}</span>)</span><b id="planlabel-${idx}">${plan}%</b></div>
+    <div class="progress-track"><div class="progress-fill actual" id="actualbar-${idx}" style="width:0%;"></div></div>
+    <div class="progress-labels"><span>실적 진행율(수량 기준, 아래 직접 입력)</span><b id="avgpct-${idx}">0%</b></div>
+    <table class="qty-table">
+      <thead><tr><th>세부 품목</th><th>총수량</th><th>진행수량</th><th></th><th>진행율</th></tr></thead>
+      <tbody>${qtyRowsHtml(it, idx)}</tbody>
+    </table>
+    <div class="qty-summary">
+      <span class="lbl">계획 대비 실적</span>
+      <span class="diff-holder" id="diff-${idx}">${diffBadge(plan,0,it.pending)}</span>
+    </div>
+    <div class="note-line ${it.pending?'warn-note':''}">${it.note}</div>
+  `;
+  itemGrid.appendChild(card);
+  recomputeItem(idx);
+});
+
+itemGrid.addEventListener('input', (e)=>{
+  if(e.target.classList && e.target.classList.contains('qty-in') && e.target.dataset.item !== undefined && e.target.dataset.item !== ''){
+    recomputeItem(Number(e.target.dataset.item));
+  }
+});
+
+// ---------------- 12. 공정회의 및 주요체크사항 ----------------
+(function(){
+  const log = [];
+  const logEl = document.getElementById('meetingLog');
+  const coverKpi12 = document.getElementById('coverKpi12');
+
+  function fmtFull(str){
+    const d = new Date(str);
+    if(isNaN(d)) return str;
+    const days=['일','월','화','수','목','금','토'];
+    return `${d.getFullYear()}.${String(d.getMonth()+1).padStart(2,'0')}.${String(d.getDate()).padStart(2,'0')}(${days[d.getDay()]})`;
+  }
+
+  function render(){
+    coverKpi12.textContent = log.length+'건';
+    if(log.length===0){
+      logEl.innerHTML = `<div class="meeting-empty">등록된 기록이 없습니다. 위 양식에 내용을 입력하고 [+ 기록 추가]를 눌러주세요.</div>`;
+      return;
+    }
+    logEl.innerHTML = log.map((e,i)=>`
+      <div class="meeting-entry">
+        <div class="me-head">
+          <div class="me-tags">
+            <span class="me-date">${fmtFull(e.date)}</span>
+            <span class="me-type">${e.type}</span>
+            <span class="me-author">작성자 ${e.author}</span>
+          </div>
+          <button type="button" class="me-del" data-i="${i}">삭제</button>
+        </div>
+        <div class="me-body">
+          <span class="me-label">주요내용</span>${e.content || '-'}
+          <span class="me-label">조치사항 / 체크사항</span>${e.action || '-'}
+        </div>
+      </div>
+    `).join('');
+    logEl.querySelectorAll('.me-del').forEach(btn=>{
+      btn.addEventListener('click', ()=>{
+        log.splice(Number(btn.dataset.i),1);
+        render();
+      });
+    });
+  }
+
+  document.getElementById('mfAddBtn').addEventListener('click', ()=>{
+    const date = document.getElementById('mfDate').value || '2026-08-19';
+    const type = document.getElementById('mfType').value;
+    const author = document.getElementById('mfAuthor').value || '-';
+    const content = document.getElementById('mfContent').value.trim();
+    const action = document.getElementById('mfAction').value.trim();
+    if(!content && !action){
+      alert('주요내용 또는 조치사항을 입력해 주세요.');
+      return;
+    }
+    log.unshift({date,type,author,content,action});
+    document.getElementById('mfContent').value='';
+    document.getElementById('mfAction').value='';
+    render();
+  });
+
+  window.getMeetingLog = function(){ return JSON.parse(JSON.stringify(log)); };
+  window.setMeetingLog = function(arr){
+    log.length = 0;
+    (arr||[]).forEach(e=>log.push(e));
+    render();
+  };
+
+  render();
+})();
+
+// ---------------- 데이터 저장 / 불러오기 (파일 기반 — 새로고침 시 초기화 방지) ----------------
+function ioKey(el){
+  const c = el.closest('[id]');
+  const cid = c ? c.id : 'none';
+  return [cid, el.dataset.item ?? '', el.dataset.zone ?? '', el.dataset.row ?? '', el.dataset.role ?? ''].join('|');
+}
+function collectQtyMap(){
+  const map = {};
+  document.querySelectorAll('input.qty-in, input.zone-in').forEach(el=>{ map[ioKey(el)] = el.value; });
+  return map;
+}
+function applyQtyMap(map){
+  if(!map) return;
+  document.querySelectorAll('input.qty-in, input.zone-in').forEach(el=>{
+    const k = ioKey(el);
+    if(k in map) el.value = map[k];
+  });
+}
+function collectState(){
+  return {
+    version: 1,
+    savedAt: new Date().toISOString(),
+    currentRev: currentRev,
+    revisionOrder: revisionOrder,
+    revisions: revisions,
+    revisionMeta: revisionMeta,
+    manCum: document.getElementById('manCumInput').value,
+    eqCum: document.getElementById('eqCumInput').value,
+    qty: collectQtyMap(),
+    item7Done: window.getItem7DoneStages ? window.getItem7DoneStages() : [],
+    meetingLog: window.getMeetingLog ? window.getMeetingLog() : [],
+    scheduleEvents: window.getScheduleEvents ? window.getScheduleEvents() : [],
+    dailyLog: dailyLog,
+    lastSeenDate: lastSeenDate,
+    revCleanupV1: revCleanupV1Done,
+  };
+}
+// 자재반입·인원투입·장비투입·세부공종 실적만 담은 하루치 스냅샷(일일마감 기록용, 차수/회의록 제외)
+function collectDailySnapshot(){
+  return {
+    qty: collectQtyMap(),
+    manCum: document.getElementById('manCumInput').value,
+    eqCum: document.getElementById('eqCumInput').value,
+    item7Done: window.getItem7DoneStages ? window.getItem7DoneStages() : [],
+    savedAt: new Date().toISOString(),
+  };
+}
+// 카드(항목) 하나에 속한 qty-in/zone-in 값만 모으고 적용 — 항목별 개별 날짜 조회용
+function collectCardQty(cardId){
+  const map = {};
+  document.querySelectorAll('#'+cardId+' input.qty-in').forEach(el=>{ map[ioKey(el)] = el.value; });
+  return map;
+}
+function applyCardQty(cardId, qtyMap){
+  document.querySelectorAll('#'+cardId+' input.qty-in').forEach(el=>{
+    const k = ioKey(el);
+    if(qtyMap && k in qtyMap) el.value = qtyMap[k];
+  });
+}
+// 구버전 저장본(예: 세부공종 구성이 지금과 달랐던 과거 버전)을 불러왔을 때, 현재 GANTT 17개 항목 중
+// 일부의 일정이 비어있으면 코드 기본값(DEFAULT_REVISIONS)으로 채워 넣는다. 이렇게 즉시 메모리상 데이터를
+// 보정해 두어야, 이후 자동저장 시 보정된 완전한 데이터가 공유 저장소(Firebase)에 다시 저장되어
+// "간트차트가 1월부터 표시되는" 등의 오류가 재발하지 않고 영구적으로 해소된다.
+function repairRevisions(){
+  const allIds = GANTT.map(it=>it.id);
+  revisionOrder.forEach(revName=>{
+    if(!revisions[revName]) revisions[revName] = {};
+    allIds.forEach(id=>{
+      const sc = revisions[revName][id];
+      if(!sc || !sc.start || !sc.end){
+        const fb = (DEFAULT_REVISIONS[revName] && DEFAULT_REVISIONS[revName][id])
+          || (DEFAULT_REVISIONS[DEFAULT_CURRENT_REV] && DEFAULT_REVISIONS[DEFAULT_CURRENT_REV][id]);
+        if(fb) revisions[revName][id] = {start:fb.start, end:fb.end};
+      }
+    });
+  });
+  if(!revisions[currentRev]) currentRev = DEFAULT_CURRENT_REV;
+}
+// 1회성 정리: "1차/2차/3차/4차"가 모두 존재하는(사용자가 대시보드에서 [+차수 추가]를 두 번 눌러 만들어진)
+// 상태를 감지하면, 3차의 내용을 2차로 옮기고(사용자가 화면에서 직접 다듬은 최신 일정이므로 이를 채택)
+// 기존 2차·4차는 폐기해 "1차/2차" 두 개만 남긴다. 2차의 표시 태그(기준일)는 오늘 날짜로 갱신한다.
+// 반환값 true면 정리를 실제로 수행한 것이므로, 호출부에서 revCleanupV1Done 플래그를 세워 재실행을 막는다.
+function cleanupRevisions(){
+  const has = n => revisionOrder.includes(n) && revisions[n];
+  if(!(has('1차') && has('2차') && has('3차'))) return false;
+  revisions['2차'] = revisions['3차'];
+  delete revisions['3차'];
+  if(revisions['4차']) delete revisions['4차'];
+  revisionOrder.length = 0;
+  revisionOrder.push('1차','2차');
+  const mm = String(TODAY.getMonth()+1).padStart(2,'0');
+  const dd = String(TODAY.getDate()).padStart(2,'0');
+  revisionMeta['2차'] = { tag: '기준·'+mm+'.'+dd };
+  delete revisionMeta['3차'];
+  delete revisionMeta['4차'];
+  if(currentRev==='3차' || currentRev==='4차' || currentRev==='2차') currentRev = '2차';
+  return true;
+}
+function applyState(data){
+  if(!data || typeof data!=='object') throw new Error('invalid file');
+  if(data.revisions){
+    Object.keys(revisions).forEach(k=>delete revisions[k]);
+    Object.keys(data.revisions).forEach(k=>{ revisions[k]=data.revisions[k]; });
+  }
+  if(data.revisionOrder){
+    revisionOrder.length = 0;
+    data.revisionOrder.forEach(n=>revisionOrder.push(n));
+  }
+  if(data.revisionMeta){
+    Object.keys(revisionMeta).forEach(k=>delete revisionMeta[k]);
+    Object.keys(data.revisionMeta).forEach(k=>{ revisionMeta[k]=data.revisionMeta[k]; });
+  }
+  if(data.currentRev) currentRev = data.currentRev;
+  repairRevisions();
+  if(data.revCleanupV1){
+    revCleanupV1Done = true;
+  }else if(cleanupRevisions()){
+    revCleanupV1Done = true;
+  }
+  if(data.dailyLog){
+    Object.keys(dailyLog).forEach(k=>delete dailyLog[k]);
+    Object.keys(data.dailyLog).forEach(k=>{ dailyLog[k]=data.dailyLog[k]; });
+  }
+  if(data.lastSeenDate) lastSeenDate = data.lastSeenDate;
+  applyQtyMap(data.qty);
+  if(data.manCum!==undefined) document.getElementById('manCumInput').value = data.manCum;
+  if(data.eqCum!==undefined) document.getElementById('eqCumInput').value = data.eqCum;
+  ['matBody','manBody','eqBody'].forEach(id=>{
+    const el = document.getElementById(id);
+    if(el) el.dispatchEvent(new Event('input'));
+  });
+  items.forEach((it,idx)=>recomputeItem(idx));
+  if(window.setItem7DoneStages) window.setItem7DoneStages(data.item7Done);
+  if(window.recomputeBlockZones) window.recomputeBlockZones();
+  if(window.setMeetingLog) window.setMeetingLog(data.meetingLog);
+  if(window.setScheduleEvents) window.setScheduleEvents(data.scheduleEvents);
+  renderAll();
+  if(typeof updateCoverManEq==='function') updateCoverManEq();
+}
+
+document.getElementById('ioExportBtn').addEventListener('click', ()=>{
+  const state = collectState();
+  const blob = new Blob([JSON.stringify(state, null, 2)], {type:'application/json'});
+  const url = URL.createObjectURL(blob);
+  const stamp = state.savedAt.slice(0,16).replace(/[:T]/g,'-');
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `용현학익1초_조경공사현황_${stamp}.json`;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+  const st = document.getElementById('ioStatus');
+  st.textContent = '파일로 내보내기 완료: ' + a.download;
+  st.classList.remove('warn');
+});
+
+document.getElementById('ioLoadBtn').addEventListener('click', ()=>{
+  document.getElementById('ioFileInput').click();
+});
+document.getElementById('ioFileInput').addEventListener('change', (e)=>{
+  const file = e.target.files[0];
+  if(!file) return;
+  const reader = new FileReader();
+  reader.onload = ()=>{
+    const st = document.getElementById('ioStatus');
+    try{
+      const data = JSON.parse(reader.result);
+      applyState(data);
+      st.textContent = '불러오기 완료: ' + (data.savedAt ? data.savedAt.slice(0,16).replace('T',' ')+' 저장본' : file.name);
+      st.classList.remove('warn');
+    }catch(err){
+      st.textContent = '불러오기 실패 — 올바른 저장 파일(JSON)이 아닙니다.';
+      st.classList.add('warn');
+    }
+    e.target.value = '';
+  };
+  reader.readAsText(file);
+});
+
+// ---------------- 자동저장: 공유 저장소(Firebase) + 브라우저 캐시(localStorage) + 일일 기록 ----------------
+const FIREBASE_CONFIG = {
+  apiKey: "AIzaSyDWYuv-XaIx2pXLGh7VwVvbn7a50C0Iy-Q",
+  authDomain: "yonghyeon-hagik-dashboard.firebaseapp.com",
+  databaseURL: "https://yonghyeon-hagik-dashboard-default-rtdb.asia-southeast1.firebasedatabase.app",
+  projectId: "yonghyeon-hagik-dashboard",
+  appId: "1:232980754955:web:db38d92c6a5753b995cd0e"
+};
+const FIREBASE_ENABLED = FIREBASE_CONFIG.apiKey && !FIREBASE_CONFIG.apiKey.startsWith('여기에');
+// 참고: 부대토목 대시보드(index_9.html)는 SYNC_PATH='yh1_dashboard/state'로 정상 저장되고 있음.
+// 조경 대시보드가 별도의 최상위 키('yh1_dashboard_landscape')를 쓰면 Firebase 보안 규칙이
+// 'yh1_dashboard' 최상위 키에만 읽기/쓰기를 허용하도록 설정되어 있을 경우 새 최상위 키는
+// 규칙에 없어 쓰기가 거부(permission_denied)될 수 있다. 화면에는 이 오류가 "공유 저장 실패(네트워크)"로
+// 뭉뚱그려 표시되지만 실제로는 네트워크 단절이 아니라 권한 문제일 가능성이 높다.
+// → 이미 쓰기가 허용된 'yh1_dashboard' 최상위 키 아래의 하위 경로로 옮겨, 콘솔의 보안 규칙을
+// 별도로 수정하지 않아도 그대로 상속되는 권한으로 저장되도록 함.
+const SYNC_PATH = 'yh1_dashboard/landscape_state';
+const DAILY_CARD_IDS = ['sec-2','sec-3','sec-4','item-5','item-6','item-7','item-8','item-9','item-10','item-11'];
+
+(function(){
+  const LS_KEY = 'yh1_dashboard_autosave_v1';
+  const st = document.getElementById('ioStatus');
+  const dailyLogNoteEl = document.getElementById('dailyLogNote');
+  let timer = null;
+  let suppressSync = false;
+  let stateRef = null;
+  let pendingLiveState = null;
+
+  const cardView = {};
+  const cardStash = {};
+  const editableCards = {}; // { cardId: true } — "지정일 기록 추가/열기"로 연 날짜라 그 자리에서 직접 수정 가능한 상태
+  DAILY_CARD_IDS.forEach(id=>{ cardView[id] = null; editableCards[id] = false; });
+
+  function fmtTime(d){
+    return d.toLocaleString('ko-KR', {hour12:false, month:'2-digit', day:'2-digit', hour:'2-digit', minute:'2-digit'});
+  }
+  function anyCardViewing(){ return Object.keys(cardView).some(id=>cardView[id]!==null); }
+  function cardDates(){ return Object.keys(dailyLog).sort(); }
+
+  // 날짜가 바뀐 것을 감지하면(마지막 저장일 < 오늘) "일일마감" 버튼을 누르지 않아도
+  // 자동으로 전날 값을 dailyLog에 기록해, 2.자재반입~4.장비투입·5~11.세부공종의
+  // "오늘" 옆 ◀ 버튼으로 그 전날 투입 내역을 항상 확인할 수 있도록 한다.
+  // (이미 수동으로 일일마감을 눌러 그날 기록이 있으면 덮어쓰지 않음)
+  function performAutoRollover(){
+    if(anyCardViewing()) return;
+    const tk = todayKey();
+    if(lastSeenDate === tk) return;
+    if(lastSeenDate && lastSeenDate < tk){
+      if(!dailyLog[lastSeenDate]){
+        dailyLog[lastSeenDate] = collectDailySnapshot();
+        document.querySelectorAll('#manBody input.qty-in[data-role="prog"], #eqBody input.qty-in[data-role="prog"]').forEach(el=>{ el.value = 0; });
+        ['manBody','eqBody'].forEach(id=>{ const el=document.getElementById(id); if(el) el.dispatchEvent(new Event('input')); });
+        if(typeof updateCoverManEq==='function') updateCoverManEq();
+        if(st){ st.textContent = lastSeenDate+' 기록 자동 저장됨(날짜 변경 감지) — 인원/장비 금일 입력 초기화'; st.classList.remove('warn'); }
+      }
+    }
+    lastSeenDate = tk;
+    DAILY_CARD_IDS.forEach(updateCardNavUI);
+    autosaveNow();
+  }
+
+  function autosaveNow(){
+    if(suppressSync || anyCardViewing()) return;
+    const state = collectState();
+    try{ localStorage.setItem(LS_KEY, JSON.stringify(state)); }catch(e){}
+    if(FIREBASE_ENABLED && stateRef){
+      stateRef.set(state)
+        .then(()=>{ if(st){ st.textContent = '전체 공유 저장됨: ' + fmtTime(new Date()); st.classList.remove('warn'); } })
+        .catch((err)=>{
+          // 실패 원인을 구분해서 표시: 권한 거부(PERMISSION_DENIED)는 네트워크 문제가 아니라
+          // Firebase 보안 규칙 설정 문제이므로 "네트워크"로 뭉뚱그리지 않고 별도로 안내한다.
+          const isPerm = err && (err.code==='PERMISSION_DENIED' || /permission/i.test(err.message||''));
+          const label = isPerm ? '공유 저장 실패(권한 거부 — 관리자에게 Firebase 보안 규칙 확인 요청)' : '공유 저장 실패(네트워크)';
+          if(st){ st.textContent = label + ' — 이 기기에는 저장됨: ' + fmtTime(new Date()); st.classList.add('warn'); }
+        });
+    }else{
+      if(st) st.textContent = (FIREBASE_ENABLED ? '공유 저장소 연결 중…' : '이 브라우저에 저장됨') + ' : ' + fmtTime(new Date());
+    }
+  }
+  function scheduleAutosave(){
+    if(suppressSync || anyCardViewing()) return;
+    clearTimeout(timer);
+    timer = setTimeout(autosaveNow, 600);
+  }
+  document.addEventListener('input', scheduleAutosave);
+  document.addEventListener('change', scheduleAutosave);
+  document.addEventListener('click', scheduleAutosave);
+  window.addEventListener('beforeunload', autosaveNow);
+
+  function applyRemote(data, label){
+    if(anyCardViewing()){
+      pendingLiveState = data;
+      if(data.dailyLog){
+        Object.keys(dailyLog).forEach(k=>delete dailyLog[k]);
+        Object.keys(data.dailyLog).forEach(k=>{ dailyLog[k]=data.dailyLog[k]; });
+      }
+      DAILY_CARD_IDS.forEach(updateCardNavUI);
+      return;
+    }
+    suppressSync = true;
+    try{ applyState(data); }finally{ suppressSync = false; }
+    if(st) st.textContent = label + (data.savedAt ? fmtTime(new Date(data.savedAt)) : '');
+    DAILY_CARD_IDS.forEach(updateCardNavUI);
+    performAutoRollover();
+  }
+
+  const saveBtn = document.getElementById('ioSaveBtn');
+  if(saveBtn) saveBtn.addEventListener('click', ()=>{
+    clearTimeout(timer);
+    if(st){ st.textContent = '저장 중…'; st.classList.remove('warn'); }
+    autosaveNow();
+  });
+
+  function tryRestoreLocalOnly(){
+    try{
+      const raw = localStorage.getItem(LS_KEY);
+      if(!raw){ if(st) st.textContent = '저장된 데이터 없음(최초 접속)'; lastSeenDate = todayKey(); return; }
+      const data = JSON.parse(raw);
+      applyRemote(data, '이 브라우저에 저장된 데이터 복원됨: ');
+    }catch(e){
+      if(st){ st.textContent = '데이터 복원 실패 — 파일로 불러오세요'; st.classList.add('warn'); }
+    }
+  }
+
+  const closeBtn = document.getElementById('dailyLogCloseBtn');
+  if(closeBtn) closeBtn.addEventListener('click', ()=>{
+    if(anyCardViewing()){ alert('일부 항목이 과거 기록을 조회 중입니다. 먼저 해당 항목을 "오늘"로 되돌린 뒤 다시 시도하세요.'); return; }
+    const tk = todayKey();
+    const already = !!dailyLog[tk];
+    const msg = (already
+      ? tk + ' 기록이 이미 있습니다. 지금 값으로 다시 마감하시겠습니까?\n'
+      : tk + ' 일일마감을 진행하시겠습니까?\n') +
+      '인원투입(금일투입)·장비투입(금일가동) 수치가 이 시점 값으로 기록되고 0으로 초기화됩니다.\n(자재반입 누계, 세부공종 실적, 누계 투입인원/가동대수는 그대로 유지됩니다)';
+    if(!confirm(msg)) return;
+    dailyLog[tk] = collectDailySnapshot();
+    document.querySelectorAll('#manBody input.qty-in[data-role="prog"], #eqBody input.qty-in[data-role="prog"]').forEach(el=>{ el.value = 0; });
+    ['manBody','eqBody'].forEach(id=>{ const el=document.getElementById(id); if(el) el.dispatchEvent(new Event('input')); });
+    if(typeof updateCoverManEq==='function') updateCoverManEq();
+    if(st){ st.textContent = tk + ' 일일마감 완료 — 인원/장비 금일 입력 초기화됨'; st.classList.remove('warn'); }
+    DAILY_CARD_IDS.forEach(updateCardNavUI);
+    autosaveNow();
+  });
+
+  function recomputeCard(cardId){
+    if(cardId==='sec-2'){ const el=document.getElementById('matBody'); if(el) el.dispatchEvent(new Event('input')); }
+    else if(cardId==='sec-3'){ const el=document.getElementById('manBody'); if(el) el.dispatchEvent(new Event('input')); if(typeof updateCoverManEq==='function') updateCoverManEq(); }
+    else if(cardId==='sec-4'){ const el=document.getElementById('eqBody'); if(el) el.dispatchEvent(new Event('input')); if(typeof updateCoverManEq==='function') updateCoverManEq(); }
+    else if(cardId==='item-7'){ if(window.recomputeBlockZones) window.recomputeBlockZones(); }
+    else if(cardId.indexOf('item-')===0){ const idx = items.findIndex(it=>('item-'+it.tag)===cardId); if(idx>=0) recomputeItem(idx); }
+  }
+  function setCardDisabled(cardId, flag){
+    document.querySelectorAll('#'+cardId+' input.qty-in').forEach(el=>{ el.disabled = flag; });
+    HISTORY_LOCKED_CARDS[cardId] = flag;
+  }
+  function updateGlobalHistoryNotice(){
+    if(!dailyLogNoteEl) return;
+    if(anyCardViewing()){
+      const anyEditable = DAILY_CARD_IDS.some(id=>editableCards[id]);
+      if(anyEditable){
+        dailyLogNoteEl.innerHTML = '✎ 일부 항목이 <b>지정일 기록</b>(초록 배지)을 표시 중입니다 — 이 상태에서는 값을 그 자리에서 직접 수정하면 0.5초 후 해당 날짜 기록에 저장됩니다. 전체 자동저장은 잠시 중단되며, [전 항목 오늘로 복귀]를 누르면 재개됩니다.';
+      }else{
+        dailyLogNoteEl.innerHTML = '⏱ 일부 항목이 <b>과거 기록</b>을 표시 중입니다 — 해당 항목은 읽기 전용이며 자동저장이 잠시 중단됩니다. 모든 항목을 "오늘"로 되돌리면 재개됩니다.';
+      }
+      dailyLogNoteEl.classList.add('warn-note');
+    }else{
+      dailyLogNoteEl.innerHTML = '각 항목 소제목 옆 <b>◀ 날짜 ▶</b> 로 그 항목의 과거 입력값을 확인할 수 있습니다(날짜가 바뀌면 전날 기록이 자동 저장되며, [일일마감]으로 즉시 기록할 수도 있습니다). 저장바의 날짜를 지정하고 [지정일 기록 추가/열기]를 누르면 자재반입~세부공종(2~11번) 전 항목이 그 날짜로 함께 전환되어, 기록이 없던 날짜도 그 자리에서 새로 입력할 수 있습니다 — 끝나면 [전 항목 오늘로 복귀]를 눌러주세요.';
+      dailyLogNoteEl.classList.remove('warn-note');
+    }
+  }
+  function updateCardNavUI(cardId){
+    const nav = document.querySelector('.card-date-nav[data-card="'+cardId+'"]');
+    if(!nav) return;
+    const label = nav.querySelector('.cdn-label');
+    const prevBtn = nav.querySelector('.cdn-prev');
+    const nextBtn = nav.querySelector('.cdn-next');
+    const dates = cardDates();
+    const v = cardView[cardId];
+    if(v===null){
+      label.textContent = '오늘'; label.title = ''; nav.classList.remove('hist-active');
+      if(prevBtn) prevBtn.disabled = (dates.length===0);
+      if(nextBtn) nextBtn.disabled = true;
+    }else{
+      label.textContent = v;
+      label.title = (dailyLog[v] && dailyLog[v].savedAt) ? ('저장시각 ' + fmtTime(new Date(dailyLog[v].savedAt))) : '';
+      nav.classList.add('hist-active');
+      const idx = dates.indexOf(v);
+      if(prevBtn) prevBtn.disabled = (idx<=0);
+      if(nextBtn) nextBtn.disabled = false;
+    }
+    if(prevBtn) prevBtn.title = prevBtn.disabled ? '더 이전 기록 없음' : '이전 기록';
+    if(nextBtn) nextBtn.title = (v===null) ? '' : (nextBtn.disabled ? '' : '다음 기록 / 오늘로');
+  }
+  function enterCardHistory(cardId, dateKey){
+    if(!dailyLog[dateKey]) return;
+    if(cardView[cardId]===null){ cardStash[cardId] = collectCardQty(cardId); }
+    applyCardQty(cardId, dailyLog[dateKey].qty);
+    recomputeCard(cardId);
+    cardView[cardId] = dateKey;
+    editableCards[cardId] = false;
+    setCardDisabled(cardId, true);
+    const nav0 = document.querySelector('.card-date-nav[data-card="'+cardId+'"]');
+    if(nav0) nav0.classList.remove('hist-editable');
+    updateCardNavUI(cardId);
+    updateGlobalHistoryNotice();
+  }
+  function exitCardHistory(cardId){
+    if(cardView[cardId]===null) return;
+    applyCardQty(cardId, cardStash[cardId]);
+    recomputeCard(cardId);
+    cardView[cardId] = null;
+    editableCards[cardId] = false;
+    delete cardStash[cardId];
+    setCardDisabled(cardId, false);
+    const nav0 = document.querySelector('.card-date-nav[data-card="'+cardId+'"]');
+    if(nav0) nav0.classList.remove('hist-editable');
+    updateCardNavUI(cardId);
+    updateGlobalHistoryNotice();
+    if(!anyCardViewing() && pendingLiveState){
+      suppressSync = true;
+      applyState(pendingLiveState);
+      pendingLiveState = null;
+      suppressSync = false;
+      if(st) st.textContent = '대기 중이던 다른 담당자 저장 내용 반영됨: ' + fmtTime(new Date());
+      DAILY_CARD_IDS.forEach(updateCardNavUI);
+    }
+  }
+
+  // ---------------- 지정일 기록 추가/열기 (기록이 없던 과거 날짜도 지정해 그 자리에서 바로 입력) ----------------
+  // 자재반입~세부공종(2~11번, DAILY_CARD_IDS) 전 항목을 한 번에 지정한 날짜로 전환하고, 그 날짜에
+  // 아직 기록이 없으면 그 이전 가장 가까운 기록을 복사해(없으면 0으로) 새 기록을 만든 뒤 입력을 잠그지 않는다.
+  // 개별 카드의 ◀/▶(enterCardHistory/exitCardHistory)는 기존과 동일하게 읽기 전용 열람으로 유지한다.
+  function nearestPriorRecordKey(dateKey){
+    const dates = cardDates().filter(d=>d<dateKey);
+    return dates.length ? dates[dates.length-1] : null;
+  }
+  function ensureDailyRecord(dateKey){
+    if(!dailyLog[dateKey]){
+      const priorKey = nearestPriorRecordKey(dateKey);
+      dailyLog[dateKey] = priorKey
+        ? JSON.parse(JSON.stringify(dailyLog[priorKey]))
+        : { qty:{}, manCum:'0', eqCum:'0', item7Done:[], savedAt:new Date().toISOString() };
+    }
+    return dailyLog[dateKey];
+  }
+  const cardEditDebounce = {};
+  function persistCardEdit(cardId){
+    const dateKey = cardView[cardId];
+    if(!dateKey || !editableCards[cardId] || !dailyLog[dateKey]) return;
+    if(!dailyLog[dateKey].qty) dailyLog[dateKey].qty = {};
+    Object.assign(dailyLog[dateKey].qty, collectCardQty(cardId));
+    dailyLog[dateKey].savedAt = new Date().toISOString();
+    try{ localStorage.setItem(LS_KEY, JSON.stringify(collectState())); }catch(e){}
+    if(FIREBASE_ENABLED && stateRef){ stateRef.set(collectState()).catch(()=>{}); }
+    if(st){ st.textContent = dateKey+' 기록 수정 저장됨: ' + fmtTime(new Date()); st.classList.remove('warn'); }
+  }
+  function scheduleCardEditPersist(cardId){
+    clearTimeout(cardEditDebounce[cardId]);
+    cardEditDebounce[cardId] = setTimeout(()=>persistCardEdit(cardId), 500);
+  }
+  function enterCardHistoryEditable(cardId, dateKey){
+    ensureDailyRecord(dateKey);
+    if(cardView[cardId]===null){ cardStash[cardId] = collectCardQty(cardId); }
+    applyCardQty(cardId, dailyLog[dateKey].qty);
+    recomputeCard(cardId);
+    cardView[cardId] = dateKey;
+    editableCards[cardId] = true;
+    setCardDisabled(cardId, false);
+    const nav = document.querySelector('.card-date-nav[data-card="'+cardId+'"]');
+    if(nav) nav.classList.add('hist-editable');
+    updateCardNavUI(cardId);
+    const card = document.getElementById(cardId);
+    if(card && !card.dataset.editListenerAttached){
+      card.addEventListener('input', (e)=>{
+        if(e.target.classList && e.target.classList.contains('qty-in') && editableCards[cardId]){
+          scheduleCardEditPersist(cardId);
+        }
+      });
+      card.dataset.editListenerAttached = '1';
+    }
+  }
+  function exitCardHistoryQuiet(cardId){
+    if(cardView[cardId]===null) return;
+    applyCardQty(cardId, cardStash[cardId]);
+    recomputeCard(cardId);
+    cardView[cardId] = null;
+    editableCards[cardId] = false;
+    delete cardStash[cardId];
+    setCardDisabled(cardId, false);
+    const nav = document.querySelector('.card-date-nav[data-card="'+cardId+'"]');
+    if(nav) nav.classList.remove('hist-editable');
+    updateCardNavUI(cardId);
+  }
+  function switchAllCardsToDate(dateKey){
+    DAILY_CARD_IDS.forEach(cardId=>{
+      if(cardView[cardId]!==null) exitCardHistoryQuiet(cardId);
+      enterCardHistoryEditable(cardId, dateKey);
+    });
+    updateGlobalHistoryNotice();
+    if(st){ st.textContent = dateKey+' 기록으로 자재반입~세부공종(2~11번) 전 항목 전환됨 — 그 자리에서 직접 수정할 수 있습니다.'; st.classList.remove('warn'); }
+  }
+  function switchAllCardsToToday(){
+    DAILY_CARD_IDS.forEach(cardId=>exitCardHistoryQuiet(cardId));
+    updateGlobalHistoryNotice();
+    DAILY_CARD_IDS.forEach(updateCardNavUI);
+    if(!anyCardViewing() && pendingLiveState){
+      suppressSync = true;
+      applyState(pendingLiveState);
+      pendingLiveState = null;
+      suppressSync = false;
+      if(st) st.textContent = '대기 중이던 다른 담당자 저장 내용 반영됨: ' + fmtTime(new Date());
+      DAILY_CARD_IDS.forEach(updateCardNavUI);
+    }else{
+      if(st){ st.textContent = '전 항목이 "오늘" 실시간 화면으로 복귀했습니다: ' + fmtTime(new Date()); st.classList.remove('warn'); }
+      autosaveNow();
+    }
+  }
+  // 주요일정 달력(1번 카드, 코드상 더 앞서 정의됨)의 날짜 클릭에서도 이 함수들을 쓸 수 있도록 전역에 노출
+  window.switchAllCardsToDate = switchAllCardsToDate;
+  window.switchAllCardsToToday = switchAllCardsToToday;
+  const manualLogDateInput = document.getElementById('manualLogDate');
+  const manualLogAddBtn = document.getElementById('manualLogAddBtn');
+  const manualLogTodayBtn = document.getElementById('manualLogTodayBtn');
+  if(manualLogDateInput) manualLogDateInput.max = todayKey();
+  if(manualLogAddBtn) manualLogAddBtn.addEventListener('click', ()=>{
+    const dk = manualLogDateInput ? manualLogDateInput.value : '';
+    if(!dk){ alert('지정할 날짜를 먼저 선택해 주세요.'); return; }
+    if(dk > todayKey()){ alert('오늘보다 미래 날짜는 지정할 수 없습니다.'); return; }
+    switchAllCardsToDate(dk);
+  });
+  if(manualLogTodayBtn) manualLogTodayBtn.addEventListener('click', switchAllCardsToToday);
+  function stepCard(cardId, dir){
+    const dates = cardDates();
+    if(dates.length===0) return;
+    if(dir<0){
+      const idx = cardView[cardId]===null ? dates.length : dates.indexOf(cardView[cardId]);
+      if(idx<=0) return;
+      enterCardHistory(cardId, dates[idx-1]);
+    }else{
+      if(cardView[cardId]===null) return;
+      const idx = dates.indexOf(cardView[cardId]);
+      if(idx<0 || idx===dates.length-1) exitCardHistory(cardId);
+      else enterCardHistory(cardId, dates[idx+1]);
+    }
+  }
+  function attachCardDateNav(cardId){
+    const card = document.getElementById(cardId);
+    if(!card) return;
+    const h3 = card.querySelector('h3');
+    if(!h3) return;
+    const nav = document.createElement('span');
+    nav.className = 'card-date-nav';
+    nav.dataset.card = cardId;
+    nav.innerHTML = '<button type="button" class="cdn-btn cdn-prev" title="이전 기록">◀</button><span class="cdn-label">오늘</span><button type="button" class="cdn-btn cdn-next" title="다음 기록">▶</button>';
+    h3.appendChild(nav);
+    nav.querySelector('.cdn-prev').addEventListener('click', (e)=>{ e.stopPropagation(); stepCard(cardId, -1); });
+    nav.querySelector('.cdn-next').addEventListener('click', (e)=>{ e.stopPropagation(); stepCard(cardId, 1); });
+  }
+  DAILY_CARD_IDS.forEach(attachCardDateNav);
+  DAILY_CARD_IDS.forEach(updateCardNavUI);
+
+  // 탭을 계속 켜둔 채 자정을 넘기는 경우까지 대비해 주기적으로 날짜 변경을 확인
+  setInterval(performAutoRollover, 60000);
+
+  if(!FIREBASE_ENABLED){
+    if(st) st.textContent = '공유 저장소 미설정 — 이 브라우저에만 저장됩니다';
+    tryRestoreLocalOnly();
+    return;
+  }
+
+  try{
+    firebase.initializeApp(FIREBASE_CONFIG);
+    firebase.auth().signInAnonymously().catch(()=>{});
+    firebase.auth().onAuthStateChanged(function(user){
+      if(!user) return;
+      stateRef = firebase.database().ref(SYNC_PATH);
+      let firstSync = true;
+      stateRef.on('value', function(snapshot){
+        const data = snapshot.val();
+        if(data){
+          applyRemote(data, firstSync ? '공유 저장소에서 불러옴: ' : '다른 담당자의 저장 내용 반영됨: ');
+        }else if(firstSync){
+          let hadLocal = false;
+          try{
+            const raw = localStorage.getItem(LS_KEY);
+            if(raw){ stateRef.set(JSON.parse(raw)); hadLocal = true; }
+          }catch(e){}
+          if(!hadLocal) lastSeenDate = todayKey();
+          if(st) st.textContent = '공유 저장소 신규 생성됨(최초 접속)';
+        }
+        firstSync = false;
+      }, function(){
+        if(st){ st.textContent = '공유 저장소 연결 실패 — 이 브라우저 저장본으로 표시 중'; st.classList.add('warn'); }
+        tryRestoreLocalOnly();
+      });
+    });
+  }catch(e){
+    if(st){ st.textContent = 'Firebase 설정 오류 — FIREBASE_CONFIG 값을 확인하세요'; st.classList.add('warn'); }
+    tryRestoreLocalOnly();
+  }
+})();
+
+renderAll();
+</script>
+</body>
+</html>
