@@ -192,7 +192,38 @@ body{
 .io-btn.secondary{background:#fff; color:var(--blue);}
 .io-btn.secondary:hover{background:var(--blue-soft);}
 .io-status{font-size:11.5px; color:var(--text-muted); margin-left:auto;}
+.io-name-in{padding:6px 8px; border:1px solid var(--border); border-radius:8px; font-size:12.5px; width:78px;}
+.edit-history-panel{
+  display:none; width:100%; max-height:220px; overflow-y:auto;
+  background:#fff; border:1px solid var(--border); border-radius:10px;
+  margin-top:8px; padding:10px 14px; font-size:12px;
+}
+.edit-history-panel.open{display:block;}
+.edit-history-panel .eh-title{font-weight:800; font-size:12.5px; margin-bottom:6px; color:var(--text-secondary);}
+.edit-history-item{display:flex; gap:8px; padding:5px 0; border-bottom:1px dashed var(--border); flex-wrap:wrap;}
+.edit-history-item:last-child{border-bottom:none;}
+.edit-history-item .eh-name{font-weight:800; min-width:64px;}
+.edit-history-item .eh-time{color:var(--text-muted); min-width:92px;}
+.edit-history-item .eh-sections{color:var(--text-secondary); flex:1;}
+.edit-history-item.conflict .eh-sections{color:#c0392b; font-weight:700;}
+.conflict-toast{
+  position:fixed; right:18px; bottom:18px; z-index:999; max-width:320px;
+  background:#fff3f0; border:1px solid #e0857a; color:#9c3a2c;
+  border-radius:10px; padding:12px 14px; font-size:12.5px; font-weight:700;
+  box-shadow:0 6px 18px rgba(0,0,0,.15);
+}
 .io-status.warn{color:#8a6100; font-weight:700;}
+.io-btn:disabled{opacity:.5; cursor:not-allowed;}
+.card-date-nav{display:inline-flex; align-items:center; gap:3px; margin-left:10px; font-size:11px; font-weight:700; vertical-align:middle; background:var(--surface-2,#f2f4f7); border:1px solid var(--border); border-radius:20px; padding:2px 4px;}
+.card-date-nav.hist-active{background:var(--warning-bg); border-color:#e0b34d;}
+.card-date-nav.hist-editable{background:var(--good-bg); border-color:var(--good);}
+.card-date-nav.hist-editable .cdn-label{color:var(--good);}
+.card-date-nav .cdn-btn{border:none; background:transparent; cursor:pointer; font-size:11px; font-weight:800; color:var(--blue); padding:1px 4px; line-height:1;}
+.card-date-nav .cdn-btn:hover{opacity:.7;}
+.card-date-nav .cdn-btn:disabled{opacity:.3; cursor:not-allowed;}
+.card-date-nav .cdn-btn:disabled:hover{opacity:.3;}
+.card-date-nav .cdn-label{min-width:64px; text-align:center; color:var(--text-secondary);}
+.card-date-nav.hist-active .cdn-label{color:#8a6100;}
 .rev-edit-details{margin-top:12px;}
 .rev-edit-details summary{
   cursor:pointer; font-size:12px; font-weight:700; color:var(--blue);
@@ -221,6 +252,84 @@ body{
 .status-row .nm{font-size:13px;font-weight:700;}
 .status-row .sp{font-size:11.5px;color:var(--text-muted);display:block;margin-top:1px;font-weight:500;}
 .status-row .pv{font-size:16px;font-weight:800;font-variant-numeric:tabular-nums;}
+
+/* ---------- 1. 공정진행상황: 간트차트 카드 하단 주요일정 캘린더 ---------- */
+.cal-block{
+  margin-top:18px;
+  padding-top:16px;
+  border-top:1px solid var(--grid);
+}
+.cal-block-head{display:flex; align-items:baseline; gap:10px; flex-wrap:wrap; margin-bottom:14px;}
+.cal-block-head h3{margin:0; font-size:14.5px; font-weight:800;}
+.cal-block-head .card-sub{margin:0; font-size:11.5px; color:var(--text-muted);}
+.cal-layout{display:flex; gap:22px; align-items:flex-start; flex-wrap:wrap;}
+
+.mini-cal{
+  flex:none;
+  width:320px;
+  border:1px solid var(--border);
+  border-radius:12px;
+  background:var(--page);
+  padding:16px 18px 18px;
+}
+.mini-cal-head{display:flex; align-items:center; justify-content:space-between; margin-bottom:12px;}
+.mini-cal-head .mc-label{font-size:15px; font-weight:800; color:var(--text-primary); white-space:nowrap;}
+.mini-cal-head .mc-nav{display:flex; gap:4px;}
+.mini-cal-head .mc-nav button{
+  width:28px; height:28px; border:1px solid var(--border); border-radius:8px;
+  background:#fff; color:var(--text-secondary); font-size:14px; font-weight:800;
+  cursor:pointer; line-height:1; display:flex; align-items:center; justify-content:center;
+}
+.mini-cal-head .mc-nav button:hover{border-color:var(--blue); color:var(--blue);}
+.mini-cal-dow{
+  display:grid; grid-template-columns:repeat(7,1fr);
+  font-size:11px; color:var(--text-muted); font-weight:700; text-align:center;
+  margin-bottom:6px;
+}
+.mini-cal-dow span:first-child{color:var(--critical);}
+.mini-cal-grid{display:grid; grid-template-columns:repeat(7,1fr); gap:4px;}
+.mini-cal-day{
+  position:relative; aspect-ratio:1/1;
+  display:flex; align-items:center; justify-content:center;
+  font-size:13px; font-variant-numeric:tabular-nums;
+  border-radius:8px; color:var(--text-primary); cursor:pointer; user-select:none;
+}
+.mini-cal-day.other-month{color:var(--text-muted); opacity:.4; cursor:default;}
+.mini-cal-day.sun{color:var(--critical);}
+.mini-cal-day:hover:not(.other-month){background:var(--blue-soft);}
+.mini-cal-day.is-today{background:var(--blue); color:#fff; font-weight:800;}
+.mini-cal-day.is-selected{outline:2px solid var(--blue); outline-offset:-2px;}
+.mini-cal-day .mc-dot{
+  position:absolute; bottom:4px; left:50%; transform:translateX(-50%);
+  width:5px; height:5px; border-radius:50%; background:var(--orange);
+}
+.mini-cal-day.is-today .mc-dot{background:#fff;}
+
+.cal-list-panel{flex:1; min-width:280px; display:flex; flex-direction:column;}
+.cal-add-row{display:flex; gap:8px; flex-wrap:wrap;}
+.cal-add-row input[type="date"]{
+  flex:none; width:150px; padding:9px 10px; border:1px solid var(--border); border-radius:8px;
+  font-size:12.8px; font-variant-numeric:tabular-nums; background:#fff;
+}
+.cal-add-row input[type="text"]{
+  flex:1; min-width:180px; padding:9px 12px; border:1px solid var(--border); border-radius:8px;
+  font-size:13px; background:#fff;
+}
+.cal-add-row button{
+  flex:none; padding:9px 16px; border:none; border-radius:8px;
+  background:var(--blue); color:#fff; font-size:12.5px; font-weight:800; cursor:pointer;
+}
+.cal-add-row button:hover{background:#1f5fb0;}
+.cal-event-list{margin-top:14px; display:flex; flex-direction:column; gap:8px;}
+.cal-event-item{display:flex; align-items:center; gap:12px; font-size:13px; padding:10px 14px; border-radius:9px; background:var(--surface-1); border:1px solid var(--border);}
+.cal-event-item .ce-date{flex:none; font-weight:800; color:var(--blue); font-variant-numeric:tabular-nums; font-size:12.5px; min-width:42px;}
+.cal-event-item .ce-text{flex:1; min-width:0; color:var(--text-primary); word-break:break-all;}
+.cal-event-item .ce-del{flex:none; border:none; background:none; color:var(--text-muted); cursor:pointer; font-size:16px; padding:0 4px; line-height:1;}
+.cal-event-item .ce-del:hover{color:var(--critical);}
+.cal-event-item.is-past{opacity:.55;}
+.cal-event-empty{font-size:12px; color:var(--text-muted); text-align:center; padding:26px 0;}
+@media (max-width:560px){ .mini-cal{width:100%;} }
+
 .badge{
   display:inline-flex;align-items:center;gap:5px;
   font-size:11px;font-weight:800;
@@ -395,6 +504,7 @@ td.spec{color:var(--text-secondary); font-size:11.8px;}
 }
 .qty-table input.qty-in:focus{outline:2px solid var(--blue); outline-offset:1px;}
 .qty-table input.qty-in:disabled{background:var(--page); color:var(--text-muted); font-weight:600;}
+.qty-table input.qty-in:read-only{background:var(--page); color:var(--blue); font-weight:800;}
 .qty-table td.qunit{color:var(--text-muted); font-size:10.5px; padding-left:2px; width:1%; white-space:nowrap;}
 .qty-table td.qpct{text-align:right; font-weight:800; font-variant-numeric:tabular-nums; width:46px;}
 .qty-table tr.computed-row td{color:var(--text-muted); font-style:italic;}
@@ -615,7 +725,7 @@ html{scroll-behavior:smooth;}
     <div class="header-kpis">
       <div class="kpi-pill">
         <div class="k-label">준공까지 잔여일</div>
-        <div class="k-value">D-73</div>
+        <div class="k-value" id="kpiDday">D-73</div>
       </div>
       <div class="kpi-pill">
         <div class="k-label">착수 완료 공종</div>
@@ -634,11 +744,28 @@ html{scroll-behavior:smooth;}
 
   <!-- ================= 데이터 저장/불러오기 ================= -->
   <div class="data-io-bar">
-    <span class="io-label">브라우저 저장 기능 미지원 — 입력값은 새로고침 시 초기화되므로 아래 버튼으로 파일 저장/불러오기 하세요 —</span>
-    <button type="button" class="io-btn" id="ioSaveBtn">데이터 저장 (파일로 다운로드)</button>
-    <button type="button" class="io-btn secondary" id="ioLoadBtn">데이터 불러오기</button>
+    <span class="io-label">입력값은 자동 저장됩니다(공유 저장소 설정 시 모든 담당자에게 실시간 반영) — 지금 바로 반영하려면 [지금 저장] 버튼을 누르세요 —</span>
+    <button type="button" class="io-btn" id="ioSaveBtn">지금 저장 (웹에 즉시 저장)</button>
+    <span class="io-label" style="margin-left:2px;">담당자:</span>
+    <input type="text" id="editorNameInput" class="io-name-in" maxlength="12" placeholder="이름 입력">
+    <button type="button" class="io-btn secondary" id="editHistoryBtn">저장 이력</button>
+    <button type="button" class="io-btn secondary" id="ioExportBtn">파일로 내보내기(백업용)</button>
+    <button type="button" class="io-btn secondary" id="ioLoadBtn">파일 불러오기</button>
+    <button type="button" class="io-btn secondary" id="dailyLogCloseBtn">오늘 기록 저장(일일마감)</button>
     <input type="file" id="ioFileInput" accept=".json" style="display:none;">
-    <span class="io-status" id="ioStatus">저장된 파일 없음</span>
+    <span class="io-status" id="ioStatus">자동저장 확인 중…</span>
+  </div>
+  <div class="edit-history-panel" id="editHistoryPanel">
+    <div class="eh-title">최근 저장 이력 (담당자 · 시각 · 변경 항목)</div>
+    <div id="editHistoryList"></div>
+  </div>
+  <div class="note-line" id="dailyLogNote">각 항목 소제목 옆 <b>◀ 날짜 ▶</b> 로 그 항목의 과거 입력값을 일일마감이 시작된 날짜까지 날짜별로 확인하고, 그 자리에서 바로 수정할 수 있습니다(수정 즉시 해당 날짜 기록에 저장). <b>날짜가 바뀌면 전날 기록은 자동으로 마감·저장</b>되며, [일일마감]을 누르지 않고 지나간 날짜는 아래에서 날짜를 지정해 직접 추가할 수 있습니다.</div>
+  <div class="data-io-bar" style="margin-top:8px;">
+    <span class="io-label">[일일마감]을 누르지 않고 지나간 날짜(예: 9월 1일)의 자재반입·인원투입·장비투입·세부공종 작업율 기록을 <b>한 번에 그 날짜로 전환</b>해 직접 추가·보정하려면 —</span>
+    <input type="date" id="manualLogDate" style="padding:7px 9px; border:1px solid var(--border); border-radius:8px; font-size:12.5px;">
+    <button type="button" class="io-btn secondary" id="manualLogAddBtn">지정일 기록 추가/열기</button>
+    <button type="button" class="io-btn secondary" id="manualLogTodayBtn">전 항목 오늘로 복귀</button>
+    <span class="io-status" id="manualLogStatus"></span>
   </div>
 
   <!-- ================= 표지 요약 (한눈에 보기) ================= -->
@@ -665,7 +792,7 @@ html{scroll-behavior:smooth;}
       <div class="cnum">4</div>
       <div class="cval-two"><span class="cv-today" id="coverKpi4Today">금일 -대</span><span class="cv-cum" id="coverKpi4Cum">누계 -대</span></div>
       <div class="ctitle">장비투입</div>
-      <div class="cmeta">장비 8종 일일 가동 입력</div>
+      <div class="cmeta">장비 9종 일일 가동 입력</div>
     </a>
     <a class="cover-card" href="#item-5">
       <div class="cnum">5</div>
@@ -733,7 +860,7 @@ html{scroll-behavior:smooth;}
         <div class="gantt-legend">
           <span><span class="legend-dot" style="background:var(--baseline); opacity:.55;"></span>계획 공사기간</span>
           <span><span class="legend-dot" style="background:var(--blue);"></span>계획 진도율(오늘 기준)</span>
-          <span><span class="legend-dot" style="background:var(--critical);"></span>작성기준일 08.19</span>
+          <span><span class="legend-dot" style="background:var(--critical);"></span>오늘 <span id="legendTodayDate">08.19</span></span>
         </div>
         <div class="gantt-scroll-wrap">
           <div id="ganttHeader"></div>
@@ -749,12 +876,29 @@ html{scroll-behavior:smooth;}
           </table>
           </div>
         </details>
+        <div class="cal-block">
+          <div class="cal-block-head">
+            <h3>주요일정</h3>
+            <span class="card-sub">주간공정회의·검측·자재반입 등 주요일정을 날짜별로 등록하세요 — 등록 내용은 자동저장됩니다. 날짜를 클릭하면 자재반입~세부공종(2~11번) 하위 항목도 그 날짜로 함께 이동합니다.</span>
+          </div>
+          <div class="cal-layout">
+            <div class="mini-cal" id="miniCal"></div>
+            <div class="cal-list-panel">
+              <div class="cal-add-row">
+                <input type="date" id="calDateInput">
+                <input type="text" id="calTextInput" placeholder="주요일정 입력(예: 우수관 착공, 감리 정기검측 등)">
+                <button type="button" id="calAddBtn">+ 일정 추가</button>
+              </div>
+              <div class="cal-event-list" id="calEventList"></div>
+            </div>
+          </div>
+        </div>
       </div>
       <div class="card">
         <h3 style="margin-top:0;">현재 진행 중인 공종 (<span id="statusRevLabel">1차</span> 기준)</h3>
         <div class="card-sub">부대토목 세부공종 15개 · 선택한 차수의 계획 진도율로 자동 판정</div>
         <div class="status-box" id="statusBox"></div>
-        <div class="mini-note" id="miniNote"><b>진행 개요.</b> 부대토목은 08.01 착공, 현재 터파기(토공사) 및 L형옹벽 기초(구조물공사) 2개 공종만 착수. 배수공사(우수 08.28, 오수 09.09)·포장공사(09.21~)는 계획상 아직 착수 전이며, 계획 진도율은 선택한 차수의 요율공정표(계획공기 기준) 산정치입니다. 아래 5~11번 항목의 <b>진행수량</b>은 현장 확인 후 매일 입력해 주세요.</div>
+        <div class="mini-note" id="miniNote"><b>진행 개요.</b> 부대토목은 08.01 착공, 현재 터파기(토공사) 및 L형옹벽 기초(구조물공사) 2개 공종만 착수. 배수공사(우수 08.28, 오수 09.09)·포장공사(09.21~)는 계획상 아직 착수 전이며, 계획 진도율은 선택한 차수의 요율공정표(계획공기 기준) 산정치입니다. 아래 2.자재반입, 5~11번 항목은 현장 확인 후 <b>금일반입/금일투입</b>(오늘 반입·시공한 수량)을 매일 입력해 주세요 — <b>진행수량(누계)</b>은 기록 시작일부터의 합계로 자동 계산됩니다.</div>
       </div>
     </div>
   </div>
@@ -771,10 +915,10 @@ html{scroll-behavior:smooth;}
       <!-- 자재반입 -->
       <div class="card" id="sec-2">
         <h3>2. 자재반입 현황</h3>
-        <div class="card-sub">총수량(계획물량)·진행수량(누계반입량) 클릭 후 직접 입력 — 진행율 자동 계산</div>
+        <div class="card-sub">총수량(계획물량) 입력, 금일반입 입력 시 진행수량(누계)·진행율 자동 계산</div>
         <div class="table-scroll">
         <table id="matTable" class="qty-table">
-          <thead><tr><th>품명(규격)</th><th>총수량</th><th>진행수량</th><th></th><th>진행율</th></tr></thead>
+          <thead><tr><th>품명(규격)</th><th>총수량</th><th>금일반입</th><th>진행수량(누계)</th><th></th><th>진행율</th></tr></thead>
           <tbody id="matBody"></tbody>
         </table>
         </div>
@@ -791,7 +935,7 @@ html{scroll-behavior:smooth;}
         </table>
         <div class="cum-input-row">
           <label for="manCumInput">누계 투입인원(연인원)</label>
-          <input type="number" id="manCumInput" class="cum-input" min="0" step="1" value="0"><span>명</span>
+          <input type="number" id="manCumInput" class="cum-input" min="0" step="1" value="0" readonly title="금일투입 합계로 자동 계산됩니다"><span>명</span>
         </div>
       </div>
 
@@ -806,7 +950,7 @@ html{scroll-behavior:smooth;}
         </table>
         <div class="cum-input-row">
           <label for="eqCumInput">누계 가동대수(연대수)</label>
-          <input type="number" id="eqCumInput" class="cum-input" min="0" step="1" value="0"><span>대</span>
+          <input type="number" id="eqCumInput" class="cum-input" min="0" step="1" value="0" readonly title="금일가동 합계로 자동 계산됩니다"><span>대</span>
         </div>
       </div>
 
@@ -833,7 +977,7 @@ html{scroll-behavior:smooth;}
     <div class="card" id="item-12">
       <div class="meeting-form">
         <div class="mf-row">
-          <label>일자<input type="date" id="mfDate" value="2026-08-19"></label>
+          <label>일자<input type="date" id="mfDate"></label>
           <label>구분
             <select id="mfType">
               <option>주간공정회의</option>
@@ -859,18 +1003,26 @@ html{scroll-behavior:smooth;}
     <ul>
       <li>계획 수량·규격·요율(%)·착수/완료일: <b>02.공정표 &gt; 20260724 부대토목_공정표-제출용.xlsx (요율공정표)</b>, <b>01.(부대토목).xlsx (견적대비표)</b></li>
       <li>계획 진도율은 각 세부공종의 착수~완료일 구간에 대한 선형 근사치(경과일/전체공기)이며, 실제 요율공정표의 비선형 일일배분곡선과 소수점 단위 차이가 있을 수 있습니다.</li>
-      <li>실적(%), 금일반입/투입 수치는 실 데이터 연동 전으로 <b>기본값 0</b>이며, 현장 확인 후 담당자가 직접 입력하는 구조입니다. 상단 <b>[데이터 저장/불러오기]</b> 버튼으로 입력값을 파일(JSON)로 저장·복원할 수 있습니다(브라우저 자체 저장 기능은 미지원 — 일일 마감 후 파일 저장 권장).</li>
+      <li>실적(%), 금일반입/투입 수치는 실 데이터 연동 전으로 <b>기본값 0</b>이며, 현장 확인 후 담당자가 직접 입력하는 구조입니다. 입력값은 <b>자동으로 웹(공유 저장소)에 저장</b>되어 모든 담당자의 화면에 실시간 반영되며(미연동 시 이 브라우저에만 저장), 상단 <b>[지금 저장]</b> 버튼으로 즉시 반영 여부를 확인하거나 <b>[파일로 내보내기]</b>로 별도 백업(JSON)도 가능합니다. 인원투입·장비투입의 금일 수치는 <b>[일일마감]</b>으로 날짜별 기록에 남기고 다음날 입력을 위해 0으로 초기화할 수 있으며, <b>누계 투입인원(연인원)·누계 가동대수(연대수)는 일일마감으로 기록된 모든 날짜의 금일투입·금일가동 합계를 자동으로 누적 계산</b>하여 표시합니다(계산 결과만 표시하는 칸이라 직접 수정할 수 없습니다). <b>2.자재반입, 5~11번 세부공종 작업율</b>의 각 품목·구간도 동일한 방식으로, <b>금일반입/금일투입</b> 칸에 오늘 반입·시공한 수량을 입력하면 <b>진행수량(누계)</b> 칸에 기록 시작일부터의 누계가 자동 계산되어 표시되고, 그 누계 대비 진행율도 함께 자동 갱신됩니다(진행수량 칸 역시 계산 결과만 표시하는 칸이라 직접 수정할 수 없습니다). 각 항목(2.자재반입~11.세부공종) 소제목 옆 <b>◀ 날짜 ▶</b> 로 그 항목만 과거 날짜의 실적을 개별적으로 확인할 수 있습니다(단, 일일마감으로 기록된 날짜가 없으면 ◀버튼이 비활성화되어 흐리게 표시되며, 이는 오류가 아니라 아직 조회할 과거 기록이 없다는 뜻입니다).</li>
+      <li><b>2.자재반입 ~ 11.세부공종</b>(작업율·인조화강석블럭 6단계 포함) 모든 항목은 일일마감으로 <b>기록이 시작된 시점까지</b>의 과거 어떤 날짜라도 ◀ 로 이동해 그 날짜의 진행수량·투입인원·가동대수 값을 화면에서 바로 수정할 수 있습니다(수정 즉시 해당 날짜 기록에 반영·저장되며, 오늘의 실시간 입력값은 영향받지 않습니다).</li>
+      <li>[일일마감] 버튼을 매일 누르지 않아도, <b>날짜가 바뀐 채로 다시 접속하면 전날 기록이 자동으로 마감·저장</b>됩니다(수동 마감과 동일하게 인원투입·장비투입의 금일 수치만 0으로 초기화). 이미 컴퓨터를 켜지 않아 기록 자체가 비어 있는 지난 날짜(예: 9월 1일·2일)는 상단 <b>[지정일 기록 추가/열기]</b>에서 날짜를 선택해 그 날짜 기록을 직접 새로 만들고(직전 기록을 기준값으로 자동 이어받음) 실제 수치로 수정할 수 있습니다.</li>
       <li><b>요율공정표 누계 상한(79.53%) 검토 결과</b>: 도급금액(739,200,000원) 대비 요율공정표에 편성된 세부공종 합계는 79.53%이며, 잔여 20.47%(151,433,673원)는 다음과 같이 구성됩니다 — ① <b>비배분성 원가 약 19.08%(141,046,000원)</b>: 간접노무비·기타경비·일반관리비·이윤 등 특정 세부공종에 직접 배분되지 않는 공통원가 항목(성격상 세부공종별 진도와 무관하므로 공정표 미편성이 타당함), ② <b>미편성 실공종 약 1.40%(10,401,673원)</b>: 운반비(629,009원, 0.09%) 및 철근콘크리트공사(9,772,664원, 1.32%)로, 공종별집계표(01.부대토목.xlsx)에는 계상되어 있으나 요율공정표에는 별도 행이 없음. 따라서 <b>실질적 "누락"은 약 1.40%</b>이며, 나머지는 정상적인 간접비 항목입니다.</li>
       <li><b>9. 정화조 제작</b>은 부대토목 내역서(01.부대토목.xlsx)에 별도 세부공종으로 계상되어 있지 않으나, 공종코드 <b>01011903 철근콘크리트공사(9,772,664원, 도급금액 대비 1.32%)</b>가 구조·금액 규모상 정화조(철근콘크리트 구조물) 공사비에 해당할 가능성이 높은 것으로 추정됩니다. 다만 이는 추정이며, 착수·완료일 등 공정표 반영을 위해서는 현장 담당자의 확인이 필요합니다(기계설비 별도발주 여부 포함).</li>
-      <li>작성: 손 / 최종 업데이트 2026.08.19</li>
+      <li>작성: 손 / 최종 업데이트 2026.09.04 (작성기준일 실시간 자동 반영, 전 항목 날짜별 과거 기록 직접수정 기능, 날짜변경 자동마감 및 지정일 기록 추가 기능 반영)</li>
     </ul>
   </div>
 
 </div>
 
+<!-- 여러 담당자가 같은 데이터를 함께 보고 저장할 수 있도록 하는 공유 저장소(Firebase Realtime Database) 연동 -->
+<script src="https://www.gstatic.com/firebasejs/10.13.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.13.2/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.13.2/firebase-database-compat.js"></script>
+
 <script>
-const TODAY = new Date('2026-08-19');
-const GANTT = [{"id": "earthwork", "name": "1. 토공사", "start": "2026-08-03", "end": "2026-08-22", "weight": 7.67, "group": "토공"}, {"id": "structure", "name": "2. 구조물공사(L형줄기초)", "start": "2026-08-10", "end": "2026-08-31", "weight": 2.98, "group": "구조물"}, {"id": "storm", "name": "3.1 우수공사", "start": "2026-08-28", "end": "2026-09-16", "weight": 18.13, "group": "배수"}, {"id": "sewage", "name": "3.2 오수공사", "start": "2026-09-09", "end": "2026-09-23", "weight": 9.52, "group": "배수"}, {"id": "curb", "name": "4.1 경계석설치", "start": "2026-09-21", "end": "2026-09-30", "weight": 4.16, "group": "포장"}, {"id": "blockT80", "name": "4.2 인조화강블록(T80)", "start": "2026-09-28", "end": "2026-10-07", "weight": 9.0, "group": "포장"}, {"id": "blockT60", "name": "4.3 인조화강블록(T60)", "start": "2026-09-30", "end": "2026-10-07", "weight": 3.3, "group": "포장"}, {"id": "asphalt", "name": "4.4 아스콘포장", "start": "2026-10-05", "end": "2026-10-09", "weight": 0.93, "group": "포장"}, {"id": "concretePave", "name": "4.5 콘크리트포장", "start": "2026-10-05", "end": "2026-10-07", "weight": 0.01, "group": "포장"}, {"id": "soil", "name": "4.6 마사토면고르기다짐", "start": "2026-10-02", "end": "2026-10-14", "weight": 6.01, "group": "포장"}, {"id": "braille", "name": "4.7 장애인점자블록", "start": "2026-10-09", "end": "2026-10-12", "weight": 0.13, "group": "포장"}, {"id": "laneline", "name": "4.8 차선도색", "start": "2026-10-16", "end": "2026-10-19", "weight": 0.08, "group": "포장"}, {"id": "colorPave", "name": "4.9 칼라투수콘포장", "start": "2026-10-07", "end": "2026-10-09", "weight": 0.04, "group": "포장"}, {"id": "etc", "name": "4.10 기타공사", "start": "2026-10-14", "end": "2026-10-16", "weight": 0.15, "group": "포장"}, {"id": "fence", "name": "9. 휀스및방음벽", "start": "2026-08-24", "end": "2026-10-10", "weight": 17.44, "group": "휀스"}];
+let TODAY = new Date(); TODAY.setHours(0,0,0,0); // 최초 기본값(실제 오늘) — 저장된 데이터가 로드되면 setTodayFromLastSaved()로 '마지막 저장일' 기준으로 교체됨
+const PROJECT_END = new Date('2026-10-31'); // 부대토목 공사기간 종료일(잔여일 KPI 산정 기준)
+const GANTT =[{"id": "earthwork", "name": "1. 토공사", "start": "2026-08-03", "end": "2026-08-22", "weight": 7.67, "group": "토공"}, {"id": "structure", "name": "2. 구조물공사(L형줄기초)", "start": "2026-08-10", "end": "2026-08-31", "weight": 2.98, "group": "구조물"}, {"id": "storm", "name": "3.1 우수공사", "start": "2026-08-28", "end": "2026-09-16", "weight": 18.13, "group": "배수"}, {"id": "sewage", "name": "3.2 오수공사", "start": "2026-09-09", "end": "2026-09-23", "weight": 9.52, "group": "배수"}, {"id": "curb", "name": "4.1 경계석설치", "start": "2026-09-21", "end": "2026-09-30", "weight": 4.16, "group": "포장"}, {"id": "blockT80", "name": "4.2 인조화강블록(T80)", "start": "2026-09-28", "end": "2026-10-07", "weight": 9.0, "group": "포장"}, {"id": "blockT60", "name": "4.3 인조화강블록(T60)", "start": "2026-09-30", "end": "2026-10-07", "weight": 3.3, "group": "포장"}, {"id": "asphalt", "name": "4.4 아스콘포장", "start": "2026-10-05", "end": "2026-10-09", "weight": 0.93, "group": "포장"}, {"id": "concretePave", "name": "4.5 콘크리트포장", "start": "2026-10-05", "end": "2026-10-07", "weight": 0.01, "group": "포장"}, {"id": "soil", "name": "4.6 마사토면고르기다짐", "start": "2026-10-02", "end": "2026-10-14", "weight": 6.01, "group": "포장"}, {"id": "braille", "name": "4.7 장애인점자블록", "start": "2026-10-09", "end": "2026-10-12", "weight": 0.13, "group": "포장"}, {"id": "laneline", "name": "4.8 차선도색", "start": "2026-10-16", "end": "2026-10-19", "weight": 0.08, "group": "포장"}, {"id": "colorPave", "name": "4.9 칼라투수콘포장", "start": "2026-10-07", "end": "2026-10-09", "weight": 0.04, "group": "포장"}, {"id": "etc", "name": "4.10 기타공사", "start": "2026-10-14", "end": "2026-10-16", "weight": 0.15, "group": "포장"}, {"id": "fence", "name": "9. 휀스및방음벽", "start": "2026-08-24", "end": "2026-10-10", "weight": 17.44, "group": "휀스"}];
 
 // 일요일은 공정을 시행하지 않는 것으로 보고 진도율 산정에서 제외(토요일은 근무일) — 원본 요율공정표 산정기준과 동일
 function isWorkday(d){ return d.getDay()!==0; }
@@ -896,6 +1048,39 @@ function fmtDate(str){
   return (d.getMonth()+1)+'.'+d.getDate();
 }
 function toISO(d){ return d.toISOString().slice(0,10); }
+function fmtFullDate(d){ return d.getFullYear()+'.'+String(d.getMonth()+1).padStart(2,'0')+'.'+String(d.getDate()).padStart(2,'0'); }
+function fmtMD(d){ return String(d.getMonth()+1).padStart(2,'0')+'.'+String(d.getDate()).padStart(2,'0'); }
+
+// 헤더/범례/잔여일 KPI에 실제 오늘 날짜를 반영(더 이상 과거 특정일에 고정되지 않도록)
+function updateTodayDisplays(){
+  const lbl = document.getElementById('todayLabel');
+  if(lbl) lbl.textContent = fmtFullDate(TODAY);
+  const legend = document.getElementById('legendTodayDate');
+  if(legend) legend.textContent = fmtMD(TODAY);
+  const ddayEl = document.getElementById('kpiDday');
+  if(ddayEl){
+    const d = Math.round((PROJECT_END-TODAY)/86400000);
+    ddayEl.textContent = d>0 ? ('D-'+d) : (d===0 ? 'D-DAY' : ('D+'+Math.abs(d)));
+  }
+  const mfDateEl = document.getElementById('mfDate');
+  if(mfDateEl && !mfDateEl.value) mfDateEl.value = toISO(TODAY);
+  const manualLogDateEl = document.getElementById('manualLogDate');
+  if(manualLogDateEl){ manualLogDateEl.max = toISO(TODAY); if(!manualLogDateEl.value) manualLogDateEl.value = toISO(TODAY); }
+}
+updateTodayDisplays();
+
+// 공정진행상황(계획진도율/오늘 세로선/D-day/작성기준일 등 '오늘' 관련 표시 전체)의 기준일을
+// 실제 접속 기기 날짜가 아니라 "마지막으로 페이지가 저장(접속)된 날짜"(lastLiveDate)로 고정한다.
+// 일일마감 자동감지(todayKey 기반 rollover)는 이 값과 무관하게 실제 날짜 기준을 그대로 유지한다.
+function setTodayFromLastSaved(dateKey){
+  if(!dateKey) return;
+  const m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(dateKey);
+  if(!m) return;
+  const d = new Date(Number(m[1]), Number(m[2])-1, Number(m[3]));
+  if(isNaN(d.getTime())) return;
+  d.setHours(0,0,0,0);
+  TODAY = d;
+}
 
 // ---------------- 예정공정 차수(1차/2차/3차…) 관리 ----------------
 const revisions = {};
@@ -903,6 +1088,14 @@ const revisionOrder = ['1차'];
 revisions['1차'] = {};
 GANTT.forEach(it=>{ revisions['1차'][it.id] = {start:it.start, end:it.end}; });
 let currentRev = '1차';
+
+// ---------------- 일일 기록(날짜별 이력) ----------------
+const dailyLog = {}; // { 'YYYY-MM-DD': {qty, manCum, eqCum, item7Done, savedAt} }
+const HISTORY_LOCKED_CARDS = {}; // { cardId: true } — 해당 카드가 과거 기록 조회 중이면 true(입력 잠금)
+function todayKey(){
+  const d = new Date(); // 실제 접속 기기의 오늘 날짜(공정표 기준일 TODAY와는 별개)
+  return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
+}
 
 function getSched(id){ return revisions[currentRev][id] || {start:null,end:null}; }
 function getRange(ids){
@@ -1118,16 +1311,174 @@ function renderAll(){
   updateBlockZonesSchedule();
 }
 
+// ---------------- 1-부속. 주요일정 캘린더 (간트차트 카드 하단, 수동 입력) ----------------
+// 날짜 셀을 클릭하면 일정 등록용 입력창에 날짜가 채워지는 것과 동시에, 자재반입~세부공종(2~11번,
+// DAILY_CARD_IDS)도 그 날짜로 함께 전환된다(전역에 노출된 window.switchAllCardsToDate/switchAllCardsToToday 사용 —
+// 아래쪽 "자동저장" IIFE에서 정의·노출됨. 이 IIFE가 먼저 실행되지만 실제 호출은 클릭 시점이라 문제 없음).
+(function(){
+  const wrapEl = document.getElementById('miniCal');
+  if(!wrapEl) return;
+  const dateInput = document.getElementById('calDateInput');
+  const textInput = document.getElementById('calTextInput');
+  const addBtn = document.getElementById('calAddBtn');
+  const listEl = document.getElementById('calEventList');
+
+  let scheduleEvents = []; // [{date:'YYYY-MM-DD', text:string}]
+  // 참고: 이 파일의 TODAY는 로컬 자정 시각(Date 객체)이라 toISO(TODAY)(UTC 변환)로 문자열화하면
+  // 시간대에 따라 하루 어긋날 수 있다(예: UTC+9에서는 전날로 표시됨). 달력의 "오늘" 판정은
+  // 이 파일이 실제 하루 기록(dailyLog) 판별에 이미 쓰고 있는 todayKey()(로컬 연-월-일 그대로 조합)를
+  // 그대로 따라야 일일마감·지정일 기록과 날짜가 정확히 일치한다.
+  let calYear = TODAY.getFullYear();
+  let calMonth = TODAY.getMonth(); // 0-based
+  let selectedDate = todayKey();
+  if(dateInput) dateInput.value = selectedDate;
+
+  function pad2(n){ return String(n).padStart(2,'0'); }
+  function isoOf(y,m,d){ return y+'-'+pad2(m+1)+'-'+pad2(d); }
+
+  function renderCalendar(){
+    const first = new Date(calYear, calMonth, 1);
+    const startWeekday = first.getDay();
+    const daysInMonth = new Date(calYear, calMonth+1, 0).getDate();
+    const daysInPrevMonth = new Date(calYear, calMonth, 0).getDate();
+    const todayISO = todayKey();
+    const eventDates = new Set(scheduleEvents.map(e=>e.date));
+
+    let cells = '';
+    for(let i=startWeekday-1;i>=0;i--){
+      cells += `<div class="mini-cal-day other-month">${daysInPrevMonth-i}</div>`;
+    }
+    for(let d=1; d<=daysInMonth; d++){
+      const iso = isoOf(calYear, calMonth, d);
+      const dow = new Date(calYear, calMonth, d).getDay();
+      const cls = ['mini-cal-day'];
+      if(dow===0) cls.push('sun');
+      if(iso===todayISO) cls.push('is-today');
+      if(iso===selectedDate) cls.push('is-selected');
+      const dot = eventDates.has(iso) ? '<span class="mc-dot"></span>' : '';
+      cells += `<div class="${cls.join(' ')}" data-date="${iso}">${d}${dot}</div>`;
+    }
+    const totalCells = startWeekday + daysInMonth;
+    const trailing = (7 - (totalCells % 7)) % 7;
+    for(let d=1; d<=trailing; d++){
+      cells += `<div class="mini-cal-day other-month">${d}</div>`;
+    }
+
+    wrapEl.innerHTML = `
+      <div class="mini-cal-head">
+        <div class="mc-nav"><button type="button" id="calPrev" title="이전 달">‹</button></div>
+        <div class="mc-label">${calYear}년 ${calMonth+1}월</div>
+        <div class="mc-nav"><button type="button" id="calNext" title="다음 달">›</button></div>
+      </div>
+      <div class="mini-cal-dow"><span>일</span><span>월</span><span>화</span><span>수</span><span>목</span><span>금</span><span>토</span></div>
+      <div class="mini-cal-grid">${cells}</div>
+    `;
+
+    wrapEl.querySelectorAll('.mini-cal-day:not(.other-month)').forEach(el=>{
+      el.addEventListener('click', ()=>{
+        selectedDate = el.dataset.date;
+        if(dateInput) dateInput.value = selectedDate;
+        wrapEl.querySelectorAll('.mini-cal-day').forEach(x=>x.classList.remove('is-selected'));
+        el.classList.add('is-selected');
+        // 주요일정 달력에서 날짜를 클릭하면 자재반입~세부공종(2~11번) 하위 항목도 그 날짜로 함께 이동한다.
+        // "오늘"을 클릭하면 실시간 편집 화면으로 복귀, 과거 날짜를 클릭하면 그 날짜의 기록을 열어(없으면 새로 만들어)
+        // 그 자리에서 바로 확인·수정할 수 있게 한다(저장바의 [지정일 기록 추가/열기]와 동일한 동작).
+        // 아직 오지 않은 미래 날짜는 기록이 존재할 수 없으므로 건너뛴다(일정 등록용 입력만 반영됨).
+        const manualDateInput = document.getElementById('manualLogDate');
+        if(manualDateInput) manualDateInput.value = selectedDate;
+        if(typeof todayKey==='function' && selectedDate <= todayKey()){
+          if(selectedDate === todayKey()){
+            if(window.switchAllCardsToToday) window.switchAllCardsToToday();
+          }else if(window.switchAllCardsToDate){
+            window.switchAllCardsToDate(selectedDate);
+          }
+        }
+      });
+    });
+    const prevBtn = document.getElementById('calPrev');
+    const nextBtn = document.getElementById('calNext');
+    if(prevBtn) prevBtn.addEventListener('click', ()=>{
+      calMonth--; if(calMonth<0){ calMonth=11; calYear--; } renderCalendar();
+    });
+    if(nextBtn) nextBtn.addEventListener('click', ()=>{
+      calMonth++; if(calMonth>11){ calMonth=0; calYear++; } renderCalendar();
+    });
+  }
+
+  function addEvent(){
+    const date = dateInput ? dateInput.value : '';
+    const text = textInput ? textInput.value.trim() : '';
+    if(!date || !text){ alert('날짜와 주요일정 내용을 입력해 주세요.'); return; }
+    scheduleEvents.push({date, text});
+    if(textInput) textInput.value = '';
+    renderCalendar();
+    renderList();
+  }
+
+  function renderList(){
+    if(!listEl) return;
+    if(scheduleEvents.length===0){
+      listEl.innerHTML = `<div class="cal-event-empty">등록된 주요일정이 없습니다. 왼쪽 달력에서 날짜를 선택하고 내용을 입력해 추가하세요.</div>`;
+      return;
+    }
+    const todayISO = todayKey();
+    const sorted = scheduleEvents.map((e,i)=>({...e, idx:i})).sort((a,b)=> a.date.localeCompare(b.date));
+    listEl.innerHTML = sorted.map(e=>{
+      const label = fmtDate(e.date);
+      const past = e.date < todayISO ? 'is-past' : '';
+      return `<div class="cal-event-item ${past}">
+        <span class="ce-date">${label}</span>
+        <span class="ce-text">${e.text}</span>
+        <button type="button" class="ce-del" data-idx="${e.idx}" title="삭제">×</button>
+      </div>`;
+    }).join('');
+    listEl.querySelectorAll('.ce-del').forEach(btn=>{
+      btn.addEventListener('click', ()=>{
+        scheduleEvents.splice(Number(btn.dataset.idx),1);
+        renderCalendar();
+        renderList();
+      });
+    });
+  }
+
+  if(addBtn) addBtn.addEventListener('click', addEvent);
+  if(textInput) textInput.addEventListener('keydown', (e)=>{
+    if(e.key==='Enter'){ e.preventDefault(); addEvent(); }
+  });
+  if(dateInput) dateInput.addEventListener('change', (e)=>{
+    selectedDate = e.target.value;
+    const d = new Date(selectedDate);
+    if(!isNaN(d)){ calYear=d.getFullYear(); calMonth=d.getMonth(); renderCalendar(); }
+  });
+
+  window.getScheduleEvents = function(){ return JSON.parse(JSON.stringify(scheduleEvents)); };
+  window.setScheduleEvents = function(arr){
+    scheduleEvents = Array.isArray(arr) ? arr.slice() : [];
+    renderCalendar();
+    renderList();
+  };
+
+  renderCalendar();
+  renderList();
+})();
+
 // ---------------- 공통: 총수량/진행수량 편집형 테이블 빌더 ----------------
 // rows: [{name, spec, qty, unit}], bodyEl: tbody, prefix: 고유 id 접두어
 // totals(planTotalEl, progTotalEl, pctTotalEl): 선택적 합계 표시용 엘리먼트 id
-function buildQtyTable(rows, bodyEl, prefix, totalIds){
+// opts.cumulative: true면 "진행수량"을 계산 전용(누계)으로 바꾸고 "금일반입" 입력칸을 추가한다(자재반입 전용 — 인원/장비는 기존 방식 그대로 유지).
+function buildQtyTable(rows, bodyEl, prefix, totalIds, opts){
+  const cumulative = !!(opts && opts.cumulative);
   rows.forEach((r,ri)=>{
     const tr=document.createElement('tr');
     const nameCell = r.spec ? `${r.name}<span class="unit-suffix" style="display:block; margin:0;">${r.spec}</span>` : r.name;
+    const todayCell = cumulative
+      ? `<td class="qn"><input class="qty-in" type="number" min="0" step="any" value="0" data-row="${ri}" data-role="today" title="오늘 반입된 수량을 입력하면 진행수량(누계)에 자동으로 더해집니다"></td>`
+      : '';
+    const progAttrs = cumulative ? 'readonly title="일일마감으로 기록된 금일반입 합계가 기록 시작일부터 자동으로 누적 계산됩니다"' : '';
     tr.innerHTML = `<td class="qk">${nameCell}</td>
       <td class="qn"><input class="qty-in" type="number" min="0" step="any" value="${r.qty}" data-row="${ri}" data-role="total"></td>
-      <td class="qn"><input class="qty-in" type="number" min="0" step="any" value="0" data-row="${ri}" data-role="prog"></td>
+      ${todayCell}
+      <td class="qn"><input class="qty-in" type="number" min="0" step="any" value="0" data-row="${ri}" data-role="prog" ${progAttrs}></td>
       <td class="qunit">${r.unit}</td>
       <td class="qpct" id="${prefix}-pct-${ri}">0%</td>`;
     bodyEl.appendChild(tr);
@@ -1149,8 +1500,17 @@ function buildQtyTable(rows, bodyEl, prefix, totalIds){
       if(totalIds.pct) document.getElementById(totalIds.pct).textContent = overallPct+'%';
     }
   }
-  bodyEl.addEventListener('input', recalc);
+  bodyEl.addEventListener('input', (e)=>{
+    if(cumulative && e.target.classList && e.target.classList.contains('qty-in') && e.target.dataset.role==='today'){
+      // 금일반입 입력 시 진행수량(누계)을 먼저 다시 계산한 뒤 진행율을 갱신(세부공종과 동일한 원리)
+      if(window.rebuildDetailProgChain) window.rebuildDetailProgChain();
+      else recalc();
+      return;
+    }
+    recalc();
+  });
   recalc();
+  return recalc;
 }
 
 // ---------------- 2. 자재반입 ----------------
@@ -1171,15 +1531,15 @@ const materials = [
   {name:'마사토', spec:'채취장 상차도', qty:1580, unit:'㎥'},
   {name:'맹암거관', spec:'D150+D200', qty:294, unit:'m'},
 ];
-buildQtyTable(materials, document.getElementById('matBody'), 'mat', null);
+window.recalcMatTable = buildQtyTable(materials, document.getElementById('matBody'), 'mat', null, {cumulative:true});
 
 // ---------------- 3. 인원투입 ----------------
-const manpower = ['토공','배관공(관로)','형틀목공(구조물)','철근공','콘크리트공','포장공(블록/아스콘)','보통인부','신호수/안전']
+const manpower = ['토공','배관공(관로)','형틀목공(구조물)','철근공','콘크리트공','포장공(블록/아스콘)','보통인부','신호수/안전','직원']
   .map(name=>({name, qty:0, unit:'명'}));
 buildQtyTable(manpower, document.getElementById('manBody'), 'man', {plan:'manTotalPlan', prog:'manTotal', pct:'manTotalPct', unit:' 명'});
 
 // ---------------- 4. 장비투입 ----------------
-const equipment = ['굴삭기(0.4~0.7㎥)','덤프트럭(15~25T)','진동롤러(4.4T)','콘크리트펌프카','로더/페이로더','살수차','아스콘피니셔','이동식크레인']
+const equipment = ['굴삭기(0.3㎥)','굴삭기(0.6㎥)','덤프트럭(15~25T)','진동롤러(4.4T)','콘크리트펌프카','로더/페이로더','살수차','아스콘피니셔','이동식크레인']
   .map(name=>({name, qty:0, unit:'대'}));
 buildQtyTable(equipment, document.getElementById('eqBody'), 'eq', {plan:'eqTotalPlan', prog:'eqTotal', pct:'eqTotalPct', unit:' 대'});
 
@@ -1194,8 +1554,8 @@ function updateCoverManEq(){
   document.getElementById('coverKpi4Today').textContent = '금일 '+eqToday;
   document.getElementById('coverKpi4Cum').textContent = '누계 '+eqCum.toLocaleString()+'대';
 }
-document.getElementById('manBody').addEventListener('input', updateCoverManEq);
-document.getElementById('eqBody').addEventListener('input', updateCoverManEq);
+document.getElementById('manBody').addEventListener('input', ()=>{ if(window.recalcCumFieldsLive) window.recalcCumFieldsLive(); updateCoverManEq(); });
+document.getElementById('eqBody').addEventListener('input', ()=>{ if(window.recalcCumFieldsLive) window.recalcCumFieldsLive(); updateCoverManEq(); });
 document.getElementById('manCumInput').addEventListener('input', updateCoverManEq);
 document.getElementById('eqCumInput').addEventListener('input', updateCoverManEq);
 updateCoverManEq();
@@ -1288,10 +1648,15 @@ function qtyRowsHtml(it, idx){
   return it.spec.map((s,si)=>{
     const disabled = s.computed ? 'disabled' : '';
     const dataItem = s.computed ? '' : `data-item="${idx}"`;
+    // 계산행(computed, 소계 등)은 하위 항목 값을 합산해 자동 표시되므로 "금일투입" 입력칸이 없음(대시로 표시)
+    const todayCell = s.computed
+      ? `<td class="qn">-</td>`
+      : `<td class="qn"><input class="qty-in" type="number" min="0" step="any" value="0" ${dataItem} data-row="${si}" data-role="today" title="오늘 투입(시공)한 수량을 입력하면 진행수량(누계)에 자동으로 더해집니다"></td>`;
     return `<tr class="${s.computed?'computed-row':''}">
       <td class="qk">${s.name}</td>
       <td class="qn"><input class="qty-in" type="number" min="0" step="any" value="${s.qty}" ${disabled} ${dataItem} data-row="${si}" data-role="total"></td>
-      <td class="qn"><input class="qty-in" type="number" min="0" step="any" value="0" ${disabled} ${dataItem} data-row="${si}" data-role="prog"></td>
+      ${todayCell}
+      <td class="qn"><input class="qty-in" type="number" min="0" step="any" value="0" ${disabled} ${dataItem} data-row="${si}" data-role="prog" readonly title="일일마감으로 기록된 금일투입 합계가 기록 시작일부터 자동으로 누적 계산됩니다"></td>
       <td class="qunit">${s.unit}</td>
       <td class="qpct" id="pct-${idx}-${si}">0%</td>
     </tr>`;
@@ -1340,6 +1705,59 @@ function recomputeItem(idx){
   if(diffEl) diffEl.innerHTML = diffBadge(plan, avg, it.pending);
 }
 
+// ---------------- 2.자재반입, 5~11.세부공종 "진행수량" 자동 누계(오늘 반입/투입 → 기록 시작일부터 누적) ----------------
+// 인원투입·장비투입의 누계(연인원/연대수) 자동 합산과 동일한 원리를, 자재반입·세부공종 각 품목(행) 단위로 적용한다.
+// "금일반입"/"금일투입" 칸에 오늘 반입·시공한 수량을 입력하면, "진행수량(누계)" 칸에는 기록이 시작된 날짜부터
+// 지금까지 일일마감으로 기록된 모든 금일반입·금일투입의 합계가 자동으로 표시된다(진행수량 칸은 계산 전용, 직접 수정 불가).
+function detailRowBaseKey(el){
+  const c = el.closest('[id]');
+  const cid = c ? c.id : 'none';
+  return [cid, el.dataset.item ?? '', el.dataset.zone ?? '', el.dataset.row ?? ''].join('|');
+}
+function detailFindPairedInput(el, role){
+  const base = detailRowBaseKey(el);
+  const cls = el.classList.contains('zone-in') ? '.zone-in' : '.qty-in';
+  const all = document.querySelectorAll(cls+'[data-role="'+role+'"]');
+  for(let i=0;i<all.length;i++){ if(detailRowBaseKey(all[i])===base) return all[i]; }
+  return null;
+}
+function rebuildDetailProgChain(){
+  const todayEls = document.querySelectorAll('#itemGrid .qty-in[data-role="today"], #itemGrid .zone-in[data-role="today"], #matBody .qty-in[data-role="today"]');
+  if(!todayEls.length) return;
+  const dates = Object.keys(dailyLog).sort();
+  const tk = todayKey();
+  const closedToday = dates.indexOf(tk) !== -1;
+  todayEls.forEach(todayEl=>{
+    const progEl = detailFindPairedInput(todayEl, 'prog');
+    if(!progEl) return;
+    const base = detailRowBaseKey(todayEl);
+    const todayKeyStr = base + '|today';
+    const progKeyStr = base + '|prog';
+    let running = 0;
+    dates.forEach(d=>{
+      const entry = dailyLog[d];
+      if(!entry || !entry.qty) return;
+      running += Math.max(0, Number(entry.qty[todayKeyStr]||0));
+      entry.qty[progKeyStr] = String(running); // 계산된 누계를 그 날짜 기록에도 반영(연쇄 재계산)
+    });
+    const card = todayEl.closest('.card');
+    const cardId = card ? card.id : null;
+    const viewingDate = (cardId && window.getCardViewDate) ? window.getCardViewDate(cardId) : null;
+    if(viewingDate){
+      const savedProg = (dailyLog[viewingDate] && dailyLog[viewingDate].qty) ? dailyLog[viewingDate].qty[progKeyStr] : undefined;
+      progEl.value = savedProg!==undefined ? savedProg : running;
+    }else{
+      // "오늘" 실시간 화면: 오늘 이미 마감돼 있으면 방금 계산된 누계(오늘 포함)를 그대로, 아직 마감 전이면
+      // 어제까지의 누계에 지금 화면에 입력 중인 금일투입 값을 더해 실시간으로 보여준다.
+      progEl.value = closedToday ? running : (running + Math.max(0, Number(todayEl.value||0)));
+    }
+  });
+  items.forEach((it,idx)=>recomputeItem(idx));
+  if(window.recomputeBlockZones) window.recomputeBlockZones();
+  if(window.recalcMatTable) window.recalcMatTable();
+}
+window.rebuildDetailProgChain = rebuildDetailProgChain;
+
 function updateItemSchedule(idx){
   const it = items[idx];
   if(it.pending) return;
@@ -1373,9 +1791,9 @@ items.forEach((it,idx)=>{
     <div class="progress-track"><div class="progress-fill" id="planbar-${idx}" style="width:${plan}%;"></div></div>
     <div class="progress-labels"><span>계획 진도율(일정 기준, <span class="rev-inline-label">${currentRev}</span>)</span><b id="planlabel-${idx}">${plan}%</b></div>
     <div class="progress-track"><div class="progress-fill actual" id="actualbar-${idx}" style="width:0%;"></div></div>
-    <div class="progress-labels"><span>실적 진행율(수량 기준, 아래 직접 입력)</span><b id="avgpct-${idx}">0%</b></div>
+    <div class="progress-labels"><span>실적 진행율(수량 기준, 금일투입 입력 시 자동 계산)</span><b id="avgpct-${idx}">0%</b></div>
     <table class="qty-table">
-      <thead><tr><th>세부 품목</th><th>총수량</th><th>진행수량</th><th></th><th>진행율</th></tr></thead>
+      <thead><tr><th>세부 품목</th><th>총수량</th><th>금일투입</th><th>진행수량(누계)</th><th></th><th>진행율</th></tr></thead>
       <tbody>${qtyRowsHtml(it, idx)}</tbody>
     </table>
     <div class="qty-summary">
@@ -1389,7 +1807,13 @@ items.forEach((it,idx)=>{
 });
 
 itemGrid.addEventListener('input', (e)=>{
-  if(e.target.classList && e.target.classList.contains('qty-in') && e.target.dataset.item !== undefined && e.target.dataset.item !== ''){
+  if(!e.target.classList || !e.target.classList.contains('qty-in')) return;
+  if(e.target.dataset.role==='today'){
+    // 금일투입 입력 시 진행수량(누계)을 즉시 다시 계산(아래에서 item-7 구간까지 함께 반영)
+    rebuildDetailProgChain();
+    return;
+  }
+  if(e.target.dataset.item !== undefined && e.target.dataset.item !== ''){
     recomputeItem(Number(e.target.dataset.item));
   }
 });
@@ -1413,12 +1837,13 @@ itemGrid.addEventListener('input', (e)=>{
         <div class="zone-title"><span>${z.name}</span><span class="area" id="zonemeta-${zi}">${z.qty.toLocaleString()} ${z.unit} · ${fmtDate(sc.start)}~${fmtDate(sc.end)} 계획 · 계획진도 ${plan}%</span></div>
         <div class="stage-track">${stagesHtml}</div>
         <table class="qty-table" style="margin-top:8px;">
-          <thead><tr><th>시공면적 입력</th><th>총수량</th><th>진행수량</th><th></th><th>진행율</th></tr></thead>
+          <thead><tr><th>시공면적 입력</th><th>총수량</th><th>금일투입</th><th>진행수량(누계)</th><th></th><th>진행율</th></tr></thead>
           <tbody>
             <tr>
               <td class="qk">${z.name} 블록포장 면적</td>
               <td class="qn"><input class="qty-in zone-in" type="number" min="0" step="any" value="${z.qty}" data-zone="${zi}" data-role="total"></td>
-              <td class="qn"><input class="qty-in zone-in" type="number" min="0" step="any" value="0" data-zone="${zi}" data-role="prog"></td>
+              <td class="qn"><input class="qty-in zone-in" type="number" min="0" step="any" value="0" data-zone="${zi}" data-role="today" title="오늘 시공한 면적을 입력하면 진행수량(누계)에 자동으로 더해집니다"></td>
+              <td class="qn"><input class="qty-in zone-in" type="number" min="0" step="any" value="0" data-zone="${zi}" data-role="prog" readonly title="일일마감으로 기록된 금일투입 합계가 기록 시작일부터 자동으로 누적 계산됩니다"></td>
               <td class="qunit">${z.unit}</td>
               <td class="qpct" id="zonepct-${zi}">0%</td>
             </tr>
@@ -1445,7 +1870,7 @@ itemGrid.addEventListener('input', (e)=>{
   itemGrid.appendChild(card);
 
   card.querySelectorAll('.stage').forEach(st=>{
-    st.addEventListener('click', ()=>{ st.classList.toggle('done'); });
+    st.addEventListener('click', ()=>{ st.classList.toggle('done'); if(window.persistItem7StageEdit) window.persistItem7StageEdit(); });
   });
 
   function recomputeZones(){
@@ -1532,7 +1957,7 @@ itemGrid.addEventListener('input', (e)=>{
   }
 
   document.getElementById('mfAddBtn').addEventListener('click', ()=>{
-    const date = document.getElementById('mfDate').value || '2026-08-19';
+    const date = document.getElementById('mfDate').value || toISO(TODAY);
     const type = document.getElementById('mfType').value;
     const author = document.getElementById('mfAuthor').value || '-';
     const content = document.getElementById('mfContent').value.trim();
@@ -1587,10 +2012,36 @@ function collectState(){
     qty: collectQtyMap(),
     item7Done: window.getItem7DoneStages ? window.getItem7DoneStages() : [],
     meetingLog: window.getMeetingLog ? window.getMeetingLog() : [],
+    scheduleEvents: window.getScheduleEvents ? window.getScheduleEvents() : [],
+    dailyLog: dailyLog,
+    lastLiveDate: todayKey(), // 저장 시점의 실제 날짜 — 다음 접속 때 날짜가 바뀌었는지 감지해 자동마감에 사용
   };
+}
+// 자재반입·인원투입·장비투입·세부공종 실적만 담은 하루치 스냅샷(일일마감 기록용, 차수/회의록 제외)
+function collectDailySnapshot(){
+  return {
+    qty: collectQtyMap(),
+    manCum: document.getElementById('manCumInput').value,
+    eqCum: document.getElementById('eqCumInput').value,
+    item7Done: window.getItem7DoneStages ? window.getItem7DoneStages() : [],
+    savedAt: new Date().toISOString(),
+  };
+}
+// 카드(항목) 하나에 속한 qty-in/zone-in 값만 모으고 적용 — 항목별 개별 날짜 조회용
+function collectCardQty(cardId){
+  const map = {};
+  document.querySelectorAll('#'+cardId+' input.qty-in').forEach(el=>{ map[ioKey(el)] = el.value; });
+  return map;
+}
+function applyCardQty(cardId, qtyMap){
+  document.querySelectorAll('#'+cardId+' input.qty-in').forEach(el=>{
+    const k = ioKey(el);
+    if(qtyMap && k in qtyMap) el.value = qtyMap[k];
+  });
 }
 function applyState(data){
   if(!data || typeof data!=='object') throw new Error('invalid file');
+  if(data.lastLiveDate) setTodayFromLastSaved(data.lastLiveDate);
   if(data.revisions){
     Object.keys(revisions).forEach(k=>delete revisions[k]);
     Object.keys(data.revisions).forEach(k=>{ revisions[k]=data.revisions[k]; });
@@ -1600,6 +2051,10 @@ function applyState(data){
     data.revisionOrder.forEach(n=>revisionOrder.push(n));
   }
   if(data.currentRev) currentRev = data.currentRev;
+  if(data.dailyLog){
+    Object.keys(dailyLog).forEach(k=>delete dailyLog[k]);
+    Object.keys(data.dailyLog).forEach(k=>{ dailyLog[k]=data.dailyLog[k]; });
+  }
   applyQtyMap(data.qty);
   if(data.manCum!==undefined) document.getElementById('manCumInput').value = data.manCum;
   if(data.eqCum!==undefined) document.getElementById('eqCumInput').value = data.eqCum;
@@ -1611,11 +2066,13 @@ function applyState(data){
   if(window.setItem7DoneStages) window.setItem7DoneStages(data.item7Done);
   if(window.recomputeBlockZones) window.recomputeBlockZones();
   if(window.setMeetingLog) window.setMeetingLog(data.meetingLog);
+  if(window.setScheduleEvents) window.setScheduleEvents(data.scheduleEvents);
   renderAll();
+  updateTodayDisplays();
   if(typeof updateCoverManEq==='function') updateCoverManEq();
 }
 
-document.getElementById('ioSaveBtn').addEventListener('click', ()=>{
+document.getElementById('ioExportBtn').addEventListener('click', ()=>{
   const state = collectState();
   const blob = new Blob([JSON.stringify(state, null, 2)], {type:'application/json'});
   const url = URL.createObjectURL(blob);
@@ -1628,7 +2085,7 @@ document.getElementById('ioSaveBtn').addEventListener('click', ()=>{
   document.body.removeChild(a);
   URL.revokeObjectURL(url);
   const st = document.getElementById('ioStatus');
-  st.textContent = '저장 완료: ' + a.download;
+  st.textContent = '파일로 내보내기 완료: ' + a.download;
   st.classList.remove('warn');
 });
 
@@ -1654,6 +2111,692 @@ document.getElementById('ioFileInput').addEventListener('change', (e)=>{
   };
   reader.readAsText(file);
 });
+
+// ---------------- 자동저장: 공유 저장소(Firebase) + 브라우저 캐시(localStorage) + 일일 기록 ----------------
+const FIREBASE_CONFIG = {
+  apiKey: "AIzaSyDWYuv-XaIx2pXLGh7VwVvbn7a50C0Iy-Q",
+  authDomain: "yonghyeon-hagik-dashboard.firebaseapp.com",
+  databaseURL: "https://yonghyeon-hagik-dashboard-default-rtdb.asia-southeast1.firebasedatabase.app",
+  projectId: "yonghyeon-hagik-dashboard",
+  appId: "1:232980754955:web:db38d92c6a5753b995cd0e"
+};
+const FIREBASE_ENABLED = FIREBASE_CONFIG.apiKey && !FIREBASE_CONFIG.apiKey.startsWith('여기에');
+const SYNC_PATH = 'yh1_dashboard/state';
+const DAILY_CARD_IDS = ['sec-2','sec-3','sec-4','item-5','item-6','item-7','item-8','item-9','item-10','item-11'];
+// 모든 항목(자재반입·인원투입·장비투입·세부공종)은 일일마감으로 기록이 시작된 시점까지 어떤 과거 날짜라도 열람·직접수정 가능
+
+(function(){
+  const LS_KEY = 'yh1_dashboard_autosave_v1';
+  const st = document.getElementById('ioStatus');
+  const dailyLogNoteEl = document.getElementById('dailyLogNote');
+  let timer = null;
+  let suppressSync = false;
+  let stateRef = null;
+  let pendingLiveState = null;
+  let lastKnownRemote = null; // 서버에서 마지막으로 확인된 전체 상태 — 필드 단위 저장(diff)의 기준값
+  let editorName = '';
+  try{ editorName = localStorage.getItem('yh1_editor_name') || ''; }catch(e){}
+  const DEVICE_TAG = (function(){
+    try{
+      let t = localStorage.getItem('yh1_device_tag');
+      if(!t){ t = Math.random().toString(36).slice(2,7); localStorage.setItem('yh1_device_tag', t); }
+      return t;
+    }catch(e){ return 'local'; }
+  })();
+  const SECTION_LABELS = {
+    qty:'수량/실적', revisions:'공정표(간트)', revisionOrder:'공정표 차수', currentRev:'공정표 선택차수',
+    manCum:'인원 누계', eqCum:'장비 누계', item7Done:'세부공종 진행', meetingLog:'회의록',
+    scheduleEvents:'주요일정', dailyLog:'일일기록', lastSeenDate:'날짜정보', lastLiveDate:'날짜정보',
+    revCleanupV1:'시스템'
+  };
+
+  // ---- 필드 단위 저장(부분 업데이트) + 담당자 이력 + 동시수정 감지 ----------------------------
+  // 기존 방식(stateRef.set)은 저장할 때마다 화면 전체 상태를 통째로 덮어써, 서로 다른 항목을
+  // 거의 동시에 입력한 두 담당자 중 나중에 저장된 쪽이 앞사람의 변경분까지 지워버릴 수 있었다.
+  // 아래 로직은 "실제로 바뀐 값의 경로만" 저장(stateRef.update)해 서로 다른 항목끼리는 절대
+  // 덮어쓰지 않도록 하고, 같은 항목을 정말로 동시에 고친 경우만 감지해 이력에 남기고 알린다.
+  function isPlainObj(v){ return !!v && typeof v==='object' && !Array.isArray(v); }
+  function deepEqual(a,b){ return JSON.stringify(a===undefined?null:a) === JSON.stringify(b===undefined?null:b); }
+  function diffToPaths(oldV, newV, prefix, out){
+    out = out || {};
+    if(!isPlainObj(newV) || !isPlainObj(oldV)){
+      if(!deepEqual(oldV, newV)) out[prefix] = (newV===undefined ? null : newV);
+      return out;
+    }
+    const keys = {};
+    Object.keys(oldV).forEach(k=>{ keys[k]=1; });
+    Object.keys(newV).forEach(k=>{ keys[k]=1; });
+    Object.keys(keys).forEach(k=>{
+      diffToPaths(oldV[k], newV[k], prefix ? (prefix+'/'+k) : k, out);
+    });
+    return out;
+  }
+  function getAtPath(obj, path){
+    const parts = path.split('/');
+    let cur = obj;
+    for(let i=0;i<parts.length;i++){ if(cur===null||cur===undefined) return undefined; cur = cur[parts[i]]; }
+    return cur;
+  }
+  function setAtPath(obj, path, val){
+    const parts = path.split('/');
+    let cur = obj;
+    for(let i=0;i<parts.length-1;i++){
+      const p = parts[i];
+      if(!isPlainObj(cur[p])) cur[p] = {};
+      cur = cur[p];
+    }
+    cur[parts[parts.length-1]] = val;
+  }
+  function summarizeSections(keys){
+    const set = {};
+    keys.forEach(p=>{ const top = p.split('/')[0]; set[SECTION_LABELS[top] || top] = 1; });
+    return Object.keys(set);
+  }
+  function showConflictToast(sections){
+    let el = document.getElementById('conflictToast');
+    if(!el){
+      el = document.createElement('div');
+      el.id = 'conflictToast';
+      el.className = 'conflict-toast';
+      document.body.appendChild(el);
+    }
+    el.textContent = '⚠ ' + sections.join(', ') + ' 항목을 다른 담당자가 방금 동시에 수정했습니다 — 저장 이력에서 확인하세요.';
+    el.style.display = 'block';
+    clearTimeout(el._hideTimer);
+    el._hideTimer = setTimeout(()=>{ el.style.display = 'none'; }, 6000);
+  }
+  function renderEditHistory(){
+    const listEl = document.getElementById('editHistoryList');
+    if(!listEl) return;
+    const log = (lastKnownRemote && lastKnownRemote.meta && Array.isArray(lastKnownRemote.meta.editLog)) ? lastKnownRemote.meta.editLog : [];
+    if(!log.length){ listEl.innerHTML = '<div style="color:var(--text-muted);">아직 저장 이력이 없습니다.</div>'; return; }
+    listEl.innerHTML = log.slice().reverse().map(e=>{
+      const name = (e.name || '담당자 미입력');
+      const time = e.at ? fmtTime(new Date(e.at)) : '';
+      const sections = (e.sections||[]).join(', ') || '전체';
+      const cls = e.conflict ? 'edit-history-item conflict' : 'edit-history-item';
+      const tag = e.conflict ? ' · ⚠ 동시수정 감지' : '';
+      return '<div class="'+cls+'"><span class="eh-name">'+name+'</span><span class="eh-time">'+time+'</span><span class="eh-sections">'+sections+tag+'</span></div>';
+    }).join('');
+  }
+  // 서버(원격) 기준값 대비 실제로 바뀐 경로만 골라 부분 저장 — Firebase가 경로별로 병합해 주므로
+  // 서로 다른 항목을 동시에 입력한 두 담당자의 값이 서로를 지우지 않는다.
+  function pushUpdate(newState, conflictSections){
+    const base = lastKnownRemote || {};
+    const paths = diffToPaths(base, newState, '');
+    delete paths.meta; // meta(담당자 이력)는 collectState()에 없는 별도 관리 영역이라 진단에서 제외
+    const meaningfulKeys = Object.keys(paths).filter(p=>p!=='savedAt');
+    if(meaningfulKeys.length===0) return Promise.resolve('nochange'); // 실질 변경 없음(단순 클릭 등) — 조용히 넘어감
+    const name = (editorName||'').trim() || '담당자 미입력';
+    const nowIso = new Date().toISOString();
+    const prevLog = (lastKnownRemote && lastKnownRemote.meta && Array.isArray(lastKnownRemote.meta.editLog)) ? lastKnownRemote.meta.editLog : [];
+    const entry = { name: name, at: nowIso, device: DEVICE_TAG, sections: summarizeSections(meaningfulKeys), conflict: !!(conflictSections && conflictSections.length) };
+    paths['meta/lastEditor'] = name;
+    paths['meta/lastEditAt'] = nowIso;
+    paths['meta/editLog'] = prevLog.concat([entry]).slice(-30);
+    return stateRef.update(paths);
+  }
+
+  const cardView = {};
+  const cardStash = {};
+  DAILY_CARD_IDS.forEach(id=>{ cardView[id] = null; });
+
+  function fmtTime(d){
+    return d.toLocaleString('ko-KR', {hour12:false, month:'2-digit', day:'2-digit', hour:'2-digit', minute:'2-digit'});
+  }
+  function anyCardViewing(){ return Object.keys(cardView).some(id=>cardView[id]!==null); }
+  function cardDates(){ return Object.keys(dailyLog).sort(); }
+
+  // ---- 인원투입·장비투입 누계(연인원/연대수) 자동 합산 ----
+  // "누계" = 일일마감으로 기록된 모든 날짜의 금일투입·금일가동 합계를 순서대로 누적한 값.
+  // 마감/정정이 있을 때마다 기록 전체를 처음부터 다시 훑어 재계산하므로(rebuildCumChain), 재마감·과거 정정이 있어도
+  // 이후 날짜까지 항상 정확히 연쇄 반영되며 중복 합산되지 않는다.
+  function sumProgColumn(bodyId){
+    let sum = 0;
+    document.querySelectorAll('#'+bodyId+' input.qty-in[data-role="prog"]').forEach(el=>{ sum += Math.max(0, Number(el.value||0)); });
+    return sum;
+  }
+  // 저장된(과거) 하루치 qty 맵에서 해당 표의 금일투입·금일가동 합계만 추출
+  function sumProgFromQtyMap(qtyMap, bodyId){
+    if(!qtyMap) return 0;
+    let sum = 0;
+    Object.keys(qtyMap).forEach(k=>{
+      if(k.indexOf(bodyId+'|')===0 && k.slice(-5)==='|prog') sum += Math.max(0, Number(qtyMap[k]||0));
+    });
+    return sum;
+  }
+  function priorCumBefore(dateKey, key){
+    const dates = cardDates().filter(d=>d<dateKey);
+    if(!dates.length) return 0;
+    const priorKey = dates[dates.length-1];
+    return Number((dailyLog[priorKey] && dailyLog[priorKey][key]) || 0);
+  }
+  // 특정 날짜(dateKey)를 기준으로 누계를 재계산 — 조회 중인 화면에 즉시 반영할 때 사용(경량, 그 날짜 하나만 계산)
+  function recalcCumFieldForDate(cardId, dateKey){
+    const extra = cardExtraField(cardId);
+    if(!extra || !extra.el) return;
+    const bodyId = cardId==='sec-3' ? 'manBody' : 'eqBody';
+    extra.el.value = priorCumBefore(dateKey, extra.key) + sumProgColumn(bodyId);
+  }
+  // 현재 화면 상태(오늘 실시간 또는 조회 중인 과거 날짜) 기준으로 누계를 재계산 — 입력할 때마다 실시간 반영
+  function recalcCumField(cardId){
+    const viewingDate = cardView[cardId];
+    if(viewingDate){ recalcCumFieldForDate(cardId, viewingDate); return; }
+    const extra = cardExtraField(cardId);
+    if(!extra || !extra.el) return;
+    const bodyId = cardId==='sec-3' ? 'manBody' : 'eqBody';
+    const tk = todayKey();
+    // 오늘 이미 마감(또는 자동마감)된 기록이 있으면 그 기록의 누계를 기준치로 삼아, 마감 이후 화면이 0으로 초기화돼도
+    // 방금 저장된 누계가 사라져 보이지 않도록 한다(마감 이후 추가로 입력하면 그 위에 더해짐).
+    const baseline = (dailyLog[tk] && dailyLog[tk][extra.key]!==undefined) ? Number(dailyLog[tk][extra.key]||0) : priorCumBefore(tk, extra.key);
+    extra.el.value = baseline + sumProgColumn(bodyId);
+  }
+  window.recalcCumFieldsLive = function(){ recalcCumField('sec-3'); recalcCumField('sec-4'); };
+  // item-5~11(세부공종) 카드가 지금 과거 어느 날짜를 조회 중인지, 카드 밖(전역 스코프)의
+  // rebuildDetailProgChain()에서도 알 수 있도록 조회 상태를 내보냄(오늘=null).
+  window.getCardViewDate = function(cardId){ return cardView[cardId] !== undefined ? cardView[cardId] : null; };
+  // 기록된 모든 날짜를 오래된 순서대로 다시 훑어 각 날짜의 누계를 "그 이전 누계 + 그 날짜 합계"로
+  // 처음부터 다시 계산한다 — 과거 어느 날짜를 정정하더라도 그 이후 모든 날짜와 "오늘"까지 정확히
+  // 연쇄 반영(캐스케이드)되도록 보장하는 전체 재계산.
+  function rebuildCumChain(){
+    const dates = cardDates();
+    let manRunning = 0;
+    let eqRunning = 0;
+    dates.forEach(d=>{
+      const entry = dailyLog[d];
+      if(!entry) return;
+      manRunning += sumProgFromQtyMap(entry.qty, 'manBody');
+      eqRunning += sumProgFromQtyMap(entry.qty, 'eqBody');
+      entry.manCum = String(manRunning);
+      entry.eqCum = String(eqRunning);
+    });
+    // 과거 날짜를 조회 중인 카드가 있으면 방금 재계산된 값을 화면에도 반영
+    if(cardView['sec-3']!==null && dailyLog[cardView['sec-3']]) document.getElementById('manCumInput').value = dailyLog[cardView['sec-3']].manCum;
+    if(cardView['sec-4']!==null && dailyLog[cardView['sec-4']]) document.getElementById('eqCumInput').value = dailyLog[cardView['sec-4']].eqCum;
+    // "오늘" 실시간 화면이면 최신 체인 기준으로 다시 계산
+    if(cardView['sec-3']===null) recalcCumField('sec-3');
+    if(cardView['sec-4']===null) recalcCumField('sec-4');
+    if(typeof updateCoverManEq==='function') updateCoverManEq();
+    // 세부공종(5~11) "진행수량(누계)"도 같은 시점에 함께 전체 재계산(연쇄 반영)한다.
+    if(window.rebuildDetailProgChain) window.rebuildDetailProgChain();
+    DAILY_CARD_IDS.forEach(updateCardNavUI);
+  }
+
+  function autosaveNow(){
+    if(suppressSync || anyCardViewing()) return;
+    const state = collectState();
+    try{ localStorage.setItem(LS_KEY, JSON.stringify(state)); }catch(e){}
+    if(FIREBASE_ENABLED && stateRef){
+      pushUpdate(state)
+        .then((r)=>{
+          if(r==='nochange') return; // 실질 변경 없음 — 상태문구 갱신 없이 조용히 넘어감
+          if(st){ st.textContent = '전체 공유 저장됨: ' + fmtTime(new Date()); st.classList.remove('warn'); }
+          renderEditHistory();
+        })
+        .catch(()=>{ if(st){ st.textContent = '공유 저장 실패(네트워크) — 이 기기에는 저장됨: ' + fmtTime(new Date()); st.classList.add('warn'); } });
+    }else{
+      if(st) st.textContent = (FIREBASE_ENABLED ? '공유 저장소 연결 중…' : '이 브라우저에 저장됨') + ' : ' + fmtTime(new Date());
+    }
+  }
+  function scheduleAutosave(){
+    if(suppressSync || anyCardViewing()) return;
+    clearTimeout(timer);
+    timer = setTimeout(autosaveNow, 600);
+  }
+  document.addEventListener('input', scheduleAutosave);
+  document.addEventListener('change', scheduleAutosave);
+  document.addEventListener('click', scheduleAutosave);
+  window.addEventListener('beforeunload', autosaveNow);
+
+  // 날짜가 바뀐 채로(=일일마감을 누르지 않고) 다시 접속한 경우, 마지막으로 저장됐던 날짜를
+  // 자동으로 마감 기록에 남기고 인원/장비 금일 입력을 초기화 — 세션당 1회만 수행
+  let rolloverChecked = false;
+  function maybeAutoCloseDay(data){
+    if(rolloverChecked) return;
+    rolloverChecked = true;
+    const prevDate = data && data.lastLiveDate;
+    const today = todayKey();
+    if(!prevDate || prevDate===today) return; // 처음 사용이거나 이미 오늘 것
+    if(dailyLog[prevDate]) return; // 이미 어떤 방식으로든(수동/자동) 그 날짜가 기록돼 있으면 건너뜀
+    dailyLog[prevDate] = Object.assign(collectDailySnapshot(), {autoClosed:true});
+    rebuildCumChain(); // 시작일 기준부터 다시 계산해 prevDate·오늘 누계를 정확히 반영
+    document.querySelectorAll('#manBody input.qty-in[data-role="prog"], #eqBody input.qty-in[data-role="prog"]').forEach(el=>{ el.value = 0; });
+    // 세부공종(5~11)의 "금일투입"도 마감 시점 값이 이미 그 날짜 기록(qty)에 저장되었으므로, 다음 날 새로 입력할 수 있도록 0으로 초기화
+    document.querySelectorAll('#itemGrid .qty-in[data-role="today"], #itemGrid .zone-in[data-role="today"], #matBody .qty-in[data-role="today"]').forEach(el=>{ el.value = 0; });
+    ['manBody','eqBody'].forEach(id=>{ const el=document.getElementById(id); if(el) el.dispatchEvent(new Event('input')); });
+    if(window.rebuildDetailProgChain) window.rebuildDetailProgChain();
+    if(typeof updateCoverManEq==='function') updateCoverManEq();
+    DAILY_CARD_IDS.forEach(updateCardNavUI);
+    if(st){ st.textContent = prevDate+' 기록이 날짜 변경으로 자동 마감되었습니다 — 인원/장비 금일 입력 초기화됨'; st.classList.remove('warn'); }
+    autosaveNow();
+  }
+  function applyRemote(data, label){
+    if(anyCardViewing()){
+      pendingLiveState = data;
+      if(data.dailyLog){
+        Object.keys(dailyLog).forEach(k=>delete dailyLog[k]);
+        Object.keys(data.dailyLog).forEach(k=>{ dailyLog[k]=data.dailyLog[k]; });
+      }
+      DAILY_CARD_IDS.forEach(updateCardNavUI);
+      lastKnownRemote = data;
+      return;
+    }
+    // 지금 화면에서 아직 서버로 보내지 못한(디바운스 대기 중인) 내 입력이 있으면, 그 항목만은
+    // 방금 들어온 원격 데이터로 되돌리지 않고 내 값을 그대로 지킨다(다른 항목은 정상 반영).
+    let merged = data;
+    let conflictSections = [];
+    let hadDirty = false;
+    if(lastKnownRemote){
+      const myLocalNow = collectState();
+      const myDirty = diffToPaths(lastKnownRemote, myLocalNow, '');
+      const dirtyKeys = Object.keys(myDirty).filter(p=>p!=='savedAt' && p.indexOf('meta')!==0);
+      if(dirtyKeys.length){
+        hadDirty = true;
+        merged = JSON.parse(JSON.stringify(data));
+        dirtyKeys.forEach(p=>{
+          const incoming = getAtPath(data, p);
+          const known = getAtPath(lastKnownRemote, p);
+          if(!deepEqual(incoming, known)) conflictSections.push(SECTION_LABELS[p.split('/')[0]] || p.split('/')[0]);
+          setAtPath(merged, p, myDirty[p]);
+        });
+        conflictSections = Array.from(new Set(conflictSections));
+      }
+    }
+    lastKnownRemote = data;
+    suppressSync = true;
+    try{ applyState(merged); }finally{ suppressSync = false; }
+    if(st) st.textContent = label + (data.savedAt ? fmtTime(new Date(data.savedAt)) : '');
+    DAILY_CARD_IDS.forEach(updateCardNavUI);
+    renderEditHistory();
+    if(conflictSections.length) showConflictToast(conflictSections);
+    maybeAutoCloseDay(merged);
+    // 불러온 직후 시작일 기준으로 전체 누계를 다시 계산해, 다른 담당자의 수정이나 시작일 이전 누계값
+    // 변경이 있었어도 항상 최신 상태로 정확히 맞춘다.
+    rebuildCumChain();
+    if(hadDirty) scheduleAutosave(); // 지켜낸 내 입력을 다시 저장 대기열에 올려 서버에도 반영되도록 함
+  }
+
+  const saveBtn = document.getElementById('ioSaveBtn');
+  if(saveBtn) saveBtn.addEventListener('click', ()=>{
+    clearTimeout(timer);
+    if(st){ st.textContent = '저장 중…'; st.classList.remove('warn'); }
+    autosaveNow();
+  });
+
+  // 담당자명 입력(브라우저별 localStorage에 보관 — 저장할 때마다 이 이름이 이력에 남음)
+  const editorNameInput = document.getElementById('editorNameInput');
+  if(editorNameInput){
+    editorNameInput.value = editorName;
+    editorNameInput.addEventListener('input', ()=>{
+      editorName = editorNameInput.value;
+      try{ localStorage.setItem('yh1_editor_name', editorName); }catch(e){}
+    });
+  }
+  // 최근 저장 이력 패널 열기/닫기
+  const historyBtn = document.getElementById('editHistoryBtn');
+  const historyPanel = document.getElementById('editHistoryPanel');
+  if(historyBtn && historyPanel){
+    historyBtn.addEventListener('click', ()=>{
+      historyPanel.classList.toggle('open');
+      if(historyPanel.classList.contains('open')) renderEditHistory();
+    });
+  }
+
+  function tryRestoreLocalOnly(){
+    try{
+      const raw = localStorage.getItem(LS_KEY);
+      if(!raw){ if(st) st.textContent = '저장된 데이터 없음(최초 접속)'; return; }
+      const data = JSON.parse(raw);
+      applyRemote(data, '이 브라우저에 저장된 데이터 복원됨: ');
+    }catch(e){
+      if(st){ st.textContent = '데이터 복원 실패 — 파일로 불러오세요'; st.classList.add('warn'); }
+    }
+  }
+
+  const closeBtn = document.getElementById('dailyLogCloseBtn');
+  if(closeBtn) closeBtn.addEventListener('click', ()=>{
+    if(anyCardViewing()){ alert('일부 항목이 과거 기록을 조회 중입니다. 먼저 해당 항목을 "오늘"로 되돌린 뒤 다시 시도하세요.'); return; }
+    const tk = todayKey();
+    const already = !!dailyLog[tk];
+    const msg = (already
+      ? tk + ' 기록이 이미 있습니다. 지금 값으로 다시 마감하시겠습니까?\n'
+      : tk + ' 일일마감을 진행하시겠습니까?\n') +
+      '인원투입(금일투입)·장비투입(금일가동) 수치가 이 시점 값으로 기록되고 0으로 초기화됩니다.\n(누계 투입인원/가동대수는 어제까지의 누계에 오늘 합계를 자동으로 더해 갱신됩니다)';
+    if(!confirm(msg)) return;
+    dailyLog[tk] = collectDailySnapshot();
+    rebuildCumChain(); // 시작일 기준부터 다시 계산해 오늘 누계를 정확히 반영(재마감해도 중복 합산되지 않음)
+    document.querySelectorAll('#manBody input.qty-in[data-role="prog"], #eqBody input.qty-in[data-role="prog"]').forEach(el=>{ el.value = 0; });
+    // 세부공종(5~11)의 "금일투입"도 마감 시점 값이 이미 그 날짜 기록(qty)에 저장되었으므로, 다음 날 새로 입력할 수 있도록 0으로 초기화
+    document.querySelectorAll('#itemGrid .qty-in[data-role="today"], #itemGrid .zone-in[data-role="today"], #matBody .qty-in[data-role="today"]').forEach(el=>{ el.value = 0; });
+    ['manBody','eqBody'].forEach(id=>{ const el=document.getElementById(id); if(el) el.dispatchEvent(new Event('input')); });
+    if(window.rebuildDetailProgChain) window.rebuildDetailProgChain();
+    if(typeof updateCoverManEq==='function') updateCoverManEq();
+    if(st){ st.textContent = tk + ' 일일마감 완료 — 인원/장비 금일 입력 초기화됨'; st.classList.remove('warn'); }
+    DAILY_CARD_IDS.forEach(updateCardNavUI);
+    autosaveNow();
+  });
+
+  // ---- [일일마감]을 누르지 않고 지나간 특정 날짜의 기록을 직접 추가/열기 ----
+  // 자재반입·인원투입·장비투입뿐 아니라 5~11번 세부공종 작업율 카드까지 전 항목을 한 번에 그 날짜로 전환한다.
+  function switchAllCardsToDate(dateKey){
+    DAILY_CARD_IDS.forEach(cardId=>{
+      if(cardView[cardId]!==null && cardView[cardId]!==dateKey) exitCardHistory(cardId);
+      if(cardView[cardId]!==dateKey) enterCardHistory(cardId, dateKey);
+    });
+    DAILY_CARD_IDS.forEach(updateCardNavUI);
+  }
+  function switchAllCardsToToday(){
+    DAILY_CARD_IDS.forEach(cardId=>{
+      if(cardView[cardId]!==null) exitCardHistory(cardId);
+    });
+    DAILY_CARD_IDS.forEach(updateCardNavUI);
+  }
+  // 주요일정 달력(1번 카드, 코드상 더 앞서 정의됨)의 날짜 클릭에서도 이 함수들을 쓸 수 있도록 전역에 노출
+  window.switchAllCardsToDate = function(dateKey){
+    if(!dailyLog[dateKey]){
+      // 아직 기록이 없는 날짜 — 저장바의 [지정일 기록 추가/열기]와 동일하게, 그 이전 가장 가까운 기록을
+      // 기반으로 새 기록을 만든 뒤(없으면 0으로 시작) 전 항목을 그 날짜로 전환한다.
+      const priorDates = cardDates().filter(d=>d<dateKey);
+      const priorKey = priorDates.length ? priorDates[priorDates.length-1] : null;
+      const base = priorKey ? JSON.parse(JSON.stringify(dailyLog[priorKey])) : {qty:{}, manCum:'0', eqCum:'0', item7Done:[]};
+      base.savedAt = new Date().toISOString();
+      base.manuallyAdded = true;
+      dailyLog[dateKey] = base;
+      rebuildCumChain();
+    }
+    switchAllCardsToDate(dateKey);
+    saveDailyLogEdit(dateKey);
+    const manualStatus = document.getElementById('manualLogStatus');
+    if(manualStatus){ manualStatus.textContent = dateKey+' 기록으로 자재반입~세부공종(2~11번) 전 항목이 전환되었습니다.'; manualStatus.classList.remove('warn'); }
+  };
+  window.switchAllCardsToToday = function(){
+    switchAllCardsToToday();
+    const manualStatus = document.getElementById('manualLogStatus');
+    if(manualStatus){ manualStatus.textContent = '전 항목을 "오늘" 실시간 화면으로 되돌렸습니다.'; manualStatus.classList.remove('warn'); }
+  };
+  const manualLogBtn = document.getElementById('manualLogAddBtn');
+  if(manualLogBtn) manualLogBtn.addEventListener('click', ()=>{
+    const dateInput = document.getElementById('manualLogDate');
+    const manualStatus = document.getElementById('manualLogStatus');
+    const dateKey = dateInput ? dateInput.value : '';
+    if(!dateKey){ if(manualStatus){ manualStatus.textContent = '날짜를 먼저 선택하세요.'; manualStatus.classList.add('warn'); } return; }
+    const today = todayKey();
+    if(dateKey > today){ if(manualStatus){ manualStatus.textContent = '오늘 이후 날짜는 추가할 수 없습니다.'; manualStatus.classList.add('warn'); } return; }
+    const existed = !!dailyLog[dateKey];
+    if(!existed){
+      // 이 날짜 이전 중 가장 가까운 기록을 기반으로 새 기록을 생성(자재 누계 등이 이어지도록) — 없으면 0으로 시작
+      const priorDates = cardDates().filter(d=>d<dateKey);
+      const priorKey = priorDates.length ? priorDates[priorDates.length-1] : null;
+      const base = priorKey ? JSON.parse(JSON.stringify(dailyLog[priorKey])) : {qty:{}, manCum:'0', eqCum:'0', item7Done:[]};
+      base.savedAt = new Date().toISOString();
+      base.manuallyAdded = true;
+      dailyLog[dateKey] = base;
+      rebuildCumChain(); // 새로 만든 날짜의 누계도 시작일 기준 체인에 맞춰 재계산(실제 값으로 수정 전까지의 임시치)
+    }
+    // 자재반입(2)·인원투입(3)·장비투입(4)·세부공종 작업율(5~11) 전 항목을 한 번에 이 날짜로 전환
+    switchAllCardsToDate(dateKey);
+    saveDailyLogEdit(dateKey);
+    if(manualStatus){
+      manualStatus.textContent = existed
+        ? (dateKey+' 기록을 열었습니다 — 자재반입~세부공종(2~11번) 전 항목이 이 날짜로 함께 전환되었습니다. 아래 각 표에서 바로 수정하세요.')
+        : (dateKey+' 기록을 새로 만들었습니다(이전 기록 값을 기반으로 생성) — 자재반입~세부공종(2~11번) 전 항목이 이 날짜로 함께 전환되었습니다. 아래 각 표에서 실제 값으로 수정하세요.');
+      manualStatus.classList.remove('warn');
+    }
+  });
+  const manualLogTodayBtn = document.getElementById('manualLogTodayBtn');
+  if(manualLogTodayBtn) manualLogTodayBtn.addEventListener('click', ()=>{
+    switchAllCardsToToday();
+    const manualStatus = document.getElementById('manualLogStatus');
+    if(manualStatus){ manualStatus.textContent = '전 항목을 "오늘" 실시간 화면으로 되돌렸습니다.'; manualStatus.classList.remove('warn'); }
+  });
+
+  function recomputeCard(cardId){
+    if(cardId==='sec-2'){ const el=document.getElementById('matBody'); if(el) el.dispatchEvent(new Event('input')); }
+    else if(cardId==='sec-3'){ const el=document.getElementById('manBody'); if(el) el.dispatchEvent(new Event('input')); if(typeof updateCoverManEq==='function') updateCoverManEq(); }
+    else if(cardId==='sec-4'){ const el=document.getElementById('eqBody'); if(el) el.dispatchEvent(new Event('input')); if(typeof updateCoverManEq==='function') updateCoverManEq(); }
+    else if(cardId==='item-7'){ if(window.recomputeBlockZones) window.recomputeBlockZones(); }
+    else if(cardId.indexOf('item-')===0){ const idx = items.findIndex(it=>('item-'+it.tag)===cardId); if(idx>=0) recomputeItem(idx); }
+  }
+  function setCardDisabled(cardId, flag){
+    document.querySelectorAll('#'+cardId+' input.qty-in').forEach(el=>{ el.disabled = flag; });
+    HISTORY_LOCKED_CARDS[cardId] = flag;
+  }
+  // sec-3(인원투입)의 누계 투입인원 · sec-4(장비투입)의 누계 가동대수 — 카드별 날짜 이력에 함께 연동되는 보조 입력값
+  function cardExtraField(cardId){
+    if(cardId==='sec-3') return {el: document.getElementById('manCumInput'), key:'manCum'};
+    if(cardId==='sec-4') return {el: document.getElementById('eqCumInput'), key:'eqCum'};
+    return null;
+  }
+  function updateGlobalHistoryNotice(){
+    if(!dailyLogNoteEl) return;
+    if(anyCardViewing()){
+      dailyLogNoteEl.innerHTML = '⏱ 일부 항목이 <b>과거 기록</b>을 표시 중입니다 — 전체 자동저장은 잠시 중단되지만, 화면에 표시된 값은 그 자리에서 바로 수정할 수 있으며 수정 즉시 그 날짜의 기록에 저장됩니다. 모든 항목을 "오늘"로 되돌리면 전체 자동저장이 재개됩니다.';
+      dailyLogNoteEl.classList.add('warn-note');
+    }else{
+      dailyLogNoteEl.innerHTML = '각 항목 소제목 옆 <b>◀ 날짜 ▶</b> 로 그 항목의 과거 입력값을 일일마감이 시작된 날짜까지 날짜별로 확인하고, 그 자리에서 바로 수정할 수 있습니다(수정 즉시 해당 날짜 기록에 저장).';
+      dailyLogNoteEl.classList.remove('warn-note');
+    }
+  }
+  function updateCardNavUI(cardId){
+    const nav = document.querySelector('.card-date-nav[data-card="'+cardId+'"]');
+    if(!nav) return;
+    const label = nav.querySelector('.cdn-label');
+    const prevBtn = nav.querySelector('.cdn-prev');
+    const nextBtn = nav.querySelector('.cdn-next');
+    const dates = cardDates();
+    const v = cardView[cardId];
+    if(v===null){
+      label.textContent = '오늘'; label.title = ''; nav.classList.remove('hist-active','hist-editable');
+      if(prevBtn) prevBtn.disabled = (dates.length===0);
+      if(nextBtn) nextBtn.disabled = true;
+    }else{
+      label.textContent = v + ' ✎';
+      label.title = (dailyLog[v] && dailyLog[v].savedAt) ? ('저장시각 ' + fmtTime(new Date(dailyLog[v].savedAt)) + ' · 수정 가능') : '수정 가능';
+      nav.classList.add('hist-active','hist-editable');
+      const idx = dates.indexOf(v);
+      if(prevBtn) prevBtn.disabled = (idx<=0);
+      if(nextBtn) nextBtn.disabled = false;
+    }
+    if(prevBtn) prevBtn.title = prevBtn.disabled ? '더 이전 기록 없음' : '이전 기록';
+    if(nextBtn) nextBtn.title = (v===null) ? '' : (nextBtn.disabled ? '' : '다음 기록 / 오늘로');
+  }
+  function enterCardHistory(cardId, dateKey){
+    if(!dailyLog[dateKey]) return;
+    if(cardView[cardId]===null){
+      cardStash[cardId] = collectCardQty(cardId);
+      const extra = cardExtraField(cardId);
+      if(extra && extra.el) cardStash[cardId+'__extra'] = extra.el.value;
+      if(cardId==='item-7' && window.getItem7DoneStages) cardStash[cardId+'__stages'] = window.getItem7DoneStages();
+    }
+    cardView[cardId] = dateKey; // recomputeCard()의 input 이벤트가 자동합산 로직에서 바뀐 날짜를 즉시 참조하도록 먼저 갱신
+    applyCardQty(cardId, dailyLog[dateKey].qty);
+    const extra = cardExtraField(cardId);
+    if(extra && extra.el && dailyLog[dateKey][extra.key]!==undefined) extra.el.value = dailyLog[dateKey][extra.key];
+    if(cardId==='item-7' && window.setItem7DoneStages) window.setItem7DoneStages(dailyLog[dateKey].item7Done);
+    recomputeCard(cardId);
+    setCardDisabled(cardId, false); // 일일마감이 시작된 시점까지 모든 과거 기록을 그 자리에서 직접 수정 가능
+    updateCardNavUI(cardId);
+    updateGlobalHistoryNotice();
+  }
+  function exitCardHistory(cardId){
+    if(cardView[cardId]===null) return;
+    applyCardQty(cardId, cardStash[cardId]);
+    const extra = cardExtraField(cardId);
+    if(extra && extra.el && cardStash[cardId+'__extra']!==undefined) extra.el.value = cardStash[cardId+'__extra'];
+    if(cardId==='item-7' && window.setItem7DoneStages) window.setItem7DoneStages(cardStash[cardId+'__stages']);
+    cardView[cardId] = null; // recomputeCard()의 input 이벤트가 자동합산 로직에서 "오늘"로 즉시 인식하도록 먼저 갱신
+    recomputeCard(cardId);
+    if(cardId==='sec-3' || cardId==='sec-4') recalcCumField(cardId); // "오늘" 복귀 시 누계 자동 재계산(안전망)
+    if((cardId==='sec-2' || cardId.indexOf('item-')===0) && window.rebuildDetailProgChain) window.rebuildDetailProgChain(); // "오늘" 복귀 시 자재반입·세부공종 진행수량(누계)도 함께 재계산(안전망)
+    delete cardStash[cardId];
+    delete cardStash[cardId+'__extra'];
+    delete cardStash[cardId+'__stages'];
+    setCardDisabled(cardId, false);
+    updateCardNavUI(cardId);
+    updateGlobalHistoryNotice();
+    if(!anyCardViewing() && pendingLiveState){
+      suppressSync = true;
+      applyState(pendingLiveState);
+      pendingLiveState = null;
+      suppressSync = false;
+      if(st) st.textContent = '대기 중이던 다른 담당자 저장 내용 반영됨: ' + fmtTime(new Date());
+      DAILY_CARD_IDS.forEach(updateCardNavUI);
+    }
+  }
+  function stepCard(cardId, dir){
+    const dates = cardDates();
+    if(dates.length===0) return;
+    if(dir<0){
+      const idx = cardView[cardId]===null ? dates.length : dates.indexOf(cardView[cardId]);
+      if(idx<=0) return;
+      enterCardHistory(cardId, dates[idx-1]);
+    }else{
+      if(cardView[cardId]===null) return;
+      const idx = dates.indexOf(cardView[cardId]);
+      if(idx<0 || idx===dates.length-1) exitCardHistory(cardId);
+      else enterCardHistory(cardId, dates[idx+1]);
+    }
+  }
+  function attachCardDateNav(cardId){
+    const card = document.getElementById(cardId);
+    if(!card) return;
+    const h3 = card.querySelector('h3');
+    if(!h3) return;
+    const nav = document.createElement('span');
+    nav.className = 'card-date-nav';
+    nav.dataset.card = cardId;
+    nav.innerHTML = '<button type="button" class="cdn-btn cdn-prev" title="이전 기록">◀</button><span class="cdn-label">오늘</span><button type="button" class="cdn-btn cdn-next" title="다음 기록">▶</button>';
+    h3.appendChild(nav);
+    nav.querySelector('.cdn-prev').addEventListener('click', (e)=>{ e.stopPropagation(); stepCard(cardId, -1); });
+    nav.querySelector('.cdn-next').addEventListener('click', (e)=>{ e.stopPropagation(); stepCard(cardId, 1); });
+  }
+  DAILY_CARD_IDS.forEach(attachCardDateNav);
+  DAILY_CARD_IDS.forEach(updateCardNavUI);
+
+  // ---- 과거 기록(일일마감이 시작된 시점까지 모든 날짜) 직접 수정 시 즉시 저장 ----
+  // 다른 카드가 다른 과거 날짜를 조회 중이어도(cardStash에 그 카드의 실시간 값이 보관돼 있으므로) 정확한 "현재 실시간 값"을 재구성해 저장
+  function effectiveLiveQtyMap(){
+    const map = collectQtyMap();
+    Object.keys(cardStash).forEach(id=>{
+      if(id.indexOf('__')!==-1) return; // __extra, __stages 보조 스택 키는 제외
+      if(cardView[id]!==null) Object.assign(map, cardStash[id]);
+    });
+    return map;
+  }
+  function effectiveLiveExtra(cardId, liveVal){
+    return (cardView[cardId]!==null && cardStash[cardId+'__extra']!==undefined) ? cardStash[cardId+'__extra'] : liveVal;
+  }
+  function effectiveLiveItem7Done(){
+    return (cardView['item-7']!==null && cardStash['item-7__stages']!==undefined)
+      ? cardStash['item-7__stages']
+      : (window.getItem7DoneStages ? window.getItem7DoneStages() : []);
+  }
+  function buildAccurateLiveState(){
+    const state = collectState();
+    state.qty = effectiveLiveQtyMap();
+    state.manCum = effectiveLiveExtra('sec-3', state.manCum);
+    state.eqCum = effectiveLiveExtra('sec-4', state.eqCum);
+    state.item7Done = effectiveLiveItem7Done();
+    return state;
+  }
+  function saveDailyLogEdit(dateKey){
+    const state = buildAccurateLiveState(); // 오늘의 실시간 값은 훼손하지 않고 dailyLog 수정 내용만 반영해 저장
+    try{ localStorage.setItem(LS_KEY, JSON.stringify(state)); }catch(e){}
+    if(FIREBASE_ENABLED && stateRef){
+      pushUpdate(state)
+        .then(()=>{ if(st){ st.textContent = dateKey+' 기록 수정 저장됨: ' + fmtTime(new Date()); st.classList.remove('warn'); } renderEditHistory(); })
+        .catch(()=>{ if(st){ st.textContent = dateKey+' 기록 수정 저장 실패(네트워크) — 이 기기에는 저장됨: ' + fmtTime(new Date()); st.classList.add('warn'); } });
+    }else{
+      if(st) st.textContent = dateKey+' 기록 수정 — 이 브라우저에 저장됨: ' + fmtTime(new Date());
+    }
+  }
+  const editSaveTimers = {};
+  function persistHistoryEdit(cardId, dateKey){
+    if(!dailyLog[dateKey]) return;
+    Object.assign(dailyLog[dateKey].qty, collectCardQty(cardId));
+    // 이 날짜의 금일반입·금일투입·금일가동(자재/인원/장비/세부공종) 수치가 바뀌었을 수 있으므로, 기록
+    // 시작일부터 전체를 다시 계산해 이 날짜뿐 아니라 그 이후의 모든 날짜·오늘의 누계까지 정확히 연쇄 반영한다.
+    rebuildCumChain();
+    dailyLog[dateKey].editedAt = new Date().toISOString();
+    saveDailyLogEdit(dateKey);
+    updateCardNavUI(cardId);
+  }
+  function persistHistoryExtraEdit(cardId, dateKey){
+    const extra = cardExtraField(cardId);
+    if(!dailyLog[dateKey] || !extra || !extra.el) return;
+    dailyLog[dateKey][extra.key] = extra.el.value;
+    dailyLog[dateKey].editedAt = new Date().toISOString();
+    saveDailyLogEdit(dateKey);
+    updateCardNavUI(cardId);
+  }
+  // item-7(인조화강석블럭 6단계) 스테이지 클릭은 별도 IIFE에서 처리되므로 전역 훅으로 연결
+  window.persistItem7StageEdit = function(){
+    const dateKey = cardView['item-7'];
+    if(!dateKey || !dailyLog[dateKey]) return;
+    dailyLog[dateKey].item7Done = window.getItem7DoneStages ? window.getItem7DoneStages() : [];
+    dailyLog[dateKey].editedAt = new Date().toISOString();
+    saveDailyLogEdit(dateKey);
+    updateCardNavUI('item-7');
+  };
+  DAILY_CARD_IDS.forEach(cardId=>{
+    const cardEl = document.getElementById(cardId);
+    if(!cardEl) return;
+    cardEl.addEventListener('input', (e)=>{
+      if(!e.target.classList || !e.target.classList.contains('qty-in')) return;
+      const dateKey = cardView[cardId];
+      if(!dateKey) return; // "오늘" 상태(실시간 입력)면 기존 자동저장 로직이 처리
+      if((cardId==='sec-3' || cardId==='sec-4') && e.target.dataset.role==='prog') recalcCumField(cardId); // 화면에 즉시 자동 합산 반영
+      clearTimeout(editSaveTimers[cardId]);
+      editSaveTimers[cardId] = setTimeout(()=>persistHistoryEdit(cardId, dateKey), 500);
+    });
+    const extra = cardExtraField(cardId);
+    if(extra && extra.el){
+      extra.el.addEventListener('input', ()=>{
+        const dateKey = cardView[cardId];
+        if(!dateKey) return;
+        const timerKey = cardId+'__extra';
+        clearTimeout(editSaveTimers[timerKey]);
+        editSaveTimers[timerKey] = setTimeout(()=>persistHistoryExtraEdit(cardId, dateKey), 500);
+      });
+    }
+  });
+
+  if(!FIREBASE_ENABLED){
+    if(st) st.textContent = '공유 저장소 미설정 — 이 브라우저에만 저장됩니다';
+    tryRestoreLocalOnly();
+    return;
+  }
+
+  try{
+    firebase.initializeApp(FIREBASE_CONFIG);
+    firebase.auth().signInAnonymously().catch(()=>{});
+    firebase.auth().onAuthStateChanged(function(user){
+      if(!user) return;
+      stateRef = firebase.database().ref(SYNC_PATH);
+      let firstSync = true;
+      stateRef.on('value', function(snapshot){
+        const data = snapshot.val();
+        if(data){
+          applyRemote(data, firstSync ? '공유 저장소에서 불러옴: ' : '다른 담당자의 저장 내용 반영됨: ');
+        }else if(firstSync){
+          try{
+            const raw = localStorage.getItem(LS_KEY);
+            if(raw){ stateRef.set(JSON.parse(raw)); }
+          }catch(e){}
+          lastKnownRemote = {};
+          if(st) st.textContent = '공유 저장소 신규 생성됨(최초 접속)';
+        }
+        firstSync = false;
+      }, function(){
+        if(st){ st.textContent = '공유 저장소 연결 실패 — 이 브라우저 저장본으로 표시 중'; st.classList.add('warn'); }
+        tryRestoreLocalOnly();
+      });
+    });
+  }catch(e){
+    if(st){ st.textContent = 'Firebase 설정 오류 — FIREBASE_CONFIG 값을 확인하세요'; st.classList.add('warn'); }
+    tryRestoreLocalOnly();
+  }
+})();
 
 renderAll();
 </script>
