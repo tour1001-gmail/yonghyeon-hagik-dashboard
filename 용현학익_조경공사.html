@@ -314,6 +314,9 @@ body{
 .cal-event-item .ce-del{flex:none; border:none; background:none; color:var(--text-muted); cursor:pointer; font-size:16px; padding:0 4px; line-height:1;}
 .cal-event-item .ce-del:hover{color:var(--critical);}
 .cal-event-item.is-past{opacity:.55;}
+.cal-sel-head{display:flex;align-items:baseline;justify-content:space-between;gap:8px;padding:0 2px 6px;border-bottom:1px solid var(--border);}
+.cal-sel-head .cs-date{font-size:14px;font-weight:800;color:var(--blue);}
+.cal-sel-head .cs-count{font-size:12px;color:var(--text-muted);font-weight:700;}
 .cal-event-empty{font-size:12px; color:var(--text-muted); text-align:center; padding:26px 0;}
 @media (max-width:560px){ .mini-cal{width:100%;} }
 
@@ -849,7 +852,7 @@ html{scroll-behavior:smooth;}
         <div class="cal-block">
           <div class="cal-block-head">
             <h3>주요일정</h3>
-            <span class="card-sub">주간공정회의·검측·자재반입 등 주요일정을 날짜별로 등록하세요 — 등록 내용은 자동저장됩니다</span>
+            <span class="card-sub">날짜를 클릭하면 그 날짜의 일정만 표시됩니다(● 표시 = 일정 있는 날). 자재반입~세부공종(2~11번) 하위 항목도 그 날짜로 함께 이동하며, 등록 내용은 자동저장됩니다.</span>
           </div>
           <div class="cal-layout">
             <div class="mini-cal" id="miniCal"></div>
@@ -1458,6 +1461,7 @@ function renderAll(){
         if(dateInput) dateInput.value = selectedDate;
         wrapEl.querySelectorAll('.mini-cal-day').forEach(x=>x.classList.remove('is-selected'));
         el.classList.add('is-selected');
+        renderList();
         // 주요일정 달력에서 날짜를 클릭하면 자재반입~세부공종(2~11번) 하위 항목도 그 날짜로 함께 이동한다.
         // "오늘"을 클릭하면 실시간 편집 화면으로 복귀, 과거 날짜를 클릭하면 그 날짜의 기록을 열어(없으면 새로 만들어)
         // 그 자리에서 바로 확인·수정할 수 있게 한다(저장바의 [지정일 기록 추가/열기]와 동일한 동작).
@@ -1495,21 +1499,24 @@ function renderAll(){
 
   function renderList(){
     if(!listEl) return;
-    if(scheduleEvents.length===0){
-      listEl.innerHTML = `<div class="cal-event-empty">등록된 주요일정이 없습니다. 왼쪽 달력에서 날짜를 선택하고 내용을 입력해 추가하세요.</div>`;
+    // 선택한 날짜의 일정만 표시하고, 다른 날짜의 일정은 숨긴다(달력의 점 표시로 일정 유무 확인).
+    const todayISO = toISO(TODAY);
+    const sel = selectedDate || todayISO;
+    const dObj = new Date(sel+'T00:00:00');
+    const dow = isNaN(dObj) ? '' : '('+'일월화수목금토'[dObj.getDay()]+')';
+    const dayEvents = scheduleEvents.map((e,i)=>({...e, idx:i})).filter(e=>e.date===sel);
+    const head = `<div class="cal-sel-head"><span class="cs-date">${fmtDate(sel)}${dow}</span>`
+      + `<span class="cs-count">${sel===todayISO?'오늘 · ':''}일정 ${dayEvents.length}건</span></div>`;
+    if(dayEvents.length===0){
+      listEl.innerHTML = head + `<div class="cal-event-empty">선택한 날짜에 등록된 일정이 없습니다.<br>위 입력란에 내용을 입력해 추가하세요.</div>`;
       return;
     }
-    const todayISO = toISO(TODAY);
-    const sorted = scheduleEvents.map((e,i)=>({...e, idx:i})).sort((a,b)=> a.date.localeCompare(b.date));
-    listEl.innerHTML = sorted.map(e=>{
-      const label = fmtDate(e.date);
-      const past = e.date < todayISO ? 'is-past' : '';
-      return `<div class="cal-event-item ${past}">
-        <span class="ce-date">${label}</span>
+    const past = sel < todayISO ? 'is-past' : '';
+    listEl.innerHTML = head + dayEvents.map(e=>`<div class="cal-event-item ${past}">
+        <span class="ce-date">${fmtDate(e.date)}</span>
         <span class="ce-text">${e.text}</span>
         <button type="button" class="ce-del" data-idx="${e.idx}" title="삭제">×</button>
-      </div>`;
-    }).join('');
+      </div>`).join('');
     listEl.querySelectorAll('.ce-del').forEach(btn=>{
       btn.addEventListener('click', ()=>{
         scheduleEvents.splice(Number(btn.dataset.idx),1);
@@ -1527,6 +1534,7 @@ function renderAll(){
     selectedDate = e.target.value;
     const d = new Date(selectedDate);
     if(!isNaN(d)){ calYear=d.getFullYear(); calMonth=d.getMonth(); renderCalendar(); }
+    renderList();
   });
 
   window.getScheduleEvents = function(){ return JSON.parse(JSON.stringify(scheduleEvents)); };
